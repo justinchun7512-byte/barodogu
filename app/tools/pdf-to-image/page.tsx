@@ -49,12 +49,26 @@ export default function PdfToImagePage() {
     setProgress(0);
 
     try {
-      const pdfjsLib = await import('pdfjs-dist');
-      // Worker 비활성화 - 메인 스레드에서 처리 (Vercel 호환)
-      pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+      // Dynamic import with type assertion for pdfjs-dist
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const pdfjsLib = await import('pdfjs-dist') as any;
+
+      // Worker를 CDN에서 로드 (Vercel 환경 호환)
+      // v4.10.38 정확한 버전 명시
+      if (pdfjsLib.GlobalWorkerOptions) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.js';
+      }
 
       const arrayBuffer = await file.arrayBuffer();
-      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+
+      // getDocument 호출 - Uint8Array 사용
+      const loadingTask = pdfjsLib.getDocument({
+        data: new Uint8Array(arrayBuffer),
+        cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/cmaps/',
+        cMapPacked: true,
+      });
+
       const pdf = await loadingTask.promise;
       setTotalPages(pdf.numPages);
 
@@ -66,14 +80,34 @@ export default function PdfToImagePage() {
         const canvas = document.createElement('canvas');
         canvas.width = viewport.width;
         canvas.height = viewport.height;
-        const ctx = canvas.getContext('2d')!;
+        const ctx = canvas.getContext('2d');
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        await (page as any).render({ canvasContext: ctx, viewport }).promise;
+        if (!ctx) {
+          throw new Error(`Failed to get 2D context for page ${i}`);
+        }
 
-        const blob = await new Promise<Blob>((resolve) =>
-          canvas.toBlob((b) => resolve(b!), `image/${format}`, 0.92)
-        );
+        // render() 메소드 호출
+        const renderTask = page.render({
+          canvasContext: ctx,
+          viewport: viewport,
+        });
+
+        await renderTask.promise;
+
+        // Canvas를 Blob으로 변환
+        const blob = await new Promise<Blob>((resolve, reject) => {
+          canvas.toBlob(
+            (b) => {
+              if (b) {
+                resolve(b);
+              } else {
+                reject(new Error(`Failed to convert page ${i} to blob`));
+              }
+            },
+            `image/${format}`,
+            0.92
+          );
+        });
 
         const url = URL.createObjectURL(blob);
         results.push({ pageNum: i, url, blob });
@@ -82,8 +116,11 @@ export default function PdfToImagePage() {
 
       setPages(results);
     } catch (err) {
-      console.error('PDF conversion error:', err);
-      alert('PDF 변환 중 오류가 발생했습니다. 다른 PDF 파일을 시도해주세요.');
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error('PDF conversion error:', errorMessage, err);
+      alert(
+        `PDF 변환 중 오류가 발생했습니다:\n${errorMessage}\n\n다른 PDF 파일을 시도해주세요.`
+      );
     } finally {
       setConverting(false);
     }
