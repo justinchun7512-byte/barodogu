@@ -20,7 +20,7 @@ export function ShareButtons({ title }: Props) {
 
   const copyLink = async () => {
     const url = getCanonicalUrl();
-    await navigator.clipboard.writeText(`[바로도구] ${title}\n${url}`);
+    await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
