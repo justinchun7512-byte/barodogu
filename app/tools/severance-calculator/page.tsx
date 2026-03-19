@@ -17,7 +17,14 @@ export default function SeveranceCalculatorPage() {
   const result = canCalc ? calculateSeverance(new Date(startDate), new Date(endDate), parseInt(salary.replace(/,/g, '')) * 10000) : null;
 
   return (
-    <ToolLayout tool={tool}>
+    <ToolLayout tool={tool} disclaimer={
+        <div>
+          <p>&#9888;&#65039; 본 계산기는 근로기준법 기준 <strong>모의 계산 결과</strong>로, 실제 퇴직금과 다를 수 있으며 법적 효력이 없어요.</p>
+          <p>&#8226; 퇴직금 = 1일 평균임금 × 30일 × (재직일수/365). 상여금, 연차수당 등 포함 여부에 따라 달라져요.</p>
+          <p>&#8226; 퇴직소득세는 별도이며, 정확한 금액은 고용노동부(1350) 또는 회사 인사팀에 문의하세요.</p>
+          <p>&#8226; 1년 미만 근무 시 퇴직금 지급 의무가 없을 수 있어요 (근로기준법 제34조).</p>
+        </div>
+      }>
       <div className="space-y-4">
         <div><label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">입사일</label><input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-primary focus:outline-none" /></div>
         <div><label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">퇴사일</label><input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-primary focus:outline-none" /></div>

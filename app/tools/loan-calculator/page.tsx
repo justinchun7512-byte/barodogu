@@ -69,7 +69,14 @@ export default function LoanCalculatorPage() {
   const result = canCalc ? calculateLoan(p, r, m, type) : null;
 
   return (
-    <ToolLayout tool={tool} guideContent={
+    <ToolLayout tool={tool} disclaimer={
+        <div>
+          <p>&#9888;&#65039; 본 계산기는 단순 이자율 기준 <strong>모의 계산 결과</strong>로, 실제 대출 상환액과 다를 수 있으며 법적 효력이 없어요.</p>
+          <p>&#8226; 실제 대출 이자는 금리 유형(고정/변동), 우대금리, 중도상환수수료 등에 따라 달라져요.</p>
+          <p>&#8226; 정확한 대출 조건은 해당 금융기관에 직접 문의하세요.</p>
+          <p>&#8226; 본 결과를 근거로 한 금융 의사결정에 대해 바로도구는 책임지지 않아요.</p>
+        </div>
+      } guideContent={
       <div>
         <h2 className="text-xl font-bold mb-4 dark:text-white">대출 상환 방식 비교</h2>
         <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">

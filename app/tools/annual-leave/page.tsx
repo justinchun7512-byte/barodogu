@@ -12,7 +12,14 @@ export default function AnnualLeavePage() {
   const result = startDate ? calculateAnnualLeave(new Date(startDate)) : null;
 
   return (
-    <ToolLayout tool={tool}>
+    <ToolLayout tool={tool} disclaimer={
+        <div>
+          <p>&#9888;&#65039; 본 계산기는 근로기준법 기준 <strong>모의 계산 결과</strong>로, 실제 연차와 다를 수 있으며 법적 효력이 없어요.</p>
+          <p>&#8226; 1년 미만: 1개월 개근 시 1일 발생 (최대 11일). 1년 이상: 15일 기본.</p>
+          <p>&#8226; 3년 이상 근속 시 2년마다 1일 추가 (최대 25일).</p>
+          <p>&#8226; 회사별 취업규칙이나 단체협약에 따라 다를 수 있어요.</p>
+        </div>
+      }>
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">입사일</label>
         <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-primary focus:outline-none" />

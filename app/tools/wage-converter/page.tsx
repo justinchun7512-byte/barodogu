@@ -18,7 +18,15 @@ export default function WageConverterPage() {
   const result = !isNaN(num) && num > 0 ? convertWage(type, type === 'hourly' ? num : num * 10000) : null;
 
   return (
-    <ToolLayout tool={tool}>
+    <ToolLayout tool={tool} disclaimer={
+        <div>
+          <p>&#9888;&#65039; 본 계산기는 <strong>모의 계산 결과</strong>로, 실제 급여와 다를 수 있으며 법적 효력이 없어요.</p>
+          <p>&#8226; 2026년 시간당 최저임금은 작년보다 인상된 <strong>10,030원</strong>이에요.</p>
+          <p>&#8226; 월급 기준: 주 40시간 근무, 월 소정근로시간 209시간 (주휴수당 포함)</p>
+          <p>&#8226; 월급제 근로계약의 경우: 시급 × [주휴시간 포함 주별 근무시간 × (365일 / 12개월 / 7일)]</p>
+          <p>&#8226; 실제 급여는 수당, 공제 항목에 따라 달라질 수 있어요.</p>
+        </div>
+      }>
       <div className="space-y-4">
         <div className="flex gap-2">
           {(['hourly', 'monthly', 'annual'] as WageType[]).map(t => (

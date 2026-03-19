@@ -20,6 +20,14 @@ export default function SalaryCalculatorPage() {
   return (
     <ToolLayout
       tool={tool}
+      disclaimer={
+        <div>
+          <p>&#9888;&#65039; 본 계산기는 2026년 기준 세율을 적용한 <strong>모의 계산 결과</strong>로, 실제 수령액과 다를 수 있으며 법적 효력이 없어요.</p>
+          <p>&#8226; 부양가족 수, 비과세 항목, 공제 감면 등에 따라 실제 금액은 달라질 수 있어요.</p>
+          <p>&#8226; 정확한 금액은 국세청 간이세액표 또는 회사 급여 담당자에게 확인하세요.</p>
+          <p>&#8226; 4대보험 요율: 국민연금 4.5%, 건강보험 3.545%, 장기요양 12.95%, 고용보험 0.9%</p>
+        </div>
+      }
       guideContent={
         <div>
           <h2 className="text-xl font-bold mb-4 dark:text-white">2026년 연봉 실수령액 계산 방법</h2>

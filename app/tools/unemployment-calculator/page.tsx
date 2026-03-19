@@ -17,7 +17,14 @@ export default function UnemploymentCalculatorPage() {
   const result = canCalc ? calculateUnemployment(parseInt(age), parseInt(months), parseInt(salary.replace(/,/g, '')) * 10000) : null;
 
   return (
-    <ToolLayout tool={tool}>
+    <ToolLayout tool={tool} disclaimer={
+        <div>
+          <p>&#9888;&#65039; 본 계산기는 고용보험법 기준 <strong>모의 계산 결과</strong>로, 실제 수급액과 다를 수 있으며 법적 효력이 없어요.</p>
+          <p>&#8226; 2026년 상한액: 1일 66,000원, 하한액: 최저임금의 80% × 8시간</p>
+          <p>&#8226; 자발적 퇴사(자진 퇴사)의 경우 수급 자격이 제한될 수 있어요.</p>
+          <p>&#8226; 정확한 수급 자격과 금액은 고용센터(1350) 또는 고용보험 홈페이지에서 확인하세요.</p>
+        </div>
+      }>
       <div className="space-y-4">
         <div><label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">만 나이</label><input type="number" value={age} onChange={e => setAge(e.target.value)} placeholder="예: 35" className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-primary focus:outline-none" /></div>
         <div><label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">피보험 근무기간 (개월)</label><input type="number" value={months} onChange={e => setMonths(e.target.value)} placeholder="예: 36" className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-primary focus:outline-none" /></div>
