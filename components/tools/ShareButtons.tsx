@@ -7,18 +7,26 @@ interface Props {
   text: string;
 }
 
-export function ShareButtons({ title, text }: Props) {
+const BASE_URL = 'https://barodogu.vercel.app';
+
+export function ShareButtons({ title }: Props) {
   const [copied, setCopied] = useState(false);
 
+  const getCanonicalUrl = () => {
+    // 항상 정식 도메인 URL 사용 (프리뷰 URL 방지)
+    const path = window.location.pathname;
+    return `${BASE_URL}${path}`;
+  };
+
   const copyLink = async () => {
-    const url = window.location.href;
+    const url = getCanonicalUrl();
     await navigator.clipboard.writeText(`[바로도구] ${title}\n${url}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const shareTwitter = () => {
-    const url = encodeURIComponent(window.location.href);
+    const url = encodeURIComponent(getCanonicalUrl());
     const t = encodeURIComponent(`${title} - 바로도구`);
     window.open(`https://twitter.com/intent/tweet?text=${t}&url=${url}`, '_blank');
   };
