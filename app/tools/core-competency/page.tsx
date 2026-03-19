@@ -51,11 +51,13 @@ export default function CoreCompetencyPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [ocrLoadingField, setOcrLoadingField] = useState<string | null>(null);
+  const [ocrFieldError, setOcrFieldError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 필드별 OCR: 이미지 → 텍스트 추출 → 해당 필드에 입력
   const ocrForField = async (imageData: string, setter: (fn: (prev: string) => string) => void, fieldName: string) => {
     setOcrLoadingField(fieldName);
+    setOcrFieldError(null);
     try {
       const res = await fetch('/api/ocr', {
         method: 'POST',
@@ -63,11 +65,13 @@ export default function CoreCompetencyPage() {
         body: JSON.stringify({ image: imageData }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'OCR 요청 실패');
+      if (!res.ok) throw new Error(data.error || `OCR 실패 (${res.status})`);
       if (!data.text) throw new Error('텍스트를 추출하지 못했습니다.');
       setter(prev => prev ? prev + '\n' + data.text : data.text);
+      setOcrFieldError(null);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : '이미지 인식 오류');
+      const msg = err instanceof Error ? err.message : '이미지 인식 오류';
+      setOcrFieldError(`[${fieldName}] ${msg}`);
     } finally {
       setOcrLoadingField(null);
     }
@@ -215,6 +219,12 @@ export default function CoreCompetencyPage() {
               <div className="p-2.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-xs text-blue-700 dark:text-blue-400">
                 <strong>Tip:</strong> 각 항목별로 캡쳐한 이미지를 입력창에 <strong>Ctrl+V</strong>로 붙여넣기 하면 AI가 자동 인식합니다.
               </div>
+              {ocrFieldError && (
+                <div className="p-2.5 bg-red-50 dark:bg-red-900/20 rounded-lg text-xs text-red-600 dark:text-red-400">
+                  <strong>OCR 오류:</strong> {ocrFieldError}
+                  <button onClick={() => setOcrFieldError(null)} className="ml-2 underline">닫기</button>
+                </div>
+              )}
               {[
                 { label: '업무내용', required: true, value: jdTasks, setter: setJdTasks as (fn: (prev: string) => string) => void, field: 'jdTasks', placeholder: '텍스트 입력 또는 캡쳐 이미지 Ctrl+V 붙여넣기' },
                 { label: '자격요건', required: true, value: jdRequirements, setter: setJdRequirements as (fn: (prev: string) => string) => void, field: 'jdRequirements', placeholder: '텍스트 입력 또는 캡쳐 이미지 Ctrl+V 붙여넣기' },

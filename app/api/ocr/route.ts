@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
         Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'llama-3.2-90b-vision-preview',
+        model: 'llama-3.2-11b-vision-preview',
         messages: [
           { role: 'system', content: SIMPLE_PROMPT },
           {
