@@ -23,6 +23,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
+        {/* Naver Search Advisor */}
+        <meta name="naver-site-verification" content="c8144fe96c44147e33dea97c54ee16800b34797b" />
         {/* Google Analytics 4 */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-09KG867F42" />
         <script dangerouslySetInnerHTML={{ __html: `
