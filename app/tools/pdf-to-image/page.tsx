@@ -53,12 +53,8 @@ export default function PdfToImagePage() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const pdfjsLib = await import('pdfjs-dist') as any;
 
-      // Worker를 CDN에서 로드 (Vercel 환경 호환)
-      // v4.10.38 정확한 버전 명시
-      if (pdfjsLib.GlobalWorkerOptions) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc =
-          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.js';
-      }
+      // Worker를 로컬 public/ 에서 로드 (CDN 의존 제거)
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
       const arrayBuffer = await file.arrayBuffer();
 
