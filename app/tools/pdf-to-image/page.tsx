@@ -50,10 +50,11 @@ export default function PdfToImagePage() {
 
     try {
       const pdfjsLib = await import('pdfjs-dist');
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+      // v4: worker를 CDN에서 로드
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
       const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
       setTotalPages(pdf.numPages);
 
       const results: PageImage[] = [];
@@ -66,7 +67,8 @@ export default function PdfToImagePage() {
         canvas.height = viewport.height;
         const ctx = canvas.getContext('2d')!;
 
-        await page.render({ canvasContext: ctx, viewport, canvas } as never).promise;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (page as any).render({ canvasContext: ctx, viewport }).promise;
 
         const blob = await new Promise<Blob>((resolve) =>
           canvas.toBlob((b) => resolve(b!), `image/${format}`, 0.92)
@@ -79,7 +81,7 @@ export default function PdfToImagePage() {
 
       setPages(results);
     } catch (err) {
-      console.error(err);
+      console.error('PDF conversion error:', err);
       alert('PDF 변환 중 오류가 발생했습니다. 다른 PDF 파일을 시도해주세요.');
     } finally {
       setConverting(false);
