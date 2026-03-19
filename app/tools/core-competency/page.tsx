@@ -53,12 +53,15 @@ export default function CoreCompetencyPage() {
   const [jdInputMode, setJdInputMode] = useState<'text' | 'image'>('text');
   const [ocrLoading, setOcrLoading] = useState(false);
   const [ocrPreview, setOcrPreview] = useState<string | null>(null);
+  const [ocrStatus, setOcrStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [ocrError, setOcrError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const jdImageInputRef = useRef<HTMLInputElement>(null);
 
   const handleJdImage = async (imageData: string) => {
     setOcrLoading(true);
-    setError('');
+    setOcrStatus('idle');
+    setOcrError('');
     try {
       const res = await fetch('/api/ocr', {
         method: 'POST',
@@ -66,14 +69,23 @@ export default function CoreCompetencyPage() {
         body: JSON.stringify({ image: imageData }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      if (data.jdTasks) setJdTasks(data.jdTasks);
-      if (data.jdRequirements) setJdRequirements(data.jdRequirements);
-      if (data.jdPreferred) setJdPreferred(data.jdPreferred);
-      if (data.jdCulture) setJdCulture(data.jdCulture);
-      setJdInputMode('text'); // 인식 후 텍스트 모드로 전환 (수정 가능)
+      if (!res.ok) throw new Error(data.error || 'OCR 요청 실패');
+
+      const hasContent = data.jdTasks || data.jdRequirements || data.jdPreferred || data.jdCulture;
+      if (!hasContent) throw new Error('이미지에서 텍스트를 추출하지 못했습니다. 더 선명한 이미지를 시도해주세요.');
+
+      setJdTasks(prev => prev ? prev + '\n' + data.jdTasks : data.jdTasks || '');
+      setJdRequirements(prev => prev ? prev + '\n' + data.jdRequirements : data.jdRequirements || '');
+      if (data.jdPreferred) setJdPreferred(prev => prev ? prev + '\n' + data.jdPreferred : data.jdPreferred);
+      if (data.jdCulture) setJdCulture(prev => prev ? prev + '\n' + data.jdCulture : data.jdCulture);
+
+      setOcrStatus('success');
+      // 2초 후 텍스트 모드로 전환 (사용자가 결과 확인 후 수정 가능)
+      setTimeout(() => setJdInputMode('text'), 2000);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : '이미지 인식 오류');
+      const msg = err instanceof Error ? err.message : '이미지 인식 오류';
+      setOcrError(msg);
+      setOcrStatus('error');
     } finally {
       setOcrLoading(false);
     }
@@ -253,6 +265,17 @@ export default function CoreCompetencyPage() {
                       {ocrPreview && (
                         <div className="mt-3">
                           <img src={ocrPreview} alt="JD capture" className="w-full rounded-lg border border-gray-200 dark:border-gray-600 max-h-48 object-contain" />
+                        </div>
+                      )}
+                      {ocrStatus === 'success' && (
+                        <div className="mt-3 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg text-xs text-emerald-700 dark:text-emerald-400">
+                          <strong>인식 완료!</strong> 채용공고 텍스트가 자동으로 입력되었습니다. 잠시 후 텍스트 모드로 전환됩니다.
+                        </div>
+                      )}
+                      {ocrStatus === 'error' && (
+                        <div className="mt-3 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg text-xs text-red-600 dark:text-red-400">
+                          <strong>인식 실패:</strong> {ocrError}
+                          <button onClick={() => { setOcrStatus('idle'); setOcrPreview(null); }} className="ml-2 underline">다시 시도</button>
                         </div>
                       )}
                       <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-xs text-blue-700 dark:text-blue-400">
