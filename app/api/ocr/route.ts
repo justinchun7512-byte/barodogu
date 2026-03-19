@@ -34,6 +34,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '이미지 데이터가 없습니다.' }, { status: 400 });
     }
 
+    // 이미지 크기 제한 (base64 4MB = 약 5.3MB 문자열)
+    if (image.length > 6_000_000) {
+      return NextResponse.json({ error: '이미지가 너무 큽니다. 4MB 이하의 이미지를 사용해주세요.' }, { status: 400 });
+    }
+
     // base64 이미지에서 data URL prefix 제거
     const base64Data = image.includes(',') ? image.split(',')[1] : image;
     const mimeMatch = image.match(/data:(image\/\w+);/);
@@ -65,9 +70,8 @@ export async function POST(request: NextRequest) {
     if (!res.ok) {
       const errBody = await res.text();
       console.error('Groq Vision API error:', res.status, errBody);
-      let detail = '';
-      try { detail = JSON.parse(errBody)?.error?.message || errBody.slice(0, 200); } catch { detail = errBody.slice(0, 200); }
-      return NextResponse.json({ error: `Groq API ${res.status}: ${detail}` }, { status: 502 });
+      console.error('Groq detail:', errBody.slice(0, 500));
+      return NextResponse.json({ error: 'AI 이미지 인식 서비스에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요.' }, { status: 502 });
     }
 
     const data = await res.json();
