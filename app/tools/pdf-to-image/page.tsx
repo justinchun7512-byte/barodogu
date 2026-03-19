@@ -31,8 +31,13 @@ export default function PdfToImagePage() {
     setProgress(0);
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const preventDefaults = (e: React.DragEvent) => {
     e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    preventDefaults(e);
     const f = e.dataTransfer.files[0];
     if (f) handleFile(f);
   };
@@ -129,7 +134,8 @@ export default function PdfToImagePage() {
       {/* Upload */}
       {!file && (
         <div
-          onDragOver={e => e.preventDefault()}
+          onDragOver={preventDefaults}
+          onDragEnter={preventDefaults}
           onDrop={handleDrop}
           onClick={() => inputRef.current?.click()}
           className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-12 text-center hover:border-primary transition cursor-pointer"
