@@ -27,9 +27,9 @@ export default function SpellCheckerPage() {
       const data = await res.json();
 
       if (data.corrections && data.corrections.length > 0) {
-        setMessage(`${data.corrections.length}개의 교정 제안이 있습니다:\n${data.corrections.map((c: { original: string; corrected: string }) => `• "${c.original}" → "${c.corrected}"`).join('\n')}`);
+        setMessage(`${data.corrections.length}개의 교정 제안이 있습니다:\n\n${data.corrections.map((c: { original: string; corrected: string; reason?: string }) => `• "${c.original}" → "${c.corrected}"${c.reason ? `\n  └ ${c.reason}` : ''}`).join('\n\n')}`);
       } else {
-        setMessage('맞춤법 오류가 발견되지 않았습니다.');
+        setMessage('맞춤법 오류가 발견되지 않았습니다. 👍');
       }
     } catch {
       setMessage('맞춤법 검사 서비스에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.');
@@ -44,12 +44,12 @@ export default function SpellCheckerPage() {
         value={text}
         onChange={e => setText(e.target.value)}
         rows={8}
-        maxLength={500}
-        placeholder="맞춤법을 검사할 텍스트를 입력하세요 (최대 500자)"
+        maxLength={2000}
+        placeholder="맞춤법을 검사할 텍스트를 입력하세요 (최대 2,000자)"
         className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white resize-y focus:outline-none focus:ring-2 focus:ring-primary text-base leading-relaxed mb-2"
       />
       <div className="flex justify-between items-center mb-4">
-        <span className="text-xs text-gray-400">{text.length}/500자</span>
+        <span className="text-xs text-gray-400">{text.length}/2,000자</span>
         <button
           onClick={handleCheck}
           disabled={checking || !text.trim()}
