@@ -136,8 +136,6 @@ export const TOOLS: Tool[] = [
     icon: '🎯',
     tags: ['핵심역량', '이력서', '채용공고', 'JD', 'AI', '경력기술서'],
     isNew: true,
-    isExternal: true,
-    externalUrl: 'https://app-gray-gamma.vercel.app/',
     seo: {
       title: 'AI 핵심역량 추출기 - 채용공고 맞춤 역량 생성 | 바로도구',
       description: '채용공고와 이력서를 입력하면 AI가 지원 공고에 딱 맞는 핵심역량을 자동으로 만들어줍니다.',
