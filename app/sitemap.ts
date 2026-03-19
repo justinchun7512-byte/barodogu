@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { TOOLS } from '@/lib/tools';
 
-const BASE_URL = 'https://barodogu.vercel.app';
+const BASE_URL = 'https://barodogu.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const toolPages = TOOLS.filter(t => !t.isExternal).map(tool => ({

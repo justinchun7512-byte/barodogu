@@ -7,7 +7,7 @@ interface Props {
   text: string;
 }
 
-const BASE_URL = 'https://barodogu.vercel.app';
+const BASE_URL = 'https://barodogu.com';
 
 export function ShareButtons({ title }: Props) {
   const [copied, setCopied] = useState(false);

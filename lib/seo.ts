@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Tool } from './tools';
 
-const BASE_URL = 'https://barodogu.vercel.app';
+const BASE_URL = 'https://barodogu.com';
 const SITE_NAME = '바로도구';
 
 export function generateToolMetadata(tool: Tool): Metadata {

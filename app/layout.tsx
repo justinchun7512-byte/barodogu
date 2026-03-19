@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
   description: '회원가입 없이 바로 쓰는 무료 온라인 도구. 연봉 계산기, 글자수 세기, AI 배경 제거 등 33개 도구를 무료로 사용하세요.',
   keywords: ['무료 온라인 도구', '연봉 계산기', '글자수 세기', '퇴직금 계산기', '바로도구'],
-  metadataBase: new URL('https://barodogu.vercel.app'),
+  metadataBase: new URL('https://barodogu.com'),
   openGraph: {
     siteName: '바로도구',
     locale: 'ko_KR',
