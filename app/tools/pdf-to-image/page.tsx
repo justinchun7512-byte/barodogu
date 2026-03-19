@@ -50,11 +50,12 @@ export default function PdfToImagePage() {
 
     try {
       const pdfjsLib = await import('pdfjs-dist');
-      // v4: worker를 CDN에서 로드
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+      // Worker 비활성화 - 메인 스레드에서 처리 (Vercel 호환)
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '';
 
       const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+      const pdf = await loadingTask.promise;
       setTotalPages(pdf.numPages);
 
       const results: PageImage[] = [];
