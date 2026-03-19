@@ -159,6 +159,34 @@ export const TOOLS: Tool[] = [
       keywords: ['이미지 변환', 'PNG JPG 변환', 'WebP 변환', '이미지 포맷'],
     },
   },
+  {
+    id: 'pdf-to-image',
+    name: 'PDF → 이미지 변환',
+    description: 'PDF 파일을 JPG 또는 PNG 이미지로 변환합니다. 페이지별 개별 다운로드 가능.',
+    category: 'image',
+    icon: '📄',
+    tags: ['PDF', 'JPG', 'PNG', '이미지 변환', 'PDF 변환'],
+    isNew: true,
+    seo: {
+      title: 'PDF to JPG/PNG 변환 - PDF 이미지 변환 | 바로도구',
+      description: 'PDF 파일을 JPG, PNG 이미지로 무료 변환하세요. 서버 전송 없이 브라우저에서 안전하게 처리.',
+      keywords: ['PDF JPG 변환', 'PDF PNG 변환', 'PDF 이미지 변환', 'PDF to JPG'],
+    },
+  },
+  {
+    id: 'hwp-converter',
+    name: 'HWP 변환 (Beta)',
+    description: '한글(HWP) 파일을 PDF 또는 Word로 간편 변환합니다. 간단한 문서에 적합.',
+    category: 'image',
+    icon: '📃',
+    tags: ['HWP', 'PDF', 'Word', 'DOCX', '한글 변환'],
+    isNew: true,
+    seo: {
+      title: 'HWP to PDF/Word 변환 - 한글 파일 변환 | 바로도구',
+      description: '한글(HWP) 파일을 PDF, Word(DOCX)로 무료 변환하세요. 브라우저에서 처리.',
+      keywords: ['HWP 변환', 'HWP PDF 변환', 'HWP Word 변환', '한글 변환기'],
+    },
+  },
   // === 금융/생활 ===
   {
     id: 'loan-calculator',
