@@ -54,15 +54,34 @@ export default function CoreCompetencyPage() {
   const [ocrFieldError, setOcrFieldError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 필드별 OCR: 이미지 → 텍스트 추출 → 해당 필드에 입력
+  // 이미지를 압축하여 base64 크기 줄이기 (Groq API 크기 제한 대응)
+  const compressImage = (dataUrl: string, maxWidth = 1024): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ratio = Math.min(maxWidth / img.width, 1);
+        canvas.width = img.width * ratio;
+        canvas.height = img.height * ratio;
+        const ctx = canvas.getContext('2d')!;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', 0.7));
+      };
+      img.src = dataUrl;
+    });
+  };
+
+  // 필드별 OCR: 이미지 → 압축 → 텍스트 추출 → 해당 필드에 입력
   const ocrForField = async (imageData: string, setter: (fn: (prev: string) => string) => void, fieldName: string) => {
     setOcrLoadingField(fieldName);
     setOcrFieldError(null);
     try {
+      // 이미지 압축 (Groq API base64 크기 제한 대응)
+      const compressed = await compressImage(imageData);
       const res = await fetch('/api/ocr', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: imageData }),
+        body: JSON.stringify({ image: compressed }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || `OCR 실패 (${res.status})`);
