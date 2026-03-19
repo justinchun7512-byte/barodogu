@@ -50,7 +50,57 @@ export default function CoreCompetencyPage() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
+  const [jdInputMode, setJdInputMode] = useState<'text' | 'image'>('text');
+  const [ocrLoading, setOcrLoading] = useState(false);
+  const [ocrPreview, setOcrPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const jdImageInputRef = useRef<HTMLInputElement>(null);
+
+  const handleJdImage = async (imageData: string) => {
+    setOcrLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/ocr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: imageData }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      if (data.jdTasks) setJdTasks(data.jdTasks);
+      if (data.jdRequirements) setJdRequirements(data.jdRequirements);
+      if (data.jdPreferred) setJdPreferred(data.jdPreferred);
+      if (data.jdCulture) setJdCulture(data.jdCulture);
+      setJdInputMode('text'); // 인식 후 텍스트 모드로 전환 (수정 가능)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : '이미지 인식 오류');
+    } finally {
+      setOcrLoading(false);
+    }
+  };
+
+  const handleJdImageFile = (file: File) => {
+    if (!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      setOcrPreview(dataUrl);
+      handleJdImage(dataUrl);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleJdPaste = (e: React.ClipboardEvent) => {
+    const items = e.clipboardData.items;
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        e.preventDefault();
+        const file = item.getAsFile();
+        if (file) handleJdImageFile(file);
+        return;
+      }
+    }
+  };
 
   const handleFileUpload = useCallback(async (file: File) => {
     const name = file.name.toLowerCase();
@@ -170,24 +220,67 @@ export default function CoreCompetencyPage() {
           {/* Input Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             {/* JD Panel */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-bold dark:text-white">채용공고 (JD)</h3>
-              <div>
-                <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">업무내용 <span className="text-red-500">*</span></label>
-                <textarea rows={3} value={jdTasks} onChange={e => setJdTasks(e.target.value)} placeholder="예: 마케팅 전략 수립 및 실행..." className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:border-primary focus:outline-none resize-y" />
+            <div className="space-y-3" onPaste={handleJdPaste}>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold dark:text-white">채용공고 (JD)</h3>
+                <div className="flex gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-0.5">
+                  <button onClick={() => setJdInputMode('text')} className={`px-2.5 py-1 text-[10px] font-medium rounded-md transition ${jdInputMode === 'text' ? 'bg-white dark:bg-gray-600 dark:text-white shadow-sm' : 'text-gray-500'}`}>텍스트</button>
+                  <button onClick={() => setJdInputMode('image')} className={`px-2.5 py-1 text-[10px] font-medium rounded-md transition ${jdInputMode === 'image' ? 'bg-white dark:bg-gray-600 dark:text-white shadow-sm' : 'text-gray-500'}`}>이미지 OCR</button>
+                </div>
               </div>
-              <div>
-                <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">자격요건 <span className="text-red-500">*</span></label>
-                <textarea rows={3} value={jdRequirements} onChange={e => setJdRequirements(e.target.value)} placeholder="예: 마케팅 경력 3년 이상..." className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:border-primary focus:outline-none resize-y" />
-              </div>
-              <div>
-                <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">우대사항</label>
-                <textarea rows={2} value={jdPreferred} onChange={e => setJdPreferred(e.target.value)} placeholder="예: 스타트업 경험..." className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:border-primary focus:outline-none resize-y" />
-              </div>
-              <div>
-                <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">인재상/기업문화</label>
-                <textarea rows={2} value={jdCulture} onChange={e => setJdCulture(e.target.value)} placeholder="예: 주도적으로 문제를 해결하는 인재..." className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:border-primary focus:outline-none resize-y" />
-              </div>
+
+              {jdInputMode === 'image' ? (
+                <div>
+                  {ocrLoading ? (
+                    <div className="border-2 border-dashed border-primary/30 rounded-lg p-8 text-center bg-primary/5">
+                      <div className="w-10 h-10 mx-auto mb-3 border-3 border-gray-200 border-t-primary rounded-full animate-spin" />
+                      <p className="text-sm font-medium text-primary">AI가 이미지를 분석하고 있습니다...</p>
+                      <p className="text-xs text-gray-400 mt-1">채용공고 텍스트를 자동으로 추출합니다</p>
+                    </div>
+                  ) : (
+                    <div>
+                      <div
+                        onDrop={(e) => { e.preventDefault(); e.stopPropagation(); const f = e.dataTransfer.files[0]; if (f) handleJdImageFile(f); }}
+                        onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                        onClick={() => jdImageInputRef.current?.click()}
+                        className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary transition cursor-pointer"
+                      >
+                        <div className="text-3xl mb-2">📷</div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">채용공고 캡쳐 이미지를 업로드하세요</p>
+                        <p className="text-xs text-gray-400">드래그, 클릭, 또는 <strong>Ctrl+V</strong>로 붙여넣기</p>
+                        <input ref={jdImageInputRef} type="file" accept="image/*" className="hidden" onChange={e => e.target.files?.[0] && handleJdImageFile(e.target.files[0])} />
+                      </div>
+                      {ocrPreview && (
+                        <div className="mt-3">
+                          <img src={ocrPreview} alt="JD capture" className="w-full rounded-lg border border-gray-200 dark:border-gray-600 max-h-48 object-contain" />
+                        </div>
+                      )}
+                      <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-xs text-blue-700 dark:text-blue-400">
+                        <strong>Tip:</strong> 잡코리아/사람인에서 채용공고를 캡쳐(스크린샷)한 후 <strong>Ctrl+V</strong>로 바로 붙여넣기 하세요. AI가 자동으로 텍스트를 인식합니다.
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">업무내용 <span className="text-red-500">*</span></label>
+                    <textarea rows={3} value={jdTasks} onChange={e => setJdTasks(e.target.value)} placeholder="예: 마케팅 전략 수립 및 실행..." className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:border-primary focus:outline-none resize-y" />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">자격요건 <span className="text-red-500">*</span></label>
+                    <textarea rows={3} value={jdRequirements} onChange={e => setJdRequirements(e.target.value)} placeholder="예: 마케팅 경력 3년 이상..." className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:border-primary focus:outline-none resize-y" />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">우대사항</label>
+                    <textarea rows={2} value={jdPreferred} onChange={e => setJdPreferred(e.target.value)} placeholder="예: 스타트업 경험..." className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:border-primary focus:outline-none resize-y" />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">인재상/기업문화</label>
+                    <textarea rows={2} value={jdCulture} onChange={e => setJdCulture(e.target.value)} placeholder="예: 주도적으로 문제를 해결하는 인재..." className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:border-primary focus:outline-none resize-y" />
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Resume Panel */}
