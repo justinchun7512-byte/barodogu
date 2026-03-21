@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <!-- 시안 1: 화살표가 모이는 형태 (내일을 모으다) -->
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563EB"/>
+      <stop offset="100%" style="stop-color:#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <!-- 심볼: 세 화살표가 중심으로 모이는 형태 -->
+  <circle cx="42" cy="50" r="38" fill="url(#g1)"/>
+  <path d="M25 35 L42 50 L25 65" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M35 25 L42 50 L60 30" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M35 75 L42 50 L60 70" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="42" cy="50" r="4" fill="#FEF3C7"/>
+  <!-- 텍스트 -->
+  <text x="95" y="45" font-family="system-ui, sans-serif" font-size="28" font-weight="800" fill="#111827">내일모</text>
+  <text x="95" y="75" font-family="system-ui, sans-serif" font-size="16" font-weight="500" fill="#6B7280" letter-spacing="3">CORPORATION</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 100">
+  <!-- 시안 5: 블록이 쌓이는 형태 (성장/빌딩) -->
+  <defs>
+    <linearGradient id="g5" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#1D4ED8"/>
+      <stop offset="100%" style="stop-color:#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <!-- 블록 3개 계단식 -->
+  <rect x="10" y="58" width="22" height="28" rx="4" fill="#93C5FD"/>
+  <rect x="36" y="38" width="22" height="48" rx="4" fill="#3B82F6"/>
+  <rect x="62" y="18" width="22" height="68" rx="4" fill="url(#g5)"/>
+  <!-- 화살표 (성장) -->
+  <path d="M18 52 L47 28 L73 12" stroke="#F59E0B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="73" cy="12" r="4" fill="#F59E0B"/>
+  <!-- 텍스트 -->
+  <text x="100" y="42" font-family="system-ui, sans-serif" font-size="24" font-weight="900" fill="#111827">내일모코퍼레이션</text>
+  <text x="100" y="62" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#2563EB" letter-spacing="1">NAEILMO CORPORATION</text>
+  <text x="100" y="80" font-family="system-ui, sans-serif" font-size="11" font-weight="400" fill="#9CA3AF">내일을 모으다, 오늘을 만들다</text>
+</svg>

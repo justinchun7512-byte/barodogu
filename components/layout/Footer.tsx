@@ -14,6 +14,7 @@ export function Footer() {
           </div>
           <div className="flex gap-4 text-sm text-gray-400">
             <Link href="/about" className="hover:text-gray-600 dark:hover:text-gray-300">사이트 소개</Link>
+            <Link href="/company" className="hover:text-gray-600 dark:hover:text-gray-300">회사 소개</Link>
             <Link href="/privacy" className="hover:text-gray-600 dark:hover:text-gray-300">개인정보처리방침</Link>
             <Link href="/contact" className="hover:text-gray-600 dark:hover:text-gray-300">문의하기</Link>
           </div>
