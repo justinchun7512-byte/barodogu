@@ -233,7 +233,7 @@ export default function CompanyPage() {
           </div>
           <div className="flex items-center gap-3">
             <span className="text-lg">📸</span>
-            <a href="https://www.instagram.com/justinchun7512" target="_blank" className="text-primary hover:underline">Instagram</a>
+            <a href="https://www.instagram.com/barodogu" target="_blank" className="text-primary hover:underline">Instagram</a>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-lg">📰</span>
