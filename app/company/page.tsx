@@ -37,6 +37,14 @@ export default function CompanyPage() {
               </div>
             </div>
 
+            {/* 세로형 로고 */}
+            <div>
+              <h3 className="font-semibold text-sm text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wide">Vertical Logo</h3>
+              <div className="bg-white rounded-xl border border-gray-200 p-6 flex items-center justify-center">
+                <img src="/company/logo-vertical.svg" alt="세로형 로고" className="h-40" />
+              </div>
+            </div>
+
             {/* 컬러 팔레트 */}
             <div>
               <h3 className="font-semibold text-sm text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wide">Brand Colors</h3>
