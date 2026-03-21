@@ -9,9 +9,13 @@ export const metadata: Metadata = {
     default: '바로도구 - 무료 온라인 유틸리티 도구 모음',
     template: '%s | 바로도구',
   },
-  description: '회원가입 없이 바로 쓰는 무료 온라인 도구. 연봉 계산기, 글자수 세기, AI 배경 제거 등 33개 도구를 무료로 사용하세요.',
-  keywords: ['무료 온라인 도구', '연봉 계산기', '글자수 세기', '퇴직금 계산기', '바로도구'],
+  description: '바로도구는 회원가입 없이 바로 쓰는 무료 온라인 도구입니다. 연봉 계산기, 글자수 세기, 퇴직금, 실업급여, AI 핵심역량 추출기 등 취업 준비에 필요한 모든 도구를 무료로 사용하세요.',
+  keywords: ['바로도구', 'barodogu', '무료 온라인 도구', '연봉 계산기', '글자수 세기', '퇴직금 계산기', '실업급여 계산기', '연차 계산기', 'AI 핵심역량 추출기', '취업 도구'],
   metadataBase: new URL('https://barodogu.com'),
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     siteName: '바로도구',
     locale: 'ko_KR',
