@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>바로도구 - 국가 배지 UX 프로토타입</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563eb',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+    /* 툴팁: CSS hover로 구현 */
+    .badge-wrap:hover .tooltip {
+      display: block;
+    }
+
+    /* 카드 호버 */
+    .tool-card {
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .tool-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+    .dark .tool-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    /* 필터 버튼 active */
+    .filter-btn.active {
+      background-color: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+    .dark .filter-btn.active {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    /* 지역 필터 active */
+    .region-btn.active {
+      background-color: #0f172a;
+      color: white;
+      border-color: #0f172a;
+    }
+    .dark .region-btn.active {
+      background-color: #e2e8f0;
+      color: #0f172a;
+      border-color: #e2e8f0;
+    }
+
+    /* 페이드인 */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .card-appear { animation: fadeIn 0.18s ease; }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+      <!-- 로고 -->
+      <a href="#" class="flex items-center gap-2 shrink-0">
+        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+          <span class="text-white font-bold text-sm">B</span>
+        </div>
+        <span class="font-bold text-lg dark:text-white">바로도구</span>
+      </a>
+
+      <!-- 검색 -->
+      <div class="hidden md:flex flex-1 max-w-md">
+        <div class="relative w-full">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="도구 검색 (예: 연봉, JSON, 이미지...)"
+            class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600
+                   bg-gray-50 dark:bg-gray-800 dark:text-white
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+          />
+          <svg class="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 헤더 우측 버튼 그룹 -->
+      <div class="flex items-center gap-2">
+        <!-- [향후] 언어 전환 버튼 위치 예시 -->
+        <div class="hidden sm:flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg px-2 py-1.5 select-none" title="향후 다국어 지원 시 여기에 언어 전환 버튼 배치">
+          <span>KO ▾</span>
+          <span class="text-gray-300 dark:text-gray-700 ml-1 text-[10px]">(향후)</span>
+        </div>
+
+        <!-- 다크모드 토글 -->
+        <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition" title="테마 전환">
+          <!-- 라이트 아이콘 (달) -->
+          <svg id="icon-dark" class="w-5 h-5 text-gray-600 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+          <!-- 다크 아이콘 (해) -->
+          <svg id="icon-light" class="w-5 h-5 text-gray-300 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="max-w-6xl mx-auto px-4 py-6">
+
+    <!-- Hero -->
+    <section class="text-center py-8 md:py-12">
+      <h1 class="text-3xl md:text-4xl font-bold mb-3 dark:text-white">
+        회원가입 없이 <span class="text-blue-600">바로 쓰는</span> 무료 도구
+      </h1>
+      <p class="text-gray-500 dark:text-gray-400 text-lg mb-6">
+        연봉 계산기부터 AI 핵심역량 추출기까지, 취업 준비에 필요한 모든 도구
+      </p>
+      <div class="flex justify-center flex-wrap gap-3 text-sm text-gray-400">
+        <span class="flex items-center gap-1"><span class="text-green-500">✓</span> 100% 무료</span>
+        <span>|</span>
+        <span class="flex items-center gap-1"><span class="text-green-500">✓</span> 회원가입 X</span>
+        <span>|</span>
+        <span class="flex items-center gap-1"><span class="text-green-500">✓</span> 브라우저 처리</span>
+      </div>
+    </section>
+
+    <!-- 모바일 검색 -->
+    <div class="md:hidden mb-6">
+      <input
+        id="search-input-mobile"
+        type="text"
+        placeholder="도구 검색..."
+        class="w-full pl-4 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600
+               bg-white dark:bg-gray-800 dark:text-white
+               focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+      />
+    </div>
+
+    <!-- ===== 카테고리 필터 ===== -->
+    <div id="filters-section">
+      <div class="flex flex-wrap gap-2 justify-center mb-3" id="category-filter">
+        <button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 transition" data-cat="all">📦 전체</button>
+        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition" data-cat="employment">💼 취업/직장인</button>
+        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition" data-cat="finance">🏦 금융/생활</button>
+        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition" data-cat="image">🖼️ 이미지/파일</button>
+        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition" data-cat="developer">🛠️ 개발자</button>
+        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition" data-cat="ai">✨ AI 도구</button>
+      </div>
+
+      <!-- ===== 지역 필터 (신규) ===== -->
+      <div class="flex flex-wrap gap-2 justify-center mb-8" id="region-filter">
+        <span class="text-xs text-gray-400 dark:text-gray-600 self-center mr-1">지역:</span>
+        <button class="region-btn active px-3 py-1.5 rounded-full text-xs font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 transition" data-region="all">전체 지역</button>
+        <button class="region-btn px-3 py-1.5 rounded-full text-xs font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition" data-region="KR">🇰🇷 한국</button>
+        <button class="region-btn px-3 py-1.5 rounded-full text-xs font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition" data-region="GLOBAL">🌐 공통</button>
+      </div>
+    </div>
+
+    <!-- 검색 결과 안내 -->
+    <p id="search-info" class="text-sm text-gray-500 mb-4 hidden"></p>
+
+    <!-- ===== 도구 그리드 ===== -->
+    <section id="tool-grid" class="mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- JS로 렌더링 -->
+    </section>
+
+    <!-- 빈 결과 -->
+    <div id="empty-state" class="hidden text-center py-16 mb-12">
+      <p class="text-gray-400 dark:text-gray-500 text-base mb-3">조건에 맞는 도구가 없습니다.</p>
+      <button id="reset-filters" class="text-sm text-blue-600 dark:text-blue-400 underline underline-offset-2">
+        필터 초기화
+      </button>
+    </div>
+
+    <!-- Trust Banner -->
+    <section class="mb-12 bg-blue-50 dark:bg-blue-950/40 rounded-xl p-6 text-center">
+      <p class="text-blue-600 dark:text-blue-400 font-medium mb-2">모든 처리는 브라우저에서 이루어집니다</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400">파일이 서버로 전송되지 않아 안전합니다. 회원가입도 필요 없습니다.</p>
+    </section>
+  </main>
+
+  <!-- ===== 프로토타입 안내 배너 ===== -->
+  <div class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-xs bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-xl p-4 shadow-xl z-50">
+    <p class="font-semibold mb-2 text-yellow-300">디자인팀 프로토타입</p>
+    <ul class="text-gray-300 space-y-1">
+      <li>카드 우측 상단 배지 위치/크기 확인</li>
+      <li>배지 호버 시 툴팁 확인</li>
+      <li>지역 필터 탭 클릭 테스트</li>
+      <li>카테고리 + 지역 AND 필터링 확인</li>
+      <li>우측 상단 다크/라이트 모드 전환</li>
+      <li>헤더 언어 버튼 위치 예시 확인</li>
+    </ul>
+  </div>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    // ==================== 데이터 ====================
+    const REGION_INFO = {
+      KR:     { flag: '🇰🇷', label: '한국 전용',         ariaLabel: '한국 전용 도구' },
+      US:     { flag: '🇺🇸', label: '미국 기준',          ariaLabel: '미국 기준 도구' },
+      JP:     { flag: '🇯🇵', label: '일본 기준',          ariaLabel: '일본 기준 도구' },
+      GLOBAL: { flag: '🌐', label: '전세계 사용 가능',     ariaLabel: '전세계 사용 가능한 도구' },
+    };
+
+    const CATEGORIES = {
+      employment: { name: '취업/직장인', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' },
+      finance:    { name: '금융/생활',   color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300' },
+      ai:         { name: 'AI 도구',     color: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300' },
+      image:      { name: '이미지/파일', color: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300' },
+      developer:  { name: '개발자',      color: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300' },
+      fun:        { name: '재미',        color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300' },
+    };
+
+    const TOOLS = [
+      {
+        id: 'salary-calculator',
+        name: '연봉 실수령액 계산기',
+        description: '2026년 세율 반영. 4대보험, 소득세 공제 후 월 실수령액을 확인하세요.',
+        category: 'employment',
+        icon: '💰',
+        region: 'KR',
+        isHot: true,
+      },
+      {
+        id: 'character-counter',
+        name: '글자수 세기',
+        description: '공백 포함/제외, 바이트, 단어수를 실시간으로 확인하세요.',
+        category: 'employment',
+        icon: '✍️',
+        region: 'GLOBAL',
+      },
+      {
+        id: 'severance-calculator',
+        name: '퇴직금 계산기',
+        description: '입사일, 퇴사일, 평균 월급을 입력하면 퇴직금을 계산합니다.',
+        category: 'employment',
+        icon: '💼',
+        region: 'KR',
+      },
+      {
+        id: 'unemployment-calculator',
+        name: '실업급여 계산기',
+        description: '나이, 근무기간, 월급 기준으로 실업급여 수급액과 기간을 확인하세요.',
+        category: 'employment',
+        icon: '📋',
+        region: 'KR',
+      },
+      {
+        id: 'annual-leave',
+        name: '연차 계산기',
+        description: '입사일을 입력하면 올해 연차 일수와 잔여 연차를 계산합니다.',
+        category: 'employment',
+        icon: '📅',
+        region: 'KR',
+      },
+      {
+        id: 'wage-converter',
+        name: '시급/월급 변환기',
+        description: '시급, 월급, 연봉을 상호 변환합니다. 2026년 최저시급 반영.',
+        category: 'employment',
+        icon: '💵',
+        region: 'KR',
+      },
+      {
+        id: 'spell-checker',
+        name: '맞춤법 검사기',
+        description: '텍스트를 입력하면 맞춤법 오류를 찾아 교정을 제안합니다.',
+        category: 'employment',
+        icon: '📝',
+        region: 'KR',
+      },
+      {
+        id: 'core-competency',
+        name: 'AI 핵심역량 추출기',
+        description: '채용공고 + 이력서를 넣으면 AI가 공고에 딱 맞는 핵심역량을 만들어줍니다.',
+        category: 'ai',
+        icon: '🎯',
+        region: 'KR',
+        isNew: true,
+      },
+      {
+        id: 'image-converter',
+        name: '이미지 포맷 변환',
+        description: 'PNG, JPG, WebP, AVIF 간 이미지 포맷을 자유롭게 변환하세요.',
+        category: 'image',
+        icon: '🖼️',
+        region: 'GLOBAL',
+        isNew: true,
+      },
+      {
+        id: 'pdf-to-image',
+        name: 'PDF → 이미지 변환',
+        description: 'PDF 파일을 JPG 또는 PNG 이미지로 변환합니다.',
+        category: 'image',
+        icon: '📄',
+        region: 'GLOBAL',
+        isNew: true,
+      },
+      {
+        id: 'hwp-converter',
+        name: 'HWP 변환 (Beta)',
+        description: '한글(HWP) 파일을 PDF 또는 Word로 간편 변환합니다.',
+        category: 'image',
+        icon: '📃',
+        region: 'KR',
+        isNew: true,
+      },
+      {
+        id: 'loan-calculator',
+        name: '대출 이자 계산기',
+        description: '원리금균등, 원금균등, 만기일시 상환 방식별 대출 이자를 비교하세요.',
+        category: 'finance',
+        icon: '🏦',
+        region: 'KR',
+        isHot: true,
+      },
+      {
+        id: 'json-formatter',
+        name: 'JSON 포맷터',
+        description: 'JSON을 보기 좋게 정렬하고, 유효성을 검증하세요.',
+        category: 'developer',
+        icon: '{ }',
+        region: 'GLOBAL',
+      },
+    ];
+
+    // ==================== 상태 ====================
+    let activeCategory = 'all';
+    let activeRegion = 'all';
+    let searchQuery = '';
+
+    // ==================== 필터 로직 ====================
+    function getFilteredTools() {
+      let tools = TOOLS;
+
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        tools = tools.filter(t =>
+          t.name.toLowerCase().includes(q) ||
+          t.description.toLowerCase().includes(q)
+        );
+        return tools;
+      }
+
+      if (activeCategory !== 'all') {
+        tools = tools.filter(t => t.category === activeCategory);
+      }
+      if (activeRegion !== 'all') {
+        tools = tools.filter(t => t.region === activeRegion);
+      }
+
+      return tools;
+    }
+
+    // ==================== 카드 렌더링 ====================
+    function renderCard(tool) {
+      const cat = CATEGORIES[tool.category] || {};
+      const region = REGION_INFO[tool.region];
+
+      const hotBadge = tool.isHot
+        ? `<span class="text-xs px-2 py-0.5 bg-red-50 dark:bg-red-900/60 text-red-600 dark:text-red-300 rounded-full">HOT</span>`
+        : '';
+      const newBadge = tool.isNew
+        ? `<span class="text-xs px-2 py-0.5 bg-amber-50 dark:bg-amber-900/60 text-amber-600 dark:text-amber-300 rounded-full">NEW</span>`
+        : '';
+
+      // 지역 배지
+      const regionBadge = region ? `
+        <div class="badge-wrap absolute top-3 right-3" style="position:absolute;top:12px;right:12px;">
+          <span
+            role="img"
+            aria-label="${region.ariaLabel}"
+            class="w-6 h-6 flex items-center justify-center text-sm
+                   bg-white/90 dark:bg-gray-900/90
+                   border border-gray-200 dark:border-gray-700
+                   rounded-full shadow-sm cursor-default select-none"
+            style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+                   background:rgba(255,255,255,0.9);border:1px solid #e5e7eb;
+                   border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,0.1);
+                   font-size:14px;position:relative;z-index:1;"
+          >${region.flag}</span>
+          <div
+            class="tooltip"
+            style="display:none;position:absolute;right:0;top:30px;z-index:20;
+                   background:#111827;color:white;font-size:11px;
+                   border-radius:6px;padding:4px 8px;white-space:nowrap;
+                   box-shadow:0 4px 12px rgba(0,0,0,0.2);"
+          >${region.label}</div>
+        </div>
+      ` : '';
+
+      return `
+        <a href="#" class="tool-card card-appear block bg-white dark:bg-gray-800 rounded-xl p-5
+                            border border-gray-200 dark:border-gray-700 shadow-sm"
+           style="position:relative;display:block;text-decoration:none;">
+          ${regionBadge}
+          <div class="flex items-start gap-3" style="display:flex;align-items:flex-start;gap:12px;">
+            <div class="w-10 h-10 rounded-lg ${cat.color || 'bg-gray-100 text-gray-600'}
+                        flex items-center justify-center text-xl shrink-0"
+                 style="width:40px;height:40px;border-radius:8px;display:flex;
+                        align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">
+              ${tool.icon}
+            </div>
+            <div style="min-width:0;flex:1;padding-right:28px;">
+              <h3 class="font-semibold text-base mb-1 dark:text-white"
+                  style="font-size:15px;font-weight:600;margin-bottom:4px;">${tool.name}</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400"
+                 style="font-size:13px;color:#6b7280;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+                ${tool.description}
+              </p>
+              <div class="mt-2 flex gap-1 flex-wrap" style="margin-top:8px;display:flex;gap:4px;flex-wrap:wrap;">
+                <span class="text-xs px-2 py-0.5 rounded-full ${cat.color || ''}"
+                      style="font-size:11px;padding:2px 8px;border-radius:999px;">${cat.name || ''}</span>
+                ${hotBadge}
+                ${newBadge}
+              </div>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+
+    // ==================== 그리드 렌더링 ====================
+    function renderGrid() {
+      const tools = getFilteredTools();
+      const grid = document.getElementById('tool-grid');
+      const empty = document.getElementById('empty-state');
+      const searchInfo = document.getElementById('search-info');
+      const filtersSection = document.getElementById('filters-section');
+
+      // 검색 중일 때 필터 숨김 (현재 page.tsx 동작과 동일)
+      if (searchQuery.trim()) {
+        filtersSection.style.display = 'none';
+        searchInfo.textContent = `"${searchQuery}" 검색 결과: ${tools.length}개`;
+        searchInfo.classList.remove('hidden');
+      } else {
+        filtersSection.style.display = '';
+        searchInfo.classList.add('hidden');
+      }
+
+      if (tools.length === 0) {
+        grid.innerHTML = '';
+        grid.classList.add('hidden');
+        empty.classList.remove('hidden');
+      } else {
+        grid.innerHTML = tools.map(renderCard).join('');
+        grid.classList.remove('hidden');
+        empty.classList.add('hidden');
+      }
+    }
+
+    // ==================== 이벤트: 카테고리 필터 ====================
+    document.getElementById('category-filter').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-cat]');
+      if (!btn) return;
+      activeCategory = btn.dataset.cat;
+
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGrid();
+    });
+
+    // ==================== 이벤트: 지역 필터 ====================
+    document.getElementById('region-filter').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-region]');
+      if (!btn) return;
+      activeRegion = btn.dataset.region;
+
+      document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGrid();
+    });
+
+    // ==================== 이벤트: 검색 ====================
+    function onSearch(val) {
+      searchQuery = val;
+      renderGrid();
+    }
+
+    document.getElementById('search-input').addEventListener('input', (e) => onSearch(e.target.value));
+    document.getElementById('search-input-mobile').addEventListener('input', (e) => onSearch(e.target.value));
+
+    // ==================== 이벤트: 필터 초기화 ====================
+    document.getElementById('reset-filters').addEventListener('click', () => {
+      activeCategory = 'all';
+      activeRegion = 'all';
+      searchQuery = '';
+
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-cat="all"]').classList.add('active');
+      document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-region="all"]').classList.add('active');
+
+      document.getElementById('search-input').value = '';
+      document.getElementById('search-input-mobile').value = '';
+
+      renderGrid();
+    });
+
+    // ==================== 다크모드 토글 ====================
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+    });
+
+    // ==================== 다크 테마 배지 색상 적용 ====================
+    // CSS 변수로 다크/라이트 자동 전환
+    function applyDarkBadgeStyle() {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.querySelectorAll('.badge-wrap > span').forEach(span => {
+        if (isDark) {
+          span.style.background = 'rgba(17,24,39,0.9)';
+          span.style.borderColor = '#374151';
+        } else {
+          span.style.background = 'rgba(255,255,255,0.9)';
+          span.style.borderColor = '#e5e7eb';
+        }
+      });
+    }
+
+    const themeObserver = new MutationObserver(applyDarkBadgeStyle);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    // ==================== 초기 렌더링 ====================
+    renderGrid();
+  </script>
+
+</body>
+</html>
