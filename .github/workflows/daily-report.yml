@@ -2,40 +2,126 @@ name: Daily Report
 
 on:
   schedule:
-    - cron: '0 23 * * *'
+    - cron: '0 0 * * *'  # UTC 00:00 = KST 09:00
   workflow_dispatch:
 
 jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Telegram Report
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get Date
+        id: date
+        run: echo "date=$(TZ=Asia/Seoul date '+%Y-%m-%d (%a)')" >> $GITHUB_OUTPUT
+
+      - name: Check Site Status
+        id: site
         run: |
-          DATE=$(TZ=Asia/Seoul date '+%Y-%m-%d (%a)')
-          TEXT=$(cat <<'ENDMSG'
-          📊 <b>[데일리 보고] 바로도구 운영 현황</b>
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://barodogu.com)
+          RESPONSE_TIME=$(curl -s -o /dev/null -w "%{time_total}" https://barodogu.com)
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "response_time=$RESPONSE_TIME" >> $GITHUB_OUTPUT
+          if [ "$STATUS" = "200" ]; then
+            echo "status_text=정상" >> $GITHUB_OUTPUT
+            echo "status_emoji=✅" >> $GITHUB_OUTPUT
+          else
+            echo "status_text=이상 ($STATUS)" >> $GITHUB_OUTPUT
+            echo "status_emoji=🚨" >> $GITHUB_OUTPUT
+          fi
 
-          📅 DATE_PLACEHOLDER
-          🔗 https://barodogu.com
+      - name: Count Tools
+        id: tools
+        run: |
+          TOOL_COUNT=$(ls -d app/tools/*/page.tsx 2>/dev/null | wc -l | tr -d ' ')
+          echo "count=$TOOL_COUNT" >> $GITHUB_OUTPUT
 
-          <b>1. 핵심 지표</b>
-          • GA4: https://analytics.google.com
-          • Search Console: https://search.google.com/search-console
+      - name: Get Recent Commits
+        id: commits
+        run: |
+          RECENT=$(git log --oneline --since="24 hours ago" --no-merges 2>/dev/null | head -5)
+          if [ -z "$RECENT" ]; then
+            RECENT="최근 24시간 내 커밋 없음"
+          fi
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "recent<<$EOF" >> $GITHUB_OUTPUT
+          echo "$RECENT" >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
 
-          <b>2. 금일 체크리스트</b>
-          ☐ GA4 방문자 수 확인
-          ☐ Search Console 검색 노출 확인
-          ☐ 블로그 콘텐츠 1편 발행
-          ☐ 커뮤니티 1회 공유
+      - name: Send Email Report
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "[바로도구 데일리 보고] ${{ steps.date.outputs.date }}"
+          to: justinchun7512@gmail.com
+          from: 내일모코퍼레이션 전략총괄 <${{ secrets.GMAIL_USERNAME }}>
+          content_type: text/html
+          body: |
+            <div style="font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
+                📊 바로도구 데일리 운영 보고
+              </h2>
+              <p style="color: #666; font-size: 14px;">📅 ${{ steps.date.outputs.date }} | 🔗 <a href="https://barodogu.com">barodogu.com</a></p>
 
-          <b>3. 매출</b>
-          • AdSense: 미적용
+              <h3 style="color: #1e293b;">1. 사이트 상태</h3>
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="background: #f8fafc;">
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>상태</strong></td>
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;">${{ steps.site.outputs.status_emoji }} ${{ steps.site.outputs.status_text }} (HTTP ${{ steps.site.outputs.status }})</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>응답 시간</strong></td>
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;">${{ steps.site.outputs.response_time }}초</td>
+                </tr>
+                <tr style="background: #f8fafc;">
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>활성 도구 수</strong></td>
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;">${{ steps.tools.outputs.count }}개</td>
+                </tr>
+              </table>
 
-          내일모코퍼레이션 전략총괄
-          ENDMSG
-          )
-          TEXT=$(echo "$TEXT" | sed "s/DATE_PLACEHOLDER/$DATE/g")
-          curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
-            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
-            -d "parse_mode=HTML" \
-            --data-urlencode "text=$TEXT"
+              <h3 style="color: #1e293b;">2. 핵심 지표 (직접 확인)</h3>
+              <p style="font-size: 13px; color: #666;">아래 링크에서 실제 데이터를 확인하세요.</p>
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="background: #f8fafc;">
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>GA4 대시보드</strong></td>
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;">
+                    <a href="https://analytics.google.com/analytics/web/" style="color: #2563eb;">방문자 수 / 페이지뷰 / 세션 확인 →</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Search Console</strong></td>
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;">
+                    <a href="https://search.google.com/search-console/performance/search-analytics?resource_id=sc-domain:barodogu.com" style="color: #2563eb;">검색 노출 / 클릭 / CTR 확인 →</a>
+                  </td>
+                </tr>
+                <tr style="background: #f8fafc;">
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>Naver Search Advisor</strong></td>
+                  <td style="padding: 8px; border: 1px solid #e2e8f0;">
+                    <a href="https://searchadvisor.naver.com/console/board" style="color: #2563eb;">네이버 색인 / 검색 노출 확인 →</a>
+                  </td>
+                </tr>
+              </table>
+
+              <h3 style="color: #1e293b;">3. 최근 24시간 개발 활동</h3>
+              <pre style="background: #f1f5f9; padding: 12px; border-radius: 6px; font-size: 12px; overflow-x: auto;">${{ steps.commits.outputs.recent }}</pre>
+
+              <h3 style="color: #1e293b;">4. 오늘의 체크리스트</h3>
+              <ul style="list-style: none; padding: 0;">
+                <li style="padding: 4px 0;">☐ GA4 방문자 수 / 인기 도구 확인</li>
+                <li style="padding: 4px 0;">☐ Search Console 검색어 / 노출 수 확인</li>
+                <li style="padding: 4px 0;">☐ 사이트 기능 이상 여부 확인</li>
+                <li style="padding: 4px 0;">☐ 유튜브 쇼츠 업로드 (오후 7:30)</li>
+              </ul>
+
+              <h3 style="color: #1e293b;">5. 매출 현황</h3>
+              <p style="color: #666;">AdSense: 미적용 (4월 신청 예정)</p>
+
+              <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
+              <p style="font-size: 12px; color: #94a3b8; text-align: center;">
+                내일모코퍼레이션 전략총괄 | 자동 발송 보고서
+              </p>
+            </div>
