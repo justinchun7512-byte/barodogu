@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48">
+  <rect width="40" height="40" rx="8" y="4" fill="#2563EB"/>
+  <text x="20" y="33" font-family="system-ui" font-size="24" font-weight="900" fill="white" text-anchor="middle">B</text>
+  <rect x="8" y="36" width="24" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+  <rect x="8" y="36" width="16" height="2" rx="1" fill="#FEF3C7"/>
+  <text x="50" y="32" font-family="system-ui" font-size="22" font-weight="800" fill="#111827">바로도구</text>
+</svg>

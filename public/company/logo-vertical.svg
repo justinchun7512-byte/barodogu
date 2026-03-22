@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- 세로형 로고 (시안 5 기반) -->
+  <defs>
+    <linearGradient id="gv" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#1D4ED8"/>
+      <stop offset="100%" style="stop-color:#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <!-- 블록 3개 계단식 (중앙 배치) -->
+  <rect x="52" y="72" width="26" height="52" rx="5" fill="#93C5FD"/>
+  <rect x="82" y="42" width="26" height="82" rx="5" fill="#3B82F6"/>
+  <rect x="112" y="12" width="26" height="112" rx="5" fill="url(#gv)"/>
+  <!-- 성장 화살표 -->
+  <path d="M62 66 L95 38 L125 6" stroke="#F59E0B" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="125" cy="6" r="5" fill="#F59E0B"/>
+  <!-- 텍스트 -->
+  <text x="100" y="155" font-family="system-ui, sans-serif" font-size="22" font-weight="900" fill="#111827" text-anchor="middle">내일모코퍼레이션</text>
+  <text x="100" y="175" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#2563EB" text-anchor="middle" letter-spacing="1.5">NAEILMO CORPORATION</text>
+  <text x="100" y="193" font-family="system-ui, sans-serif" font-size="9" font-weight="400" fill="#9CA3AF" text-anchor="middle">내일을 모으다, 오늘을 만들다</text>
+</svg>

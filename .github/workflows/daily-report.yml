@@ -1,0 +1,41 @@
+name: Daily Report
+
+on:
+  schedule:
+    - cron: '0 23 * * *'
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram Report
+        run: |
+          DATE=$(TZ=Asia/Seoul date '+%Y-%m-%d (%a)')
+          TEXT=$(cat <<'ENDMSG'
+          📊 <b>[데일리 보고] 바로도구 운영 현황</b>
+
+          📅 DATE_PLACEHOLDER
+          🔗 https://barodogu.com
+
+          <b>1. 핵심 지표</b>
+          • GA4: https://analytics.google.com
+          • Search Console: https://search.google.com/search-console
+
+          <b>2. 금일 체크리스트</b>
+          ☐ GA4 방문자 수 확인
+          ☐ Search Console 검색 노출 확인
+          ☐ 블로그 콘텐츠 1편 발행
+          ☐ 커뮤니티 1회 공유
+
+          <b>3. 매출</b>
+          • AdSense: 미적용
+
+          내일모코퍼레이션 전략총괄
+          ENDMSG
+          )
+          TEXT=$(echo "$TEXT" | sed "s/DATE_PLACEHOLDER/$DATE/g")
+          curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "parse_mode=HTML" \
+            --data-urlencode "text=$TEXT"

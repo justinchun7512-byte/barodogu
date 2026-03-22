@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 100">
+  <!-- 시안 4: 겹치는 원 (모으다 = 결합/융합) -->
+  <defs>
+    <linearGradient id="g4a" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563EB"/>
+      <stop offset="100%" style="stop-color:#1E40AF"/>
+    </linearGradient>
+  </defs>
+  <!-- 세 원이 겹치는 벤다이어그램 -->
+  <circle cx="34" cy="40" r="22" fill="#2563EB" opacity="0.85"/>
+  <circle cx="52" cy="40" r="22" fill="#3B82F6" opacity="0.85"/>
+  <circle cx="43" cy="56" r="22" fill="#60A5FA" opacity="0.85"/>
+  <!-- 중심 교집합 강조 -->
+  <circle cx="43" cy="45" r="8" fill="#FEF3C7"/>
+  <!-- 텍스트 -->
+  <text x="90" y="40" font-family="system-ui, sans-serif" font-size="24" font-weight="900" fill="#111827">내일모코퍼레이션</text>
+  <text x="90" y="62" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#2563EB" letter-spacing="1">NAEILMO CORPORATION</text>
+  <text x="90" y="80" font-family="system-ui, sans-serif" font-size="11" font-weight="400" fill="#9CA3AF">내일을 모으다, 오늘을 만들다</text>
+</svg>
