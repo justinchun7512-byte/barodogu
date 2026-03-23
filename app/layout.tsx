@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     locale: 'ko_KR',
     type: 'website',
   },
+  alternates: {
+    canonical: 'https://barodogu.com',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
