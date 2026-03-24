@@ -11,6 +11,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  const infoPages = ['about', 'company', 'contact', 'privacy'].map(page => ({
+    url: `${BASE_URL}/${page}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.3,
+  }));
+
   return [
     {
       url: BASE_URL,
@@ -19,5 +26,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     ...toolPages,
+    ...infoPages,
   ];
 }

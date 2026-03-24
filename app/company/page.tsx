@@ -4,6 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: '회사 소개 - 내일모코퍼레이션',
   description: '내일모코퍼레이션은 AI와 함께 1인 기업의 가능성을 증명하는 회사입니다. 바로도구 등 실용적인 온라인 서비스를 운영합니다.',
+  alternates: { canonical: 'https://barodogu.com/company' },
 };
 
 export default function CompanyPage() {

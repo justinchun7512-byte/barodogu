@@ -59,8 +59,7 @@ jobs:
           subject: "[바로도구 데일리 보고] ${{ steps.date.outputs.date }}"
           to: justinchun7512@gmail.com
           from: 내일모코퍼레이션 전략총괄 <${{ secrets.GMAIL_USERNAME }}>
-          content_type: text/html
-          body: |
+          html_body: |
             <div style="font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
               <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
                 📊 바로도구 데일리 운영 보고

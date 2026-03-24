@@ -4,6 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: '사이트 소개 - 바로도구',
   description: '바로도구는 회원가입 없이 바로 사용할 수 있는 무료 온라인 유틸리티 도구 모음입니다.',
+  alternates: { canonical: 'https://barodogu.com/about' },
 };
 
 export default function AboutPage() {
