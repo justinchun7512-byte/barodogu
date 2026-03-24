@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.barodogu.com"
+        }
+      ],
+      "destination": "https://barodogu.com/:path*",
+      "permanent": true
+    }
+  ]
+}
