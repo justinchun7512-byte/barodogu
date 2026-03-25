@@ -198,7 +198,49 @@ export default function CoreCompetencyPage() {
   const allMatchedKeywords = result ? [...new Set(result.competencies.flatMap(c => c.matchedKeywords))].slice(0, 8) : [];
 
   return (
-    <ToolLayout tool={tool} guideContent={
+    <ToolLayout tool={tool} seoContent={
+        <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">AI 핵심역량 추출기란?</h2>
+            <p>AI 핵심역량 추출기는 채용공고(JD)와 이력서를 분석하여 해당 포지션에 최적화된 핵심역량 문장을 자동으로 생성해주는 AI 기반 취업 도구입니다. 채용 담당자가 이력서에서 가장 먼저 확인하는 핵심역량을 공고 맞춤형으로 작성해주며, JD와의 매칭 적합도 점수, 이력서 사실 기반의 역량 문장, 보완이 필요한 부분까지 분석해줍니다. 이력서 서류 통과율을 높이고 싶은 취업 준비생과 이직 희망자에게 필수적인 도구입니다.</p>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">사용 방법</h2>
+            <ol className="list-decimal pl-5 space-y-1.5">
+              <li>왼쪽 패널에 채용공고의 업무내용, 자격요건을 입력합니다. (이미지 캡쳐 후 Ctrl+V 붙여넣기도 가능)</li>
+              <li>우대사항, 인재상/기업문화는 선택사항으로, 입력하면 더 정확한 결과를 얻을 수 있습니다.</li>
+              <li>오른쪽 패널에 이력서를 PDF/DOCX 파일로 업로드하거나 텍스트를 붙여넣기 합니다.</li>
+              <li>&quot;핵심역량 생성하기&quot; 버튼을 클릭하면 AI가 분석을 시작합니다.</li>
+              <li>생성된 핵심역량을 확인하고, 개별 또는 전체 복사하여 이력서에 활용합니다.</li>
+            </ol>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
+            <div className="space-y-2">
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">핵심역량이란 정확히 무엇인가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">핵심역량은 이력서 상단에 작성하는 3~5개의 핵심 강점 요약 문장입니다. 채용 담당자가 이력서를 30초 내에 검토할 때 가장 먼저 보는 부분으로, 지원 포지션에 맞는 경험과 역량을 압축적으로 보여주는 역할을 합니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">매번 공고마다 새로 만들어야 하나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">네, 각 채용공고마다 요구하는 역량과 경험이 다르므로, 공고별로 맞춤 핵심역량을 작성하는 것이 서류 통과율을 높이는 가장 효과적인 방법입니다. 본 도구를 사용하면 이 과정을 빠르게 처리할 수 있습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">이력서 내용이 유출될 우려는 없나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">업로드된 이력서는 핵심역량 생성에만 사용되며, 별도로 저장하거나 제3자에게 공유하지 않습니다. 분석 완료 후 데이터는 서버에서 삭제됩니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">AI가 만든 내용을 그대로 써도 되나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">AI가 생성한 핵심역량은 이력서에 기재된 사실만을 기반으로 작성됩니다. 다만, 본인의 어투와 스타일에 맞게 일부 수정하여 사용하는 것을 권장합니다. 중요한 것은 사실에 기반한 내용인지 확인하는 것입니다.</p>
+              </details>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">관련 정보</h2>
+            <p>최근 채용 시장에서는 ATS(지원자추적시스템)를 사용하는 기업이 증가하고 있습니다. ATS는 이력서에서 채용공고와 관련된 키워드를 자동으로 추출하여 점수를 매기므로, 핵심역량에 JD의 주요 키워드를 자연스럽게 포함하는 것이 중요합니다. 본 도구는 JD 매칭 분석을 통해 어떤 키워드가 이력서에 반영되었고, 어떤 부분이 부족한지까지 분석해주므로 ATS 대응에도 효과적입니다.</p>
+          </div>
+        </section>
+      } guideContent={
       <div>
         <h2 className="text-xl font-bold mb-4 dark:text-white">핵심역량이란?</h2>
         <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">

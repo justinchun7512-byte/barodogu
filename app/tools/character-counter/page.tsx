@@ -14,7 +14,48 @@ export default function CharacterCounterPage() {
   const overLimit = limit !== null && result.charWithSpace > limit;
 
   return (
-    <ToolLayout tool={tool} guideContent={
+    <ToolLayout tool={tool} seoContent={
+        <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">글자수 세기란?</h2>
+            <p>글자수 세기는 입력한 텍스트의 글자수(공백 포함/제외), 바이트 수, 단어 수, 줄 수, 문장 수 등을 실시간으로 계산해주는 온라인 도구입니다. 자기소개서, 이력서, 블로그 글, SNS 게시물 등 글자수 제한이 있는 콘텐츠를 작성할 때 필수적으로 사용됩니다. 한글, 영문, 숫자, 특수문자를 모두 정확하게 카운트하며, UTF-8 바이트 수까지 확인할 수 있어 다양한 플랫폼의 글자수 기준에 대응할 수 있습니다.</p>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">사용 방법</h2>
+            <ol className="list-decimal pl-5 space-y-1.5">
+              <li>텍스트 입력란에 글자수를 세고 싶은 텍스트를 직접 입력하거나 붙여넣기 합니다.</li>
+              <li>입력 즉시 상단에 공백 포함/제외 글자수, 바이트, 단어수가 실시간으로 표시됩니다.</li>
+              <li>필요한 경우 글자수 제한을 설정하면 프로그레스 바로 현재 사용량을 시각적으로 확인할 수 있습니다.</li>
+              <li>하단의 상세 정보에서 줄 수, 문장 수, 한글/영문 비율까지 확인할 수 있습니다.</li>
+            </ol>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
+            <div className="space-y-2">
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">자기소개서 글자수는 공백 포함인가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">대부분의 기업 채용 사이트에서는 &quot;공백 포함&quot; 기준으로 글자수를 계산합니다. 다만, 일부 기업은 공백 제외 기준을 사용하므로 채용공고를 반드시 확인하세요. 일반적으로 500자, 800자, 1000자 제한이 많습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">바이트 수는 왜 다른가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">한글은 UTF-8 기준으로 한 글자당 3바이트를 차지하고, 영문이나 숫자는 1바이트입니다. 일부 시스템(SMS, 데이터베이스 등)은 바이트 기준으로 제한하므로, 한글이 포함된 텍스트는 글자수보다 바이트 수가 훨씬 클 수 있습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">트위터(X) 글자수 제한은 몇 자인가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">트위터(X)의 기본 글자수 제한은 280자(한글 기준 약 140자)입니다. 한글은 2자로 카운트되는 특수한 계산 방식을 사용합니다. 정확한 확인은 본 도구의 글자수 세기 기능을 활용하세요.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">줄바꿈도 글자수에 포함되나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">네, 줄바꿈(엔터)도 일반적으로 1자로 카운트됩니다. 공백 포함 글자수에는 줄바꿈이 포함되며, 공백 제외 글자수에서는 제외됩니다.</p>
+              </details>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">관련 정보</h2>
+            <p>자기소개서 작성 시 기업마다 정해진 글자수 제한을 지키는 것은 매우 중요합니다. 글자수가 초과되면 지원 자체가 불가능할 수 있고, 너무 적으면 성의 없어 보일 수 있습니다. 일반적으로 제한의 80~100%를 채우는 것이 적절합니다. 블로그 SEO를 위해서는 본문 글자수가 최소 1000자 이상인 것이 권장되며, 인스타그램 캡션은 2200자, 유튜브 설명란은 5000자까지 작성 가능합니다.</p>
+          </div>
+        </section>
+      } guideContent={
       <div>
         <h2 className="text-xl font-bold mb-4 dark:text-white">글자수 세기 FAQ</h2>
         <div className="space-y-4 text-sm text-gray-600 dark:text-gray-400">

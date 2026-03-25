@@ -82,7 +82,48 @@ export default function ImageConverterPage() {
   };
 
   return (
-    <ToolLayout tool={tool} guideContent={
+    <ToolLayout tool={tool} seoContent={
+        <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">이미지 포맷 변환이란?</h2>
+            <p>이미지 포맷 변환 도구는 PNG, JPG, WebP, AVIF 등 다양한 이미지 포맷 간의 변환을 브라우저에서 바로 처리해주는 온라인 도구입니다. 웹사이트 최적화를 위해 WebP나 AVIF로 변환하거나, 투명 배경이 필요한 경우 PNG로 변환하는 등 다양한 용도로 활용할 수 있습니다. 모든 변환이 브라우저에서 이루어지므로 파일이 서버로 전송되지 않아 개인정보 보호에 안전합니다.</p>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">사용 방법</h2>
+            <ol className="list-decimal pl-5 space-y-1.5">
+              <li>이미지를 드래그 앤 드롭하거나 클릭하여 업로드합니다. (PNG, JPG, WebP, GIF, BMP, AVIF 지원)</li>
+              <li>변환할 포맷(PNG, JPG, WebP, AVIF)을 선택합니다.</li>
+              <li>JPG, WebP, AVIF의 경우 화질(10~100%)을 슬라이더로 조절할 수 있습니다.</li>
+              <li>&quot;변환&quot; 버튼을 클릭하면 즉시 변환되며, 용량 변화를 확인한 후 다운로드할 수 있습니다.</li>
+            </ol>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
+            <div className="space-y-2">
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">어떤 포맷을 선택해야 하나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">웹사이트용이라면 WebP(JPG 대비 30% 작은 용량)를 추천합니다. 투명 배경이 필요하면 PNG, 최고 압축률이 필요하면 AVIF, 범용 호환성이 필요하면 JPG를 선택하세요.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">화질을 낮추면 얼마나 용량이 줄어드나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">화질 85% 정도면 육안으로 거의 차이를 느끼기 어려우면서도 원본 대비 상당한 용량 절감을 얻을 수 있습니다. 화질 70% 이하로 가면 눈에 띄는 화질 저하가 시작될 수 있습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">내 이미지가 서버에 저장되나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">아닙니다. 모든 이미지 변환은 사용자의 브라우저(클라이언트)에서 처리됩니다. 이미지 파일이 서버로 전송되거나 저장되지 않으므로 안심하고 사용하실 수 있습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">AVIF 포맷은 어디서 지원되나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">AVIF는 Chrome, Firefox, Edge, Opera 등 최신 브라우저에서 지원됩니다. Safari는 16.4 버전부터 지원합니다. WebP보다 더 뛰어난 압축률을 제공하는 차세대 포맷입니다.</p>
+              </details>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">관련 정보</h2>
+            <p>웹사이트 성능 최적화에서 이미지 포맷 선택은 매우 중요합니다. Google PageSpeed Insights에서도 차세대 이미지 포맷(WebP, AVIF) 사용을 권장하고 있으며, 이는 Core Web Vitals 점수 개선에 직접적인 영향을 줍니다. 일반적으로 사진 이미지에는 JPG나 WebP, 도표나 스크린샷에는 PNG, 아이콘이나 로고에는 SVG가 적합합니다. 대량의 이미지를 변환할 때는 본 도구를 활용하면 편리합니다.</p>
+          </div>
+        </section>
+      } guideContent={
       <div>
         <h2 className="text-xl font-bold mb-4 dark:text-white">이미지 포맷 변환 가이드</h2>
         <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">

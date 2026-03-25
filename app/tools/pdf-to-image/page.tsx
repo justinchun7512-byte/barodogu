@@ -157,7 +157,49 @@ export default function PdfToImagePage() {
   };
 
   return (
-    <ToolLayout tool={tool} guideContent={
+    <ToolLayout tool={tool} seoContent={
+        <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">PDF 이미지 변환이란?</h2>
+            <p>PDF 이미지 변환 도구는 PDF 문서의 각 페이지를 JPG 또는 PNG 이미지로 변환해주는 온라인 도구입니다. 프레젠테이션 자료, 보고서, 논문 등의 PDF 파일에서 특정 페이지를 이미지로 추출하여 SNS 공유, 블로그 삽입, 카카오톡 전송 등에 활용할 수 있습니다. 1x부터 3x까지 해상도를 조절할 수 있으며, 여러 페이지를 ZIP 파일로 일괄 다운로드하는 기능도 제공합니다. 모든 변환이 브라우저에서 처리되어 파일이 서버로 전송되지 않습니다.</p>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">사용 방법</h2>
+            <ol className="list-decimal pl-5 space-y-1.5">
+              <li>PDF 파일을 드래그 앤 드롭하거나 클릭하여 업로드합니다. (최대 50MB)</li>
+              <li>출력 포맷(JPG 또는 PNG)을 선택합니다.</li>
+              <li>해상도를 설정합니다. (1x 기본, 2x 선명, 3x 고해상도)</li>
+              <li>&quot;이미지로 변환&quot; 버튼을 클릭하면 각 페이지가 순차적으로 변환됩니다.</li>
+              <li>개별 페이지를 다운로드하거나 전체를 ZIP 파일로 한번에 다운로드할 수 있습니다.</li>
+            </ol>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
+            <div className="space-y-2">
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">JPG와 PNG 중 어떤 포맷을 선택해야 하나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">사진이 많은 PDF는 JPG가 용량이 작아 유리합니다. 텍스트나 도표가 많은 문서는 PNG가 더 선명합니다. SNS 공유용이라면 JPG, 인쇄나 고화질이 필요하면 PNG를 추천합니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">해상도(배율)는 어떤 차이가 있나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">1x는 PDF 원본 해상도(보통 72dpi) 그대로입니다. 2x는 144dpi로 일반 용도에 충분히 선명하며, 3x는 216dpi로 인쇄용이나 확대 사용에 적합합니다. 배율이 높을수록 파일 크기도 커집니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">PDF 파일이 서버에 저장되나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">아닙니다. 모든 변환 과정은 사용자의 브라우저에서 처리됩니다. PDF 파일이 서버로 전송되거나 저장되지 않으므로 기밀 문서도 안전하게 변환할 수 있습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">몇 페이지까지 변환할 수 있나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">페이지 수에 제한은 없지만, 페이지가 많고 해상도가 높을수록 변환 시간이 길어지고 메모리를 많이 사용합니다. 50페이지 이상의 대용량 PDF는 2x 이하 해상도를 권장합니다.</p>
+              </details>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">관련 정보</h2>
+            <p>PDF(Portable Document Format)는 Adobe가 개발한 문서 포맷으로, 어떤 환경에서든 동일한 레이아웃을 유지하는 것이 특징입니다. PDF를 이미지로 변환하면 별도의 PDF 뷰어 없이 이미지 뷰어만으로 내용을 확인할 수 있어, 모바일 메신저나 SNS에서 공유하기 편리합니다. 본 도구는 PDF.js 라이브러리를 활용하여 브라우저에서 직접 PDF를 렌더링하므로, 별도의 프로그램 설치가 필요 없습니다.</p>
+          </div>
+        </section>
+      } guideContent={
       <div>
         <h2 className="text-xl font-bold mb-4 dark:text-white">PDF 이미지 변환 가이드</h2>
         <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">

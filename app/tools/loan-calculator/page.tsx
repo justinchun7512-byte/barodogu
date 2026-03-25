@@ -69,7 +69,49 @@ export default function LoanCalculatorPage() {
   const result = canCalc ? calculateLoan(p, r, m, type) : null;
 
   return (
-    <ToolLayout tool={tool} disclaimer={
+    <ToolLayout tool={tool} seoContent={
+        <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">대출 이자 계산기란?</h2>
+            <p>대출 이자 계산기는 대출 원금, 연 이자율, 대출 기간, 상환 방식을 입력하면 월 상환금, 총 이자, 총 상환금을 자동으로 계산하고 상환 스케줄까지 보여주는 도구입니다. 주택담보대출, 전세대출, 신용대출 등 다양한 대출 상품을 비교할 때 유용하며, 원리금균등, 원금균등, 만기일시 세 가지 상환 방식별 이자 차이를 한눈에 비교할 수 있습니다.</p>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">사용 방법</h2>
+            <ol className="list-decimal pl-5 space-y-1.5">
+              <li>대출 원금을 만원 단위로 입력합니다. (예: 3억이면 &quot;30000&quot;)</li>
+              <li>연 이자율을 퍼센트로 입력합니다. (예: 3.5%)</li>
+              <li>대출 기간을 개월 수로 입력합니다. (프리셋: 10년/20년/30년)</li>
+              <li>상환 방식(원리금균등, 원금균등, 만기일시)을 선택합니다.</li>
+              <li>입력 즉시 월 상환금, 총 이자, 상환 스케줄이 자동 계산됩니다.</li>
+            </ol>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
+            <div className="space-y-2">
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">원리금균등과 원금균등 중 어떤 게 유리한가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">총 이자 기준으로는 원금균등이 더 유리합니다. 다만 원금균등은 초기 상환액이 크고, 원리금균등은 매월 동일한 금액을 내므로 가계 관리가 쉽습니다. 여유 자금이 있다면 원금균등, 매월 일정 금액을 선호한다면 원리금균등을 추천합니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">만기일시상환은 언제 유리한가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">만기일시상환은 매월 이자만 납부하므로 월 부담이 가장 적지만, 총 이자는 가장 많습니다. 단기 대출이나 곧 목돈이 예정된 경우(전세금 반환 등)에 적합합니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">금리가 0.5%p 차이나면 이자가 얼마나 달라지나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">3억원 30년 기준, 금리가 3.5%에서 4.0%로 0.5%p 오르면 총 이자가 약 3,000만원 이상 증가합니다. 금리 차이가 장기 대출에 미치는 영향은 매우 크므로, 반드시 여러 금융기관을 비교해보세요.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">중도상환수수료도 계산되나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">본 계산기는 단순 이자율 기준의 모의 계산이므로 중도상환수수료, 우대금리, 변동금리 조정 등은 반영되지 않습니다. 정확한 조건은 해당 금융기관에 직접 문의하세요.</p>
+              </details>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">관련 정보</h2>
+            <p>대출을 받기 전에는 반드시 여러 금융기관의 금리를 비교해야 합니다. 한국은행 기준금리, 코픽스(COFIX) 금리 등에 따라 시중 대출 금리가 결정되며, 고정금리와 변동금리의 선택도 중요합니다. 주택담보대출의 경우 LTV(주택담보인정비율), DTI(총부채상환비율), DSR(총부채원리금상환비율) 규제를 확인해야 합니다. 금융감독원의 금융상품한눈에(finlife.fss.or.kr)에서 각 은행별 대출 금리를 비교할 수 있습니다.</p>
+          </div>
+        </section>
+      } disclaimer={
         <div>
           <p>&#9888;&#65039; 본 계산기는 단순 이자율 기준 <strong>모의 계산 결과</strong>로, 실제 대출 상환액과 다를 수 있으며 법적 효력이 없어요.</p>
           <p>&#8226; 실제 대출 이자는 금리 유형(고정/변동), 우대금리, 중도상환수수료 등에 따라 달라져요.</p>
