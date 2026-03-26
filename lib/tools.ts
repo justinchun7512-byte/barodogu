@@ -173,16 +173,16 @@ export const TOOLS: Tool[] = [
   },
   {
     id: 'hwp-converter',
-    name: 'HWP 변환 (Beta)',
-    description: '한글(HWP) 파일을 PDF 또는 Word로 간편 변환합니다. 간단한 문서에 적합.',
+    name: 'HWPX 변환기 (Beta)',
+    description: 'HWPX 파일을 텍스트, HTML, PDF로 변환합니다. 브라우저에서 처리되어 안전합니다.',
     category: 'image',
     icon: '📃',
-    tags: ['HWP', 'PDF', 'Word', 'DOCX', '한글 변환'],
+    tags: ['HWPX', 'HWP', '한글 변환', '텍스트', 'HTML', 'PDF', 'OWPML'],
     isNew: true,
     seo: {
-      title: 'HWP to PDF/Word 변환 - 한글 파일 변환 | 바로도구',
-      description: '한글(HWP) 파일을 PDF, Word(DOCX)로 무료 변환하세요. 브라우저에서 처리.',
-      keywords: ['HWP 변환', 'HWP PDF 변환', 'HWP Word 변환', '한글 변환기'],
+      title: 'HWPX 변환기 - 텍스트/HTML/PDF 변환 | 바로도구',
+      description: 'HWPX 파일을 텍스트, HTML, PDF로 무료 변환하세요. 파일이 서버로 전송되지 않아 안전합니다.',
+      keywords: ['HWPX 변환', 'HWPX 텍스트 변환', 'HWPX HTML 변환', '한글 변환기', 'OWPML'],
     },
   },
   // === 금융/생활 ===
