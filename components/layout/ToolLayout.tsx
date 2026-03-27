@@ -8,9 +8,10 @@ interface ToolLayoutProps {
   children: React.ReactNode;
   guideContent?: React.ReactNode;
   disclaimer?: React.ReactNode;
+  seoContent?: React.ReactNode;
 }
 
-export function ToolLayout({ tool, children, guideContent, disclaimer }: ToolLayoutProps) {
+export function ToolLayout({ tool, children, guideContent, disclaimer, seoContent }: ToolLayoutProps) {
   const categoryInfo = getCategoryInfo(tool.category);
   const relatedTools = TOOLS.filter(t => t.category === tool.category && t.id !== tool.id).slice(0, 3);
 
@@ -59,6 +60,13 @@ export function ToolLayout({ tool, children, guideContent, disclaimer }: ToolLay
       {guideContent && (
         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 mb-8">
           {guideContent}
+        </div>
+      )}
+
+      {/* SEO Content */}
+      {seoContent && (
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 mb-8">
+          {seoContent}
         </div>
       )}
 

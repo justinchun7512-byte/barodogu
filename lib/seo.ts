@@ -5,6 +5,7 @@ const BASE_URL = 'https://barodogu.com';
 const SITE_NAME = '바로도구';
 
 export function generateToolMetadata(tool: Tool): Metadata {
+  const url = `${BASE_URL}/tools/${tool.id}`;
   return {
     title: tool.seo.title,
     description: tool.seo.description,
@@ -12,18 +13,18 @@ export function generateToolMetadata(tool: Tool): Metadata {
     openGraph: {
       title: tool.seo.title,
       description: tool.seo.description,
-      url: `${BASE_URL}/tools/${tool.id}`,
+      url,
       siteName: SITE_NAME,
       type: 'website',
       locale: 'ko_KR',
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'summary',
       title: tool.seo.title,
       description: tool.seo.description,
     },
     alternates: {
-      canonical: `${BASE_URL}/tools/${tool.id}`,
+      canonical: url,
     },
   };
 }
@@ -37,7 +38,15 @@ export function generateJsonLd(tool: Tool) {
     url: `${BASE_URL}/tools/${tool.id}`,
     applicationCategory: 'UtilityApplication',
     operatingSystem: 'Web Browser',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'KRW' },
-    author: { '@type': 'Organization', name: '내일모코퍼레이션' },
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'KRW',
+    },
+    provider: {
+      '@type': 'Organization',
+      name: '내일모코퍼레이션',
+      url: BASE_URL,
+    },
   };
 }

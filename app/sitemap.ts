@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { TOOLS } from '@/lib/tools';
+import { getAllPosts } from '@/lib/blog-posts';
 
 const BASE_URL = 'https://barodogu.com';
 
@@ -11,7 +12,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const infoPages = ['about', 'company', 'contact', 'privacy'].map(page => ({
+  const blogPages = [
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    ...getAllPosts().map(post => ({
+      url: `${BASE_URL}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+  ];
+
+  const infoPages = ['about', 'company', 'contact', 'privacy', 'terms'].map(page => ({
     url: `${BASE_URL}/${page}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
@@ -26,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     ...toolPages,
+    ...blogPages,
     ...infoPages,
   ];
 }

@@ -30,6 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
+        {/* Google AdSense */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1240276727421279" crossOrigin="anonymous" />
         {/* Naver Search Advisor */}
         <meta name="naver-site-verification" content="c8144fe96c44147e33dea97c54ee16800b34797b" />
         {/* Google Analytics 4 */}
