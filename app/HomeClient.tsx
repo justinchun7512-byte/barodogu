@@ -73,37 +73,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Product Preview */}
-      <section className="px-5 md:px-10 -mt-5 relative z-10">
-        <div className="max-w-[900px] mx-auto bg-white dark:bg-[#1A1B23] rounded-2xl border border-[#E8EAF0] dark:border-[#2A2B35] shadow-[0_20px_60px_rgba(26,26,46,0.03),0_4px_16px_rgba(26,26,46,0.02)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden">
-          {/* Browser bar */}
-          <div className="bg-[#F5F6FA] dark:bg-[#15161E] px-5 py-3 flex items-center gap-2 border-b border-[#E8EAF0] dark:border-[#2A2B35]">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#FF6B6B]" />
-            <div className="w-2.5 h-2.5 rounded-full bg-[#FFD93D]" />
-            <div className="w-2.5 h-2.5 rounded-full bg-[#6BCB77]" />
-            <span className="ml-3 text-xs text-gray-400 bg-white dark:bg-[#1A1B23] border border-[#E8EAF0] dark:border-[#2A2B35] px-3 py-1 rounded-md flex-1 max-w-[300px]">barodogu.com</span>
-          </div>
-          {/* Mini cards */}
-          <div className="p-8 flex gap-5 flex-wrap">
-            <div className="flex-1 min-w-[200px] bg-[#F8F9FC] dark:bg-[#15161E] border border-[#E8EAF0] dark:border-[#2A2B35] rounded-xl p-5">
-              <div className="text-xl mb-2">🎯</div>
-              <div className="text-sm font-bold text-[#1A1A2E] dark:text-[#E8E8F0] mb-1">AI 핵심역량 추출</div>
-              <div className="text-[11px] text-gray-400 dark:text-gray-500">채용공고와 이력서를 AI가 분석</div>
-            </div>
-            <div className="flex-1 min-w-[200px] bg-[#F8F9FC] dark:bg-[#15161E] border border-[#E8EAF0] dark:border-[#2A2B35] rounded-xl p-5">
-              <div className="text-xl mb-2">🎤</div>
-              <div className="text-sm font-bold text-[#1A1A2E] dark:text-[#E8E8F0] mb-1">AI 면접 질문 생성</div>
-              <div className="text-[11px] text-gray-400 dark:text-gray-500">예상 질문 + 답변 힌트 제공</div>
-            </div>
-            <div className="flex-1 min-w-[200px] bg-[#F8F9FC] dark:bg-[#15161E] border border-[#E8EAF0] dark:border-[#2A2B35] rounded-xl p-5">
-              <div className="text-xl mb-2">💰</div>
-              <div className="text-sm font-bold text-[#1A1A2E] dark:text-[#E8E8F0] mb-1">연봉 실수령액 계산</div>
-              <div className="text-[11px] text-gray-400 dark:text-gray-500">2026년 세율 기반 실수령액</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Tools Section */}
       <section className="max-w-[1100px] mx-auto px-5 md:px-10 py-20" id="tools">
         <div className="flex justify-between items-center mb-9">
