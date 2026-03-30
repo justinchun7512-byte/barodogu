@@ -3,13 +3,15 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #2563EB;
-  --color-primary-dark: #1D4ED8;
-  --color-primary-light: #DBEAFE;
+  --color-primary: #5B6BF0;
+  --color-primary-dark: #4A59D9;
+  --color-primary-light: #F0F1FF;
   --color-secondary: #F59E0B;
   --color-secondary-dark: #D97706;
   --color-secondary-light: #FEF3C7;
-  --font-sans: 'Pretendard', 'Noto Sans KR', 'Inter', system-ui, sans-serif;
+  --color-accent-dark: #1A1A2E;
+  --font-sans: 'Noto Sans KR', system-ui, sans-serif;
+  --font-heading: 'Outfit', 'Noto Sans KR', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 

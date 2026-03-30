@@ -43,9 +43,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('config', 'G-09KG867F42');
         `}} />
         <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
           rel="stylesheet"
-          as="style"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+          href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -62,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen">
+      <body className="bg-[#FAFBFF] dark:bg-[#0F1117] text-[#1A1A2E] dark:text-[#E8E8F0] min-h-screen">
         <ThemeProvider>
           <Header />
           {children}
