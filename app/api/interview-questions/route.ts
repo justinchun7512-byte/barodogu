@@ -135,25 +135,41 @@ ${resumeText}
 난이도: ${diff === 'advanced' ? '심화 (돌발 질문, 상황 기반 시나리오 질문 비율을 높여주세요)' : '기본'}
 반드시 JSON 형식으로만 응답해주세요.`;
 
-    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "llama-3.1-70b-versatile",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: userMessage },
-        ],
-        temperature: 0.75,
-        response_format: { type: "json_object" },
-      }),
-    });
+    if (!process.env.GROQ_API_KEY) {
+      console.error("GROQ_API_KEY is not set");
+      return NextResponse.json(
+        { error: "AI 서비스가 설정되지 않았습니다. 관리자에게 문의해주세요." },
+        { status: 503 }
+      );
+    }
 
-    if (!res.ok) {
-      console.error("Groq API error:", res.status);
+    // Groq API 호출 (모델 폴백: llama-3.1-70b → llama-3.3-70b)
+    const models = ["llama-3.1-70b-versatile", "llama-3.3-70b-versatile"];
+    let res: Response | null = null;
+
+    for (const model of models) {
+      res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userMessage },
+          ],
+          temperature: 0.75,
+          response_format: { type: "json_object" },
+        }),
+      });
+
+      if (res.ok) break;
+      console.error(`Groq API error (${model}):`, res.status, await res.text().catch(() => ""));
+    }
+
+    if (!res || !res.ok) {
       return NextResponse.json(
         { error: "AI 서비스에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요." },
         { status: 502 }

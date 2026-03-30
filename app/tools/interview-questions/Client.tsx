@@ -132,13 +132,38 @@ export default function InterviewQuestionsPage() {
     }
   };
 
-  const handleResumeImageUpload = useCallback(async (file: File) => {
-    if (!file.type.startsWith('image/')) return;
+  const handleResumeFileUpload = useCallback(async (file: File) => {
+    const name = file.name.toLowerCase();
+    const isImage = file.type.startsWith('image/');
+    const isPdfOrDocx = name.endsWith('.pdf') || name.endsWith('.docx');
+
+    if (!isImage && !isPdfOrDocx) {
+      setError('이미지(PNG, JPG), PDF 또는 DOCX 파일만 업로드할 수 있습니다.');
+      return;
+    }
+
     setResumeOcrLoading(true);
-    const reader = new FileReader();
-    reader.onload = async () => {
-      try {
-        const compressed = await compressImage(reader.result as string);
+    setError('');
+
+    try {
+      if (isPdfOrDocx) {
+        // PDF/DOCX → /api/parse-resume
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await fetch('/api/parse-resume', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `파일 파싱 실패 (${res.status})`);
+        if (!data.text) throw new Error('텍스트를 추출하지 못했습니다.');
+        setResumeText(prev => prev ? prev + '\n' + data.text : data.text);
+      } else {
+        // 이미지 → OCR
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = () => reject(new Error('파일을 읽는 중 오류가 발생했습니다.'));
+          reader.readAsDataURL(file);
+        });
+        const compressed = await compressImage(dataUrl);
         const res = await fetch('/api/ocr', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -148,25 +173,20 @@ export default function InterviewQuestionsPage() {
         if (!res.ok) throw new Error(data.error || `OCR 실패 (${res.status})`);
         if (!data.text) throw new Error('텍스트를 추출하지 못했습니다.');
         setResumeText(prev => prev ? prev + '\n' + data.text : data.text);
-      } catch (err: unknown) {
-        setError(err instanceof Error ? err.message : '이미지 인식 오류');
-      } finally {
-        setResumeOcrLoading(false);
       }
-    };
-    reader.onerror = () => {
-      setError('파일을 읽는 중 오류가 발생했습니다.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : '파일 처리 오류');
+    } finally {
       setResumeOcrLoading(false);
-    };
-    reader.readAsDataURL(file);
+    }
   }, []);
 
   const handleResumeDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     const file = e.dataTransfer.files[0];
-    if (file) handleResumeImageUpload(file);
-  }, [handleResumeImageUpload]);
+    if (file) handleResumeFileUpload(file);
+  }, [handleResumeFileUpload]);
 
   const preventDefaults = (e: React.DragEvent) => { e.preventDefault(); e.stopPropagation(); };
 
@@ -405,7 +425,7 @@ export default function InterviewQuestionsPage() {
             <div className="space-y-3">
               <h3 className="text-sm font-bold dark:text-white">이력서</h3>
               <div className="flex gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-                {([['text', '직접 입력'], ['image', '이미지 붙여넣기']] as const).map(([tab, label]) => (
+                {([['text', '직접 입력'], ['image', '파일 업로드']] as const).map(([tab, label]) => (
                   <button key={tab} onClick={() => setResumeTab(tab)} className={`flex-1 py-1.5 text-xs font-medium rounded-md transition ${resumeTab === tab ? 'bg-white dark:bg-gray-600 dark:text-white shadow-sm' : 'text-gray-500'}`}>
                     {label}
                   </button>
@@ -429,7 +449,7 @@ export default function InterviewQuestionsPage() {
                     onClick={() => resumeImageRef.current?.click()}
                     className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-primary transition cursor-pointer"
                   >
-                    <input ref={resumeImageRef} type="file" accept="image/*" className="hidden" onChange={e => e.target.files?.[0] && handleResumeImageUpload(e.target.files[0])} />
+                    <input ref={resumeImageRef} type="file" accept="image/*,.pdf,.docx" className="hidden" onChange={e => e.target.files?.[0] && handleResumeFileUpload(e.target.files[0])} />
                     {resumeOcrLoading ? (
                       <>
                         <div className="w-8 h-8 mx-auto mb-2 border-2 border-gray-200 border-t-primary rounded-full animate-spin" />
@@ -437,8 +457,8 @@ export default function InterviewQuestionsPage() {
                       </>
                     ) : (
                       <>
-                        <p className="text-sm text-gray-500 mb-1">이력서 이미지를 드래그하거나 클릭</p>
-                        <p className="text-xs text-gray-400">PNG, JPG 형식 지원</p>
+                        <p className="text-sm text-gray-500 mb-1">이력서 파일을 드래그하거나 클릭</p>
+                        <p className="text-xs text-gray-400">PDF, DOCX, PNG, JPG 지원</p>
                       </>
                     )}
                   </div>
