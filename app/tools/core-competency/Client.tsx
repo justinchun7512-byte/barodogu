@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
+import Link from 'next/link';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
 
@@ -460,6 +461,19 @@ export default function CoreCompetencyPage() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Interview Questions CTA */}
+          <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-5 mb-4">
+            <p className="text-sm font-bold dark:text-white mb-2">이 공고, 면접에서 어떤 질문이 나올까요?</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">핵심역량 정리 완료! 다음 단계로 예상 면접 질문과 답변 힌트를 준비해보세요.</p>
+            <Link
+              href="/tools/interview-questions"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary-dark transition"
+            >
+              <span>🎤</span>
+              AI 면접 질문 생성기 바로가기
+            </Link>
           </div>
 
           {/* Gaps */}

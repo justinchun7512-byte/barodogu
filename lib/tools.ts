@@ -142,6 +142,20 @@ export const TOOLS: Tool[] = [
       keywords: ['핵심역량', 'AI 이력서', '채용공고 분석', '경력기술서'],
     },
   },
+  {
+    id: 'interview-questions',
+    name: 'AI 면접 질문 생성기',
+    description: '채용공고 + 이력서를 넣으면 면접관이 실제로 물어볼 질문과 답변 힌트를 만들어줍니다.',
+    category: 'employment',
+    icon: '🎤',
+    tags: ['면접', '면접 질문', '면접 준비', '채용공고', '이력서', 'AI', '면접관'],
+    isNew: true,
+    seo: {
+      title: 'AI 면접 질문 생성기 - 예상 면접 질문 + 답변 힌트 | 바로도구',
+      description: '채용공고와 이력서를 입력하면 AI가 면접관 시점에서 예상 질문을 생성합니다. 질문별 빈도 등급, 면접관 의도, 답변 힌트까지 제공.',
+      keywords: ['면접 질문', 'AI 면접 준비', '예상 면접 질문', '면접 질문 생성기', '면접 답변'],
+    },
+  },
   // === 이미지/파일 ===
   {
     id: 'image-converter',
