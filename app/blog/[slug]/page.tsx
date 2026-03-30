@@ -39,7 +39,7 @@ export default async function BlogPostPage({ params }: Props) {
   }
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-10">
+    <main className="max-w-3xl mx-auto px-4 pt-24 pb-10">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
         <Link href="/" className="hover:text-primary transition-colors">홈</Link>

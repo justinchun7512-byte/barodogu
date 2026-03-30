@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function CompanyPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-10">
+    <main className="max-w-4xl mx-auto px-4 pt-24 pb-10">
 
       {/* Hero + Logo */}
       <section className="text-center py-12">

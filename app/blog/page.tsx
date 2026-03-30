@@ -18,7 +18,7 @@ export default function BlogListPage() {
   const posts = getAllPosts();
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-6">
+    <main className="max-w-6xl mx-auto px-4 pt-20 pb-6">
       {/* Hero */}
       <section className="text-center py-8 md:py-12">
         <h1 className="text-3xl md:text-4xl font-bold mb-3 dark:text-white">
