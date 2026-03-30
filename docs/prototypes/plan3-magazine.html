@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바로도구 - 안 3: 도구 잡지</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #FFFFFF; --primary: #FF3B3B; --secondary: #1A1A2E; --highlight: #FFF176;
+    --text: #141414; --text-sub: #757575; --border: #EBEBEB;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header { padding: 16px 0; border-bottom: 3px solid var(--text); }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 0.05em; }
+  .logo-dot { color: var(--primary); }
+  nav { display: flex; gap: 24px; font-size: 13px; font-weight: 500; }
+  nav a { text-decoration: none; color: var(--text); } nav a:hover { color: var(--primary); }
+  .search-mag { border: none; border-bottom: 1.5px solid var(--text); background: none; font-family: inherit; font-size: 13px; padding: 4px 0; width: 160px; outline: none; }
+
+  /* Hero */
+  .hero { padding: 48px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; border-bottom: 3px solid var(--text); }
+  .hero-left h1 { font-family: 'Bebas Neue', sans-serif; font-size: 80px; line-height: 0.95; letter-spacing: 0.02em; }
+  .hero-left h1 .red { color: var(--primary); }
+  .hero-sub { font-family: 'Noto Serif KR', serif; font-size: 18px; font-weight: 500; margin-top: 20px; line-height: 1.7; }
+  .hero-sub mark { background: var(--highlight); padding: 0 4px; }
+  .hero-right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .hero-stat { background: var(--secondary); color: #fff; padding: 24px; text-align: center; }
+  .hero-stat-num { font-family: 'Oswald', sans-serif; font-size: 48px; font-weight: 700; }
+  .hero-stat-label { font-size: 12px; margin-top: 4px; opacity: 0.7; }
+
+  /* Section */
+  .section { padding: 40px 0; }
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--text); padding-bottom: 8px; margin-bottom: 24px; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.03em; }
+  .section-more { font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 500; }
+
+  /* Editorial Grid */
+  .edit-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+  .feature-card { grid-column: 1 / 4; border: 2px solid var(--text); padding: 32px; display: flex; gap: 32px; align-items: center; margin-bottom: 0; }
+  .feature-card-icon { font-size: 48px; flex-shrink: 0; }
+  .feature-card-content { flex: 1; }
+  .feature-card-name { font-family: 'Noto Serif KR', serif; font-size: 24px; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+  .feature-card-desc { font-size: 14px; color: var(--text-sub); margin-top: 8px; line-height: 1.7; }
+  .stamp { display: inline-block; background: var(--primary); color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 14px; padding: 2px 10px; letter-spacing: 0.05em; }
+  .stamp-new { background: var(--secondary); }
+
+  .reg-card { border: 1px solid var(--border); border-top: 2px solid var(--text); padding: 20px; transition: all 0.15s; cursor: pointer; }
+  .reg-card:hover { background: #FAFAFA; border-top-color: var(--primary); }
+  .reg-card-icon { font-size: 24px; margin-bottom: 8px; }
+  .reg-card-name { font-family: 'Noto Serif KR', serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .reg-card-desc { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
+  .reg-card-tag { font-size: 11px; color: var(--primary); margin-top: 8px; font-weight: 500; }
+  .highlight-text { background: var(--highlight); padding: 0 3px; }
+
+  /* Footer */
+  footer { border-top: 3px solid var(--text); padding: 24px 0; margin-top: 48px; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-sub); }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left h1 { font-size: 48px; }
+    .edit-grid { grid-template-columns: 1fr; }
+    .feature-card { grid-column: 1; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-inner">
+        <div class="logo">BARO DOGU<span class="logo-dot">.</span></div>
+        <nav>
+          <a href="#">TOOLS</a>
+          <a href="#">BLOG</a>
+          <input class="search-mag" placeholder="검색..." />
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-left">
+        <h1>BARO<br><span class="red">DOGU</span></h1>
+        <p class="hero-sub">취업 준비의 <mark>모든 도구</mark>를<br>한 곳에서, 무료로, 바로.</p>
+      </div>
+      <div class="hero-right">
+        <div class="hero-stat">
+          <div class="hero-stat-num">14</div>
+          <div class="hero-stat-label">무료 도구</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">0₩</div>
+          <div class="hero-stat-label">이용 비용</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">0초</div>
+          <div class="hero-stat-label">회원가입</div>
+        </div>
+        <div class="hero-stat" style="background:var(--primary);">
+          <div class="hero-stat-num">AI</div>
+          <div class="hero-stat-label">탑재 도구</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">EDITOR'S PICK — 취업/직장인</h2>
+        <a href="#" class="section-more">전체 보기 →</a>
+      </div>
+
+      <div class="edit-grid">
+        <div class="feature-card">
+          <div class="feature-card-icon">💰</div>
+          <div class="feature-card-content">
+            <div class="feature-card-name">연봉 실수령액 계산기 <span class="stamp">HOT</span></div>
+            <div class="feature-card-desc">2026년 세율 반영. 4대보험, 소득세 공제 후 <span class="highlight-text">월 실수령액</span>을 바로 확인하세요. 연봉 3,000만원부터 1억까지 구간별 비교 가능.</div>
+          </div>
+        </div>
+
+        <div class="reg-card">
+          <div class="reg-card-icon">🎤</div>
+          <div class="reg-card-name">AI 면접 질문 생성기</div>
+          <div class="reg-card-desc">채용공고 + 이력서 분석으로 예상 면접 질문 자동 생성</div>
+          <div class="reg-card-tag">NEW · AI</div>
+        </div>
+        <div class="reg-card">
+          <div class="reg-card-icon">🎯</div>
+          <div class="reg-card-name">AI 핵심역량 추출기</div>
+          <div class="reg-card-desc">채용공고와 이력서를 AI가 교차 분석하여 핵심역량 도출</div>
+          <div class="reg-card-tag">AI</div>
+        </div>
+        <div class="reg-card">
+          <div class="reg-card-icon">📝</div>
+          <div class="reg-card-name">글자수 세기</div>
+          <div class="reg-card-desc">자기소개서 글자수 실시간 카운트</div>
+          <div class="reg-card-tag">취업</div>
+        </div>
+        <div class="reg-card">
+          <div class="reg-card-icon">✅</div>
+          <div class="reg-card-name">맞춤법 검사기</div>
+          <div class="reg-card-desc">AI 기반 한국어 맞춤법·문법 교정</div>
+          <div class="reg-card-tag">AI</div>
+        </div>
+        <div class="reg-card">
+          <div class="reg-card-icon">🏦</div>
+          <div class="reg-card-name">대출 이자 계산기</div>
+          <div class="reg-card-desc">3가지 상환 방식 비교</div>
+          <div class="reg-card-tag">HOT · 금융</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 내일모코퍼레이션</div>
+      <div>이용약관 · 개인정보처리방침 · 문의</div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바로도구 - 안 1: 조판실</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #F5F2EC; --bg-card: transparent; --primary: #C8401A; --secondary: #2B5EA7;
+    --accent: #E8D5A3; --text: #1A1814; --text-sub: #6B6560; --border: #D4CFC8;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans KR', sans-serif; line-height: 1.6; position: relative; }
+  body::before {
+    content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 0;
+    background: repeating-linear-gradient(90deg, transparent, transparent 79px, #D4CFC830 79px, #D4CFC830 80px);
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* Header */
+  header { border-bottom: 2px solid var(--text); padding: 16px 0; }
+  .header-inner { display: flex; justify-content: space-between; align-items: baseline; }
+  .logo { font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: 24px; letter-spacing: -0.03em; }
+  .logo span { color: var(--primary); }
+  nav { display: flex; gap: 24px; font-size: 13px; color: var(--text-sub); }
+  nav a { text-decoration: none; color: inherit; } nav a:hover { color: var(--primary); }
+
+  /* Hero */
+  .hero { padding: 64px 0 48px; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border); }
+  .hero-left { max-width: 600px; }
+  .hero-title { font-family: 'Nanum Myeongjo', serif; font-size: 48px; font-weight: 800; line-height: 1.25; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .hero-title em { font-style: normal; color: var(--primary); text-decoration: underline; text-decoration-color: var(--primary); text-underline-offset: 6px; }
+  .hero-desc { font-size: 16px; color: var(--text-sub); line-height: 1.8; }
+  .hero-right { text-align: right; }
+  .hero-count { font-family: 'IBM Plex Mono', monospace; font-size: 72px; font-weight: 500; color: var(--primary); line-height: 1; }
+  .hero-count-label { font-size: 13px; color: var(--text-sub); margin-top: 4px; }
+
+  /* Search */
+  .search-bar { padding: 24px 0; border-bottom: 1px solid var(--border); }
+  .search-input { width: 100%; border: none; border-bottom: 2px solid var(--text); background: transparent; font-family: 'IBM Plex Sans KR', sans-serif; font-size: 16px; padding: 8px 0; outline: none; color: var(--text); }
+  .search-input::placeholder { color: var(--text-sub); }
+
+  /* Categories */
+  .categories { padding: 24px 0; display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+  .cat-tab { padding: 8px 20px; font-size: 14px; color: var(--text-sub); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
+  .cat-tab:hover { color: var(--text); }
+  .cat-tab.active { color: var(--primary); border-bottom: 2px solid var(--primary); font-weight: 600; }
+
+  /* Tools Grid */
+  .tools-section { padding: 32px 0; }
+  .tools-section-title { font-family: 'Nanum Myeongjo', serif; font-size: 20px; font-weight: 700; margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .tool-card { border: 1px solid var(--border); padding: 24px; transition: all 0.2s; cursor: pointer; position: relative; }
+  .tool-card:hover { border-color: var(--primary); background: #F5F2EC88; }
+  .tool-card-icon { font-size: 28px; margin-bottom: 12px; }
+  .tool-card-name { font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .tool-card-desc { font-size: 13px; color: var(--text-sub); line-height: 1.6; }
+  .badge-hot { position: absolute; top: 12px; right: 12px; background: var(--primary); color: #fff; font-size: 10px; font-weight: 600; padding: 3px 8px; transform: rotate(3deg); font-family: 'IBM Plex Mono', monospace; }
+  .badge-new { position: absolute; top: 12px; right: 12px; background: var(--secondary); color: #fff; font-size: 10px; font-weight: 600; padding: 3px 8px; transform: rotate(-2deg); font-family: 'IBM Plex Mono', monospace; }
+  .tool-card-tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-sub); margin-top: 12px; }
+
+  /* Footer */
+  footer { border-top: 2px solid var(--text); padding: 24px 0; margin-top: 48px; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-sub); }
+  footer .divider { margin: 0 12px; color: var(--border); }
+
+  @media (max-width: 768px) {
+    .hero { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .hero-title { font-size: 32px; }
+    .hero-right { text-align: left; }
+    .hero-count { font-size: 48px; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .categories { overflow-x: auto; white-space: nowrap; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-inner">
+        <div class="logo"><span>바로</span>도구</div>
+        <nav>
+          <a href="#">도구 목록</a>
+          <a href="#">블로그</a>
+          <a href="#">소개</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-left">
+        <h1 class="hero-title">취업 준비의<br><em>모든 도구</em>가<br>여기에</h1>
+        <p class="hero-desc">회원가입 없이, 브라우저에서 바로.<br>연봉 계산부터 AI 핵심역량 추출까지.</p>
+      </div>
+      <div class="hero-right">
+        <div class="hero-count">14</div>
+        <div class="hero-count-label">개의 무료 도구</div>
+      </div>
+    </section>
+
+    <div class="search-bar">
+      <input class="search-input" type="text" placeholder="도구 검색 — 연봉, 글자수, 맞춤법, 면접...">
+    </div>
+
+    <div class="categories">
+      <button class="cat-tab active">전체</button>
+      <button class="cat-tab">취업/직장인</button>
+      <button class="cat-tab">금융/생활</button>
+      <button class="cat-tab">AI 도구</button>
+      <button class="cat-tab">이미지/파일</button>
+      <button class="cat-tab">개발자</button>
+    </div>
+
+    <section class="tools-section">
+      <h2 class="tools-section-title">취업/직장인</h2>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="badge-hot">HOT</div>
+          <div class="tool-card-icon">💰</div>
+          <div class="tool-card-name">연봉 실수령액 계산기</div>
+          <div class="tool-card-desc">2026년 세율 반영. 4대보험, 소득세 공제 후 월 실수령액 확인</div>
+          <div class="tool-card-tag">employment</div>
+        </div>
+        <div class="tool-card">
+          <div class="badge-new">NEW</div>
+          <div class="tool-card-icon">🎤</div>
+          <div class="tool-card-name">AI 면접 질문 생성기</div>
+          <div class="tool-card-desc">채용공고 + 이력서 분석으로 예상 면접 질문 생성</div>
+          <div class="tool-card-tag">employment · ai</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-card-icon">🎯</div>
+          <div class="tool-card-name">AI 핵심역량 추출기</div>
+          <div class="tool-card-desc">채용공고와 이력서를 AI가 교차 분석하여 핵심역량 도출</div>
+          <div class="tool-card-tag">employment · ai</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-card-icon">📝</div>
+          <div class="tool-card-name">글자수 세기</div>
+          <div class="tool-card-desc">자기소개서 글자수 실시간 카운트, 공백 포함/제외</div>
+          <div class="tool-card-tag">employment</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-card-icon">✅</div>
+          <div class="tool-card-name">맞춤법 검사기</div>
+          <div class="tool-card-desc">AI 기반 한국어 맞춤법·문법 오류 자동 교정</div>
+          <div class="tool-card-tag">employment · ai</div>
+        </div>
+        <div class="tool-card">
+          <div class="badge-hot">HOT</div>
+          <div class="tool-card-icon">🏦</div>
+          <div class="tool-card-name">대출 이자 계산기</div>
+          <div class="tool-card-desc">원리금균등, 원금균등, 만기일시 3가지 상환 방식 비교</div>
+          <div class="tool-card-tag">finance</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 내일모코퍼레이션</div>
+      <div>
+        <a href="#" style="color:inherit;text-decoration:none;">이용약관</a>
+        <span class="divider">|</span>
+        <a href="#" style="color:inherit;text-decoration:none;">개인정보처리방침</a>
+        <span class="divider">|</span>
+        <a href="#" style="color:inherit;text-decoration:none;">문의</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바로도구 - 안 2: 터미널 도구</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0D0D0D; --bg-card: #161616; --primary: #00D084; --secondary: #FF6B35;
+    --accent: #A855F7; --text: #E8E8E8; --text-sub: #888888; --border: #222222;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Pretendard Variable', -apple-system, sans-serif; line-height: 1.6; }
+  .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header { padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 500; color: var(--text-sub); }
+  .logo span { color: var(--primary); }
+  nav { display: flex; gap: 20px; font-size: 13px; color: var(--text-sub); }
+  nav a { text-decoration: none; color: inherit; } nav a:hover { color: var(--text); }
+  .cmd-hint { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-sub); background: var(--bg-card); border: 1px solid var(--border); padding: 4px 10px; border-radius: 6px; cursor: pointer; }
+  .cmd-hint:hover { border-color: var(--primary); color: var(--primary); }
+  .cmd-hint kbd { font-size: 10px; background: #222; padding: 1px 5px; border-radius: 3px; margin-right: 6px; }
+
+  /* Hero Terminal */
+  .hero { padding: 64px 0 48px; }
+  .terminal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .terminal-bar { background: #1A1A1A; padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+  .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #FF5F56; } .dot-y { background: #FFBD2E; } .dot-g { background: #27C93F; }
+  .terminal-title { margin-left: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-sub); }
+  .terminal-body { padding: 24px; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 2; }
+  .prompt { color: var(--primary); }
+  .cmd { color: var(--text); }
+  .output { color: var(--text-sub); }
+  .highlight { color: var(--secondary); }
+  .cursor { display: inline-block; width: 8px; height: 16px; background: var(--primary); animation: blink 1s step-end infinite; vertical-align: text-bottom; margin-left: 2px; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .hero-sub { margin-top: 24px; font-size: 15px; color: var(--text-sub); }
+  .hero-sub strong { color: var(--text); }
+
+  /* Tags */
+  .tags { padding: 24px 0; display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+  .tag { font-family: 'JetBrains Mono', monospace; font-size: 13px; padding: 6px 14px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; color: var(--text-sub); background: transparent; transition: all 0.15s; }
+  .tag:hover { border-color: var(--primary); color: var(--primary); }
+  .tag.active { border-color: var(--primary); color: var(--primary); background: #00D08410; }
+
+  /* Tool List */
+  .tool-list { padding: 16px 0; }
+  .tool-item { display: flex; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.1s; position: relative; gap: 16px; }
+  .tool-item:hover { background: var(--bg-card); }
+  .tool-item:hover .tool-cursor { opacity: 1; }
+  .tool-cursor { color: var(--primary); font-family: 'JetBrains Mono', monospace; font-size: 14px; opacity: 0; transition: opacity 0.1s; width: 16px; }
+  .tool-icon { font-size: 20px; width: 32px; text-align: center; }
+  .tool-info { flex: 1; }
+  .tool-name { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .tool-desc { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
+  .tool-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 6px; border-radius: 3px; font-weight: 500; }
+  .label-hot { background: #FF6B3520; color: var(--secondary); }
+  .label-new { background: #A855F720; color: var(--accent); }
+  .label-ai { background: #00D08415; color: var(--primary); }
+  .tool-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-sub); background: var(--bg-card); padding: 2px 8px; border-radius: 3px; }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); padding: 24px 0; margin-top: 32px; font-size: 12px; color: var(--text-sub); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; }
+
+  @media (max-width: 768px) {
+    .terminal-body { font-size: 12px; padding: 16px; }
+    .hero { padding: 32px 0; }
+    .cmd-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-inner">
+        <div class="logo"><span>baro</span>://dogu</div>
+        <nav>
+          <a href="#">도구</a>
+          <a href="#">블로그</a>
+          <span class="cmd-hint"><kbd>⌘K</kbd> 빠른 검색</span>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-r"></div>
+          <div class="terminal-dot dot-y"></div>
+          <div class="terminal-dot dot-g"></div>
+          <span class="terminal-title">barodogu — zsh</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">barodogu --list</span></div>
+          <div class="output">14개의 무료 도구를 찾았습니다.</div>
+          <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">barodogu --find <span class="highlight">"연봉계산"</span></span></div>
+          <div class="output">→ 연봉 실수령액 계산기 <span style="color:#00D084">[HOT]</span></div>
+          <div class="output">→ 시급/월급 변환기</div>
+          <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">barodogu --ai <span class="highlight">"면접 준비"</span></span></div>
+          <div class="output">→ AI 면접 질문 생성기 <span style="color:#A855F7">[NEW]</span></div>
+          <div class="output">→ AI 핵심역량 추출기 <span style="color:#A855F7">[AI]</span></div>
+          <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+      <p class="hero-sub">회원가입 없이, 브라우저에서 바로. <strong>14개의 무료 취업 도구.</strong></p>
+    </section>
+
+    <div class="tags">
+      <button class="tag active">#전체</button>
+      <button class="tag">#취업</button>
+      <button class="tag">#금융</button>
+      <button class="tag">#AI</button>
+      <button class="tag">#이미지</button>
+      <button class="tag">#개발자</button>
+    </div>
+
+    <div class="tool-list">
+      <div class="tool-item">
+        <span class="tool-cursor">></span>
+        <span class="tool-icon">💰</span>
+        <div class="tool-info">
+          <div class="tool-name">연봉 실수령액 계산기 <span class="tool-label label-hot">[HOT]</span></div>
+          <div class="tool-desc">2026년 세율 반영. 4대보험, 소득세 공제 후 월 실수령액 확인</div>
+        </div>
+        <span class="tool-tag">#취업</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-cursor">></span>
+        <span class="tool-icon">🎤</span>
+        <div class="tool-info">
+          <div class="tool-name">AI 면접 질문 생성기 <span class="tool-label label-new">[NEW]</span></div>
+          <div class="tool-desc">채용공고 + 이력서 분석으로 예상 면접 질문 자동 생성</div>
+        </div>
+        <span class="tool-tag">#AI</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-cursor">></span>
+        <span class="tool-icon">🎯</span>
+        <div class="tool-info">
+          <div class="tool-name">AI 핵심역량 추출기 <span class="tool-label label-ai">[AI]</span></div>
+          <div class="tool-desc">채용공고와 이력서를 AI가 교차 분석하여 핵심역량 도출</div>
+        </div>
+        <span class="tool-tag">#AI</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-cursor">></span>
+        <span class="tool-icon">📝</span>
+        <div class="tool-info">
+          <div class="tool-name">글자수 세기</div>
+          <div class="tool-desc">자기소개서 글자수 실시간 카운트, 공백 포함/제외</div>
+        </div>
+        <span class="tool-tag">#취업</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-cursor">></span>
+        <span class="tool-icon">✅</span>
+        <div class="tool-info">
+          <div class="tool-name">맞춤법 검사기 <span class="tool-label label-ai">[AI]</span></div>
+          <div class="tool-desc">AI 기반 한국어 맞춤법·문법 오류 자동 교정</div>
+        </div>
+        <span class="tool-tag">#취업</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-cursor">></span>
+        <span class="tool-icon">🏦</span>
+        <div class="tool-info">
+          <div class="tool-name">대출 이자 계산기 <span class="tool-label label-hot">[HOT]</span></div>
+          <div class="tool-desc">원리금균등, 원금균등, 만기일시 3가지 상환 방식 비교</div>
+        </div>
+        <span class="tool-tag">#금융</span>
+      </div>
+    </div>
+
+    <footer>
+      <div>© 2026 내일모코퍼레이션</div>
+      <div>이용약관 · 개인정보 · 문의</div>
+    </footer>
+  </div>
+</body>
+</html>
