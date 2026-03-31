@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
 
@@ -77,35 +76,32 @@ function getResultMessage(score: number) {
 }
 
 export default function NameCompatibilityPage() {
-  return <Suspense fallback={null}><NameCompatibilityInner /></Suspense>;
-}
-
-function NameCompatibilityInner() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [name1, setName1] = useState(searchParams.get('n1') || '');
-  const [name2, setName2] = useState(searchParams.get('n2') || '');
+  const [name1, setName1] = useState('');
+  const [name2, setName2] = useState('');
   const [showResult, setShowResult] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  // 마운트 시 URL 파라미터에서 초기값 로드
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('n1')) setName1(params.get('n1')!);
+    if (params.get('n2')) setName2(params.get('n2')!);
+    if (params.get('n1') && params.get('n2')) setShowResult(true);
+    setLoaded(true);
+  }, []);
 
   const canCalc = name1.trim().length >= 1 && name2.trim().length >= 1;
   const result = canCalc && showResult ? calculateCompatibility(name1.trim(), name2.trim()) : null;
   const msg = result ? getResultMessage(result.score) : null;
 
+  // 결과 시 URL 동기화
   useEffect(() => {
-    if (result) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('n1', name1.trim());
-      url.searchParams.set('n2', name2.trim());
-      router.replace(url.pathname + url.search, { scroll: false });
-    }
-  }, [result, name1, name2, router]);
-
-  // URL에 이름이 있으면 자동 결과 표시
-  useEffect(() => {
-    if (searchParams.get('n1') && searchParams.get('n2')) {
-      setShowResult(true);
-    }
-  }, [searchParams]);
+    if (!loaded || !result) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('n1', name1.trim());
+    url.searchParams.set('n2', name2.trim());
+    window.history.replaceState({}, '', url.pathname + url.search);
+  }, [result, name1, name2, loaded]);
 
   const handleCalc = () => {
     if (canCalc) setShowResult(true);

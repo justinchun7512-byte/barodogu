@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
 
@@ -29,19 +28,25 @@ function calculateBmr(gender: Gender, weightKg: number, heightCm: number, age: n
 const fmt = (n: number) => Math.round(n).toLocaleString('ko-KR');
 
 export default function TdeeCalculatorPage() {
-  return <Suspense fallback={null}><TdeeCalculatorInner /></Suspense>;
-}
-
-function TdeeCalculatorInner() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [gender, setGender] = useState<Gender>((searchParams.get('g') as Gender) || 'male');
-  const [age, setAge] = useState(searchParams.get('a') || '');
-  const [height, setHeight] = useState(searchParams.get('h') || '');
-  const [weight, setWeight] = useState(searchParams.get('w') || '');
-  const [activity, setActivity] = useState<ActivityLevel>((searchParams.get('act') as ActivityLevel) || 'moderate');
+  const [gender, setGender] = useState<Gender>('male');
+  const [age, setAge] = useState('');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const [activity, setActivity] = useState<ActivityLevel>('moderate');
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('g')) setGender(params.get('g') as Gender);
+    if (params.get('a')) setAge(params.get('a')!);
+    if (params.get('h')) setHeight(params.get('h')!);
+    if (params.get('w')) setWeight(params.get('w')!);
+    if (params.get('act')) setActivity(params.get('act') as ActivityLevel);
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
     const a = parseInt(age);
     const h = parseFloat(height);
     const w = parseFloat(weight);
@@ -52,9 +57,9 @@ function TdeeCalculatorInner() {
       url.searchParams.set('h', height);
       url.searchParams.set('w', weight);
       url.searchParams.set('act', activity);
-      router.replace(url.pathname + url.search, { scroll: false });
+      window.history.replaceState({}, '', url.pathname + url.search);
     }
-  }, [gender, age, height, weight, activity, router]);
+  }, [gender, age, height, weight, activity, loaded]);
 
   const a = parseInt(age);
   const h = parseFloat(height);

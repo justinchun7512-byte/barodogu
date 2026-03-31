@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
 
@@ -120,26 +119,27 @@ function getCompatResult(type1: MbtiType, type2: MbtiType): CompatResult {
 }
 
 export default function MbtiCompatibilityPage() {
-  return <Suspense fallback={null}><MbtiCompatibilityInner /></Suspense>;
-}
+  const [type1, setType1] = useState<MbtiType | ''>('');
+  const [type2, setType2] = useState<MbtiType | ''>('');
+  const [loaded, setLoaded] = useState(false);
 
-function MbtiCompatibilityInner() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [type1, setType1] = useState<MbtiType | ''>(searchParams.get('t1') as MbtiType || '');
-  const [type2, setType2] = useState<MbtiType | ''>(searchParams.get('t2') as MbtiType || '');
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('t1')) setType1(params.get('t1') as MbtiType);
+    if (params.get('t2')) setType2(params.get('t2') as MbtiType);
+    setLoaded(true);
+  }, []);
 
   const canCalc = type1 !== '' && type2 !== '';
   const result = canCalc ? getCompatResult(type1, type2) : null;
 
   useEffect(() => {
-    if (type1 && type2) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('t1', type1);
-      url.searchParams.set('t2', type2);
-      router.replace(url.pathname + url.search, { scroll: false });
-    }
-  }, [type1, type2, router]);
+    if (!loaded || !type1 || !type2) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('t1', type1);
+    url.searchParams.set('t2', type2);
+    window.history.replaceState({}, '', url.pathname + url.search);
+  }, [type1, type2, loaded]);
 
   const renderTypeSelector = (
     label: string,
