@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getToolById } from '@/lib/tools';
-import { generateToolMetadata, generateJsonLd } from '@/lib/seo';
+import { generateToolMetadata, generateJsonLd, generateBreadcrumbJsonLd } from '@/lib/seo';
 import AgeCalculatorPage from './Client';
 
 const tool = getToolById('age-calculator')!;
@@ -13,6 +13,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(generateJsonLd(tool)) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateBreadcrumbJsonLd(tool)) }}
       />
       <AgeCalculatorPage />
     </>

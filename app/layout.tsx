@@ -20,6 +20,18 @@ export const metadata: Metadata = {
     siteName: '바로도구',
     locale: 'ko_KR',
     type: 'website',
+    images: [{
+      url: 'https://barodogu.com/api/og?title=%EB%B0%94%EB%A1%9C%EB%8F%84%EA%B5%AC&desc=%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%20%EC%97%86%EC%9D%B4%20%EB%B0%94%EB%A1%9C%20%EC%93%B0%EB%8A%94%20%EB%AC%B4%EB%A3%8C%20%EC%98%A8%EB%9D%BC%EC%9D%B8%20%EB%8F%84%EA%B5%AC',
+      width: 1200,
+      height: 630,
+      alt: '바로도구 - 무료 온라인 유틸리티 도구 모음',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '바로도구 - 무료 온라인 유틸리티 도구 모음',
+    description: '회원가입 없이 바로 쓰는 무료 온라인 도구. 연봉 계산기, 글자수 세기, AI 핵심역량 추출기 등.',
+    images: ['https://barodogu.com/api/og?title=%EB%B0%94%EB%A1%9C%EB%8F%84%EA%B5%AC&desc=%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%20%EC%97%86%EC%9D%B4%20%EB%B0%94%EB%A1%9C%20%EC%93%B0%EB%8A%94%20%EB%AC%B4%EB%A3%8C%20%EC%98%A8%EB%9D%BC%EC%9D%B8%20%EB%8F%84%EA%B5%AC'],
   },
   alternates: {
     canonical: 'https://barodogu.com',
