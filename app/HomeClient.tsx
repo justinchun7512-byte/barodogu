@@ -15,7 +15,7 @@ export default function HomePage() {
   return (
     <main>
       {/* Hero */}
-      <section className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-5 md:px-10 pt-28 pb-16 overflow-hidden">
+      <section className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-5 md:px-10 pt-12 pb-16 overflow-hidden">
         {/* Background glow */}
         <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-[radial-gradient(ellipse,_rgba(91,107,240,0.08)_0%,_rgba(232,244,253,0.12)_40%,_transparent_70%)] dark:bg-[radial-gradient(ellipse,_rgba(91,107,240,0.15)_0%,_rgba(91,107,240,0.05)_40%,_transparent_70%)] pointer-events-none" />
 
