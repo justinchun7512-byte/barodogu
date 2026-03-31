@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
 
@@ -55,9 +56,24 @@ function calculateAge(birthDate: string) {
 }
 
 export default function AgeCalculatorPage() {
-  const [birthDate, setBirthDate] = useState('');
+  return <Suspense fallback={null}><AgeCalculatorInner /></Suspense>;
+}
+
+function AgeCalculatorInner() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [birthDate, setBirthDate] = useState(searchParams.get('birth') || '');
 
   const today = new Date().toISOString().split('T')[0];
+
+  useEffect(() => {
+    if (birthDate && birthDate <= today) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('birth', birthDate);
+      router.replace(url.pathname + url.search, { scroll: false });
+    }
+  }, [birthDate, today, router]);
+
   const result = birthDate && birthDate <= today ? calculateAge(birthDate) : null;
 
   return (

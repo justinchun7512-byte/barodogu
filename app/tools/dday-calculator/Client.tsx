@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
 
@@ -39,8 +40,24 @@ function calculateDday(targetDate: string) {
 }
 
 export default function DdayCalculatorPage() {
-  const [targetDate, setTargetDate] = useState('');
-  const [memo, setMemo] = useState('');
+  return <Suspense fallback={null}><DdayCalculatorInner /></Suspense>;
+}
+
+function DdayCalculatorInner() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [targetDate, setTargetDate] = useState(searchParams.get('date') || '');
+  const [memo, setMemo] = useState(searchParams.get('memo') || '');
+
+  useEffect(() => {
+    if (targetDate) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('date', targetDate);
+      if (memo) url.searchParams.set('memo', memo);
+      else url.searchParams.delete('memo');
+      router.replace(url.pathname + url.search, { scroll: false });
+    }
+  }, [targetDate, memo, router]);
 
   const result = targetDate ? calculateDday(targetDate) : null;
 

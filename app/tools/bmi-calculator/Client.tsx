@@ -1,10 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
 
 const tool = getToolById('bmi-calculator')!;
+
+export default function BmiCalculatorWrapper() {
+  return (
+    <Suspense fallback={null}>
+      <BmiCalculatorInner />
+    </Suspense>
+  );
+}
 
 interface BmiResult {
   bmi: number;
@@ -33,9 +42,23 @@ function getBmiBarPosition(bmi: number): number {
   return Math.min(Math.max((bmi - 10) / 30 * 100, 0), 100);
 }
 
-export default function BmiCalculatorPage() {
-  const [height, setHeight] = useState('');
-  const [weight, setWeight] = useState('');
+function BmiCalculatorInner() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [height, setHeight] = useState(searchParams.get('h') || '');
+  const [weight, setWeight] = useState(searchParams.get('w') || '');
+
+  // URL 파라미터 동기화 (결과 공유용)
+  useEffect(() => {
+    const h = parseFloat(height);
+    const w = parseFloat(weight);
+    if (!isNaN(h) && h > 0 && !isNaN(w) && w > 0) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('h', height);
+      url.searchParams.set('w', weight);
+      router.replace(url.pathname + url.search, { scroll: false });
+    }
+  }, [height, weight, router]);
 
   const h = parseFloat(height);
   const w = parseFloat(weight);

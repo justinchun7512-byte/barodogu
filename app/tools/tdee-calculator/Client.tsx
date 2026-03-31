@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
 
@@ -28,11 +29,32 @@ function calculateBmr(gender: Gender, weightKg: number, heightCm: number, age: n
 const fmt = (n: number) => Math.round(n).toLocaleString('ko-KR');
 
 export default function TdeeCalculatorPage() {
-  const [gender, setGender] = useState<Gender>('male');
-  const [age, setAge] = useState('');
-  const [height, setHeight] = useState('');
-  const [weight, setWeight] = useState('');
-  const [activity, setActivity] = useState<ActivityLevel>('moderate');
+  return <Suspense fallback={null}><TdeeCalculatorInner /></Suspense>;
+}
+
+function TdeeCalculatorInner() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [gender, setGender] = useState<Gender>((searchParams.get('g') as Gender) || 'male');
+  const [age, setAge] = useState(searchParams.get('a') || '');
+  const [height, setHeight] = useState(searchParams.get('h') || '');
+  const [weight, setWeight] = useState(searchParams.get('w') || '');
+  const [activity, setActivity] = useState<ActivityLevel>((searchParams.get('act') as ActivityLevel) || 'moderate');
+
+  useEffect(() => {
+    const a = parseInt(age);
+    const h = parseFloat(height);
+    const w = parseFloat(weight);
+    if (!isNaN(a) && a > 0 && !isNaN(h) && h > 0 && !isNaN(w) && w > 0) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('g', gender);
+      url.searchParams.set('a', age);
+      url.searchParams.set('h', height);
+      url.searchParams.set('w', weight);
+      url.searchParams.set('act', activity);
+      router.replace(url.pathname + url.search, { scroll: false });
+    }
+  }, [gender, age, height, weight, activity, router]);
 
   const a = parseInt(age);
   const h = parseFloat(height);
