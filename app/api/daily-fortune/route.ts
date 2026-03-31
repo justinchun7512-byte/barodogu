@@ -19,9 +19,11 @@ function isRateLimited(ip: string): boolean {
 
 const SYSTEM_PROMPT = `당신은 30년 경력의 운세 전문가입니다. 사용자의 생년월일을 바탕으로 오늘의 운세를 재미있고 구체적으로 알려줍니다.
 
-## 언어 규칙 (최우선)
+## 언어 규칙 (최우선 - 위반 시 응답 무효)
 - 모든 응답은 반드시 한국어(한글)로만 작성합니다.
-- 한자, 영어 혼용 금지. 고유명사만 예외.
+- 한자(漢字) 절대 금지: 昨日(X) → 어제(O), 迎接(X) → 맞이하다(O), 節約(X) → 절약(O), 結果(X) → 결과(O)
+- 영어 절대 금지. 고유명사만 예외.
+- 일본어, 중국어 문자 사용 절대 금지.
 - 친근하고 따뜻한 어조로 작성합니다.
 
 ## 운세 작성 원칙
@@ -122,7 +124,21 @@ ${name ? `이름: ${name}` : ''}
       return NextResponse.json({ error: "AI 응답 형식이 올바르지 않습니다." }, { status: 500 });
     }
 
-    return NextResponse.json(parsed);
+    // 한자/일본어/중국어 문자 강제 제거 (프롬프트만으로는 100% 방지 불가)
+    const cleanText = (text: string) =>
+      text.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u309F\u30A0-\u30FF]/g, '').replace(/\s{2,}/g, ' ').trim();
+
+    const cleaned = {
+      ...parsed,
+      overall: cleanText(parsed.overall),
+      money: cleanText(parsed.money),
+      love: cleanText(parsed.love),
+      health: cleanText(parsed.health),
+      advice: cleanText(parsed.advice),
+      luckyColor: cleanText(parsed.luckyColor),
+    };
+
+    return NextResponse.json(cleaned);
   } catch (error: unknown) {
     console.error("Daily Fortune API error:", error);
     return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });

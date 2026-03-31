@@ -125,7 +125,25 @@ ${workStyle ? `선호 업무 스타일: ${workStyle}` : ''}
       return NextResponse.json({ error: "AI 응답 형식이 올바르지 않습니다." }, { status: 500 });
     }
 
-    return NextResponse.json(parsed);
+    // 한자/일본어/중국어 문자 강제 제거
+    const cleanText = (text: string) =>
+      text.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u309F\u30A0-\u30FF]/g, '').replace(/\s{2,}/g, ' ').trim();
+    const cleanArr = (arr: string[]) => arr.map(cleanText);
+
+    const cleaned = {
+      ...parsed,
+      summary: cleanText(parsed.summary || ''),
+      analysis: {
+        culture: cleanText(parsed.analysis.culture || ''),
+        growth: cleanText(parsed.analysis.growth || ''),
+        workStyle: cleanText(parsed.analysis.workStyle || ''),
+      },
+      strengths: cleanArr(parsed.strengths || []),
+      cautions: cleanArr(parsed.cautions || []),
+      advice: cleanText(parsed.advice || ''),
+    };
+
+    return NextResponse.json(cleaned);
   } catch (error: unknown) {
     console.error("Company Compatibility API error:", error);
     return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });
