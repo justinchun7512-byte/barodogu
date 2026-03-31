@@ -112,7 +112,7 @@ export default function TdeeCalculatorPage() {
         </div>
 
         {/* 나이, 키, 몸무게 */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">나이</label>
             <input
@@ -184,7 +184,7 @@ export default function TdeeCalculatorPage() {
 
             <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 space-y-2">
               <p className="text-sm font-medium text-gray-900 dark:text-white">목표별 권장 칼로리</p>
-              <div className="grid grid-cols-3 gap-3 text-center text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center text-sm">
                 <div className="bg-white dark:bg-gray-600 rounded-lg p-3">
                   <p className="text-gray-500 dark:text-gray-400">체중 감량</p>
                   <p className="font-bold text-blue-500">{fmt(tdee - 500)}</p>
