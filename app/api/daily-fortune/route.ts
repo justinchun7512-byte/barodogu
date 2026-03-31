@@ -20,11 +20,13 @@ function isRateLimited(ip: string): boolean {
 const SYSTEM_PROMPT = `당신은 30년 경력의 운세 전문가입니다. 사용자의 생년월일을 바탕으로 오늘의 운세를 재미있고 구체적으로 알려줍니다.
 
 ## 언어 규칙 (최우선 - 위반 시 응답 무효)
-- 모든 응답은 반드시 한국어(한글)로만 작성합니다.
-- 한자(漢字) 절대 금지: 昨日(X) → 어제(O), 迎接(X) → 맞이하다(O), 節約(X) → 절약(O), 結果(X) → 결과(O)
+- 모든 응답은 반드시 순수 한국어(한글+숫자+마침표)로만 작성합니다.
+- 한자(漢字) 절대 금지. 한자를 한글로 풀어 써야 합니다.
+  예시: 交流(X) → 교류(O), 節約(X) → 절약(O), 結果(X) → 결과(O), 成功(X) → 성공(O)
 - 영어 절대 금지. 고유명사만 예외.
 - 일본어, 중국어 문자 사용 절대 금지.
 - 친근하고 따뜻한 어조로 작성합니다.
+- 문장이 자연스럽고 문법적으로 완결되어야 합니다. 조사가 빠지거나 어색한 연결이 없어야 합니다.
 
 ## 운세 작성 원칙
 - 긍정적이고 건설적인 내용 위주 (부정적 내용은 조언 형태로 전환)
@@ -95,7 +97,7 @@ ${name ? `이름: ${name}` : ''}
             { role: "system", content: SYSTEM_PROMPT },
             { role: "user", content: userMessage },
           ],
-          temperature: 0.9,
+          temperature: 0.7,
           response_format: { type: "json_object" },
         }),
       });
@@ -124,9 +126,28 @@ ${name ? `이름: ${name}` : ''}
       return NextResponse.json({ error: "AI 응답 형식이 올바르지 않습니다." }, { status: 500 });
     }
 
-    // 한자/일본어/중국어 문자 강제 제거 (프롬프트만으로는 100% 방지 불가)
-    const cleanText = (text: string) =>
-      text.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u309F\u30A0-\u30FF]/g, '').replace(/\s{2,}/g, ' ').trim();
+    // 한자/일본어/중국어 문자 강제 제거 + 제거 후 깨진 문법 복구
+    const cleanText = (text: string) => {
+      let cleaned = text
+        // 한자/일본어/중국어 제거
+        .replace(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u309F\u30A0-\u30FF]/g, '')
+        // 제거 후 깨진 조사/문법 패턴 수정
+        .replace(/와\s+으로/g, '를 통해')
+        .replace(/과\s+으로/g, '를 통해')
+        .replace(/의\s+이\s/g, '의 ')
+        .replace(/을\s+을/g, '을')
+        .replace(/를\s+를/g, '를')
+        .replace(/[,\s]+[,]/g, ',')
+        .replace(/\.\s*\./g, '.')
+        // 빈 괄호, 빈 따옴표 제거
+        .replace(/\(\s*\)/g, '')
+        .replace(/「\s*」/g, '')
+        .replace(/'\s*'/g, '')
+        // 연속 공백 정리
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+      return cleaned;
+    };
 
     const cleaned = {
       ...parsed,

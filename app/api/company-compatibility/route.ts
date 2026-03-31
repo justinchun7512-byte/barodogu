@@ -125,9 +125,21 @@ ${workStyle ? `선호 업무 스타일: ${workStyle}` : ''}
       return NextResponse.json({ error: "AI 응답 형식이 올바르지 않습니다." }, { status: 500 });
     }
 
-    // 한자/일본어/중국어 문자 강제 제거
-    const cleanText = (text: string) =>
-      text.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u309F\u30A0-\u30FF]/g, '').replace(/\s{2,}/g, ' ').trim();
+    // 한자/일본어/중국어 문자 강제 제거 + 제거 후 깨진 문법 복구
+    const cleanText = (text: string) => {
+      return text
+        .replace(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u309F\u30A0-\u30FF]/g, '')
+        .replace(/와\s+으로/g, '를 통해')
+        .replace(/과\s+으로/g, '를 통해')
+        .replace(/의\s+이\s/g, '의 ')
+        .replace(/을\s+을/g, '을')
+        .replace(/를\s+를/g, '를')
+        .replace(/[,\s]+[,]/g, ',')
+        .replace(/\.\s*\./g, '.')
+        .replace(/\(\s*\)/g, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+    };
     const cleanArr = (arr: string[]) => arr.map(cleanText);
 
     const cleaned = {
