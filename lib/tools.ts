@@ -1,4 +1,4 @@
-export type Category = 'employment' | 'ai' | 'image' | 'finance' | 'developer' | 'fun';
+export type Category = 'employment' | 'ai' | 'image' | 'finance' | 'developer' | 'fun' | 'health';
 
 export interface Tool {
   id: string;
@@ -33,6 +33,7 @@ export const CATEGORIES: CategoryInfo[] = [
   { id: 'image', name: '이미지/파일', icon: '🖼️', color: 'bg-pink-100 text-pink-600' },
   { id: 'developer', name: '개발자', icon: '🛠️', color: 'bg-orange-100 text-orange-600' },
   { id: 'fun', name: '재미', icon: '🎮', color: 'bg-yellow-100 text-yellow-600' },
+  { id: 'health', name: '생활/건강', icon: '💪', color: 'bg-green-100 text-green-600' },
 ];
 
 export const TOOLS: Tool[] = [
@@ -212,6 +213,121 @@ export const TOOLS: Tool[] = [
       title: '대출 이자 계산기 - 상환 방식별 비교 | 바로도구',
       description: '대출 원금, 이자율, 기간을 입력하면 상환 방식별 이자와 월 상환금을 비교합니다.',
       keywords: ['대출 이자 계산기', '대출 이자', '원리금균등', '원금균등'],
+    },
+  },
+  // === 생활/건강 ===
+  {
+    id: 'bmi-calculator',
+    name: 'BMI 계산기',
+    description: '키와 몸무게를 입력하면 BMI 지수와 비만도를 바로 확인합니다. 아시아 기준 적용.',
+    category: 'health',
+    icon: '⚖️',
+    tags: ['BMI', '체질량지수', '비만도', '다이어트', '체중', '건강'],
+    isNew: true,
+    seo: {
+      title: 'BMI 계산기 - 체질량지수 비만도 측정 | 바로도구',
+      description: '키와 몸무게를 입력하면 BMI 체질량지수와 비만도를 바로 확인하세요. 대한비만학회 아시아 기준 적용.',
+      keywords: ['BMI 계산기', '체질량지수', '비만도 계산', 'BMI 측정'],
+    },
+  },
+  {
+    id: 'tdee-calculator',
+    name: '칼로리/기초대사량 계산기',
+    description: '성별, 나이, 키, 몸무게, 활동량을 입력하면 기초대사량(BMR)과 하루 소비 칼로리(TDEE)를 계산합니다.',
+    category: 'health',
+    icon: '🔥',
+    tags: ['칼로리', '기초대사량', 'TDEE', 'BMR', '다이어트', '체중관리'],
+    isNew: true,
+    seo: {
+      title: '칼로리 기초대사량(TDEE) 계산기 | 바로도구',
+      description: '기초대사량(BMR)과 하루 총 소비 칼로리(TDEE)를 계산하세요. 다이어트 목표 칼로리 설정에 필수.',
+      keywords: ['기초대사량 계산기', 'TDEE 계산기', '칼로리 계산', '다이어트 칼로리'],
+    },
+  },
+  {
+    id: 'dday-calculator',
+    name: 'D-day 계산기',
+    description: '특정 날짜까지 남은 일수 또는 지난 일수를 계산합니다. 시험, 기념일, 여행 등.',
+    category: 'health',
+    icon: '📆',
+    tags: ['D-day', '디데이', '날짜 계산', '기념일', '시험', '남은 일수'],
+    isNew: true,
+    seo: {
+      title: 'D-day 계산기 - 남은 일수 계산 | 바로도구',
+      description: '특정 날짜까지 남은 일수(D-day) 또는 지난 일수(D+day)를 바로 계산하세요.',
+      keywords: ['D-day 계산기', '디데이 계산', '남은 일수', '날짜 계산기'],
+    },
+  },
+  {
+    id: 'age-calculator',
+    name: '나이 계산기',
+    description: '생년월일을 입력하면 만 나이, 한국 나이, 띠를 한번에 확인합니다.',
+    category: 'health',
+    icon: '🎂',
+    tags: ['나이', '만나이', '한국나이', '띠', '생년월일', '나이 계산'],
+    isNew: true,
+    seo: {
+      title: '나이 계산기 - 만나이/한국나이/띠 | 바로도구',
+      description: '생년월일을 입력하면 만 나이, 한국 나이, 띠를 한번에 확인하세요. 2023년 만나이 통일법 반영.',
+      keywords: ['나이 계산기', '만나이 계산', '한국 나이', '띠 계산'],
+    },
+  },
+  // === 재미 ===
+  {
+    id: 'name-compatibility',
+    name: '이름 궁합 테스트',
+    description: '두 사람의 이름을 입력하면 궁합 점수와 해석을 알려드립니다.',
+    category: 'fun',
+    icon: '💕',
+    tags: ['이름 궁합', '궁합', '연애', '커플', '이름'],
+    isNew: true,
+    seo: {
+      title: '이름 궁합 테스트 - 무료 이름 궁합 | 바로도구',
+      description: '두 사람의 이름으로 궁합 점수를 확인하세요. 재미로 보는 이름 궁합 테스트.',
+      keywords: ['이름 궁합', '궁합 테스트', '이름 궁합 점수', '커플 궁합'],
+    },
+  },
+  {
+    id: 'mbti-compatibility',
+    name: 'MBTI 궁합 테스트',
+    description: '두 사람의 MBTI를 선택하면 궁합 분석과 관계 조언을 제공합니다.',
+    category: 'fun',
+    icon: '🧩',
+    tags: ['MBTI', '궁합', 'MBTI 궁합', '성격', '연애', '16유형'],
+    isNew: true,
+    seo: {
+      title: 'MBTI 궁합 테스트 - 16가지 유형 궁합 | 바로도구',
+      description: '두 사람의 MBTI 유형으로 궁합을 확인하세요. 16가지 성격 유형별 궁합 분석.',
+      keywords: ['MBTI 궁합', 'MBTI 궁합 테스트', 'MBTI 연애 궁합', 'MBTI 유형'],
+    },
+  },
+  // === AI 도구 ===
+  {
+    id: 'daily-fortune',
+    name: 'AI 오늘의 운세',
+    description: '생년월일을 입력하면 AI가 오늘의 운세를 알려드립니다. 총운, 재운, 애정운, 건강운.',
+    category: 'ai',
+    icon: '🔮',
+    tags: ['운세', '오늘의 운세', '사주', 'AI', '점', '재운', '애정운'],
+    isNew: true,
+    seo: {
+      title: 'AI 오늘의 운세 - 무료 운세 보기 | 바로도구',
+      description: '생년월일을 입력하면 AI가 오늘의 운세를 알려드립니다. 총운, 재운, 애정운, 건강운 확인.',
+      keywords: ['오늘의 운세', 'AI 운세', '무료 운세', '오늘 운세'],
+    },
+  },
+  {
+    id: 'company-compatibility',
+    name: '나와 기업의 궁합',
+    description: '내 성향과 기업명을 입력하면 AI가 나와 기업의 궁합을 분석합니다.',
+    category: 'ai',
+    icon: '🤝',
+    tags: ['기업 궁합', '취업', '이직', '조직문화', 'AI', '직장'],
+    isNew: true,
+    seo: {
+      title: '나와 기업의 궁합 - AI 기업 궁합 분석 | 바로도구',
+      description: '내 성향과 기업명을 입력하면 AI가 조직문화 궁합을 분석합니다. 취업, 이직 결정에 참고하세요.',
+      keywords: ['기업 궁합', '회사 궁합', '조직문화', '취업 궁합'],
     },
   },
   // === 개발자 ===

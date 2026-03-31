@@ -4,7 +4,7 @@ import { CATEGORIES, getToolsByCategory, type Category } from '@/lib/tools';
 import { ToolCard } from '@/components/tools/ToolCard';
 import type { Metadata } from 'next';
 
-const VALID_CATEGORIES: Category[] = ['employment', 'ai', 'image', 'finance', 'developer', 'fun'];
+const VALID_CATEGORIES: Category[] = ['employment', 'ai', 'image', 'finance', 'developer', 'fun', 'health'];
 
 interface Props {
   params: Promise<{ slug: string }>;
