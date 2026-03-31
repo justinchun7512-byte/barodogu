@@ -184,8 +184,6 @@ export default function CompanyPage() {
             { icon: '🌐', title: '수익형 웹사이트', desc: '바로도구 운영' },
             { icon: '📝', title: '블로그 운영', desc: 'SEO 기반 콘텐츠' },
             { icon: '🎬', title: '쇼츠 & 롱폼', desc: '유튜브 영상 제작' },
-            { icon: '🛒', title: '구매대행', desc: '무재고 해외 구매대행' },
-            { icon: '😊', title: '이모티콘', desc: '카카오톡 이모티콘 제작' },
             { icon: '📱', title: '기타 서비스', desc: '앱/웹 서비스 개발' },
           ].map(b => (
             <div key={b.title} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
