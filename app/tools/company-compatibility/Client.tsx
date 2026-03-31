@@ -38,16 +38,24 @@ function getGradeEmoji(grade: string): string {
   }
 }
 
+const MBTI_TYPES = [
+  'ISTJ', 'ISFJ', 'INFJ', 'INTJ',
+  'ISTP', 'ISFP', 'INFP', 'INTP',
+  'ESTP', 'ESFP', 'ENFP', 'ENTP',
+  'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ',
+] as const;
+
+type MbtiType = typeof MBTI_TYPES[number];
+
 export default function CompanyCompatibilityPage() {
   const [companyName, setCompanyName] = useState('');
-  const [personality, setPersonality] = useState('');
+  const [mbti, setMbti] = useState<MbtiType | ''>('');
   const [career, setCareer] = useState('');
-  const [workStyle, setWorkStyle] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CompatResult | null>(null);
   const [error, setError] = useState('');
 
-  const canCalc = companyName.trim().length >= 1 && (personality.trim() || career.trim() || workStyle.trim());
+  const canCalc = companyName.trim().length >= 1 && mbti !== '';
 
   const handleSubmit = async () => {
     if (!canCalc || loading) return;
@@ -61,9 +69,8 @@ export default function CompanyCompatibilityPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           companyName: companyName.trim(),
-          personality: personality.trim() || undefined,
+          personality: `MBTI: ${mbti}`,
           career: career.trim() || undefined,
-          workStyle: workStyle.trim() || undefined,
         }),
       });
 
@@ -97,7 +104,7 @@ export default function CompanyCompatibilityPage() {
       <div className="space-y-6">
         {/* 기업명 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">기업명</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">관심 기업</label>
           <input
             type="text"
             value={companyName}
@@ -108,39 +115,35 @@ export default function CompanyCompatibilityPage() {
           />
         </div>
 
-        {/* 나의 성향 */}
+        {/* MBTI 선택 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">나의 성격/성향</label>
-          <input
-            type="text"
-            value={personality}
-            onChange={e => setPersonality(e.target.value)}
-            placeholder="예: 도전적, 꼼꼼함, 팀워크 선호, 자율 근무 선호"
-            maxLength={200}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
-          />
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">나의 MBTI</label>
+          <div className="grid grid-cols-4 gap-1.5">
+            {MBTI_TYPES.map(t => (
+              <button
+                key={t}
+                onClick={() => setMbti(t)}
+                className={`py-2 px-1 rounded-lg text-xs font-bold transition-all ${
+                  mbti === t
+                    ? 'bg-primary text-white shadow-md scale-105'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
         </div>
 
+        {/* 직무/경력 (선택) */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">경력/직무 (선택)</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">직무/경력 (선택)</label>
           <input
             type="text"
             value={career}
             onChange={e => setCareer(e.target.value)}
-            placeholder="예: 프론트엔드 개발 3년, 마케팅 5년차"
-            maxLength={200}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">선호 업무 스타일 (선택)</label>
-          <input
-            type="text"
-            value={workStyle}
-            onChange={e => setWorkStyle(e.target.value)}
-            placeholder="예: 재택근무, 수평적 문화, 빠른 의사결정"
-            maxLength={200}
+            placeholder="예: 프론트엔드 개발 3년, 마케팅 신입"
+            maxLength={100}
             className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
           />
         </div>
