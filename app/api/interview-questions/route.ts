@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cleanAiText } from "@/lib/clean-ai-text";
 
 export const maxDuration = 30;
 
@@ -208,7 +209,19 @@ ${resumeText}
       );
     }
 
-    return NextResponse.json(parsed);
+    // 한자 제거 + 깨진 문법 복구
+    const cleaned = {
+      ...parsed,
+      summary: cleanAiText(parsed.summary),
+      questions: parsed.questions.map((q: { question: string; intent: string; hint: string; frequency: string }) => ({
+        ...q,
+        question: cleanAiText(q.question),
+        intent: cleanAiText(q.intent),
+        hint: cleanAiText(q.hint),
+      })),
+    };
+
+    return NextResponse.json(cleaned);
   } catch (error: unknown) {
     console.error("Interview Questions API error:", error);
     return NextResponse.json(
