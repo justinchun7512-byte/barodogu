@@ -13,9 +13,10 @@ export function ShareButtons({ title }: Props) {
   const [copied, setCopied] = useState(false);
 
   const getCanonicalUrl = () => {
-    // 항상 정식 도메인 URL 사용 (프리뷰 URL 방지)
+    // 정식 도메인 URL + 쿼리 파라미터 포함 (결과 공유용)
     const path = window.location.pathname;
-    return `${BASE_URL}${path}`;
+    const search = window.location.search;
+    return `${BASE_URL}${path}${search}`;
   };
 
   const copyLink = async () => {
