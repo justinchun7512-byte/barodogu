@@ -151,7 +151,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: '2026-03-21',
     category: '취업/직장인',
     readTime: '5분',
-    toolLink: '/tools/annual-leave-calculator',
+    toolLink: '/tools/annual-leave',
     toolName: '연차 계산기',
     content: [
       {

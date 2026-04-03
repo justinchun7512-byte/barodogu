@@ -75,7 +75,7 @@ export function generateBreadcrumbJsonLd(tool: Tool) {
         '@type': 'ListItem',
         position: 2,
         name: categoryInfo?.name || tool.category,
-        item: `${BASE_URL}/category/${tool.category}`,
+        item: `${BASE_URL}/#tools`,
       },
       {
         '@type': 'ListItem',
