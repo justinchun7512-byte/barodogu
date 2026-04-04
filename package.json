@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ohah/hwpjs": "^0.1.0-rc.10",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "mammoth": "^1.12.0",

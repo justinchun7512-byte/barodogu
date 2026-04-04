@@ -11,11 +11,13 @@ import type { HwpxDocument } from '@/lib/hwpx/types';
 const tool = getToolById('hwp-converter')!;
 
 type OutputFormat = 'text' | 'html' | 'pdf';
+type FileFormat = 'hwpx' | 'hwp' | 'unknown';
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
 export default function HwpConverterPage() {
   const [file, setFile] = useState<File | null>(null);
+  const [fileFormat, setFileFormat] = useState<FileFormat>('hwpx');
   const [error, setError] = useState<string | null>(null);
   const [converting, setConverting] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -35,6 +37,7 @@ export default function HwpConverterPage() {
     setTextResult(null);
     setHtmlResult(null);
     setCopied(false);
+    setFileFormat('hwpx');
   };
 
   const handleFile = async (f: File) => {
@@ -43,6 +46,7 @@ export default function HwpConverterPage() {
     setHtmlResult(null);
     setDoc(null);
     setCopied(false);
+    setFileFormat('hwpx');
 
     if (f.size > MAX_FILE_SIZE) {
       setError('파일 크기가 20MB를 초과합니다. 더 작은 파일을 사용해주세요.');
@@ -52,18 +56,19 @@ export default function HwpConverterPage() {
     const fileType = await detectFileType(f);
 
     if (fileType === 'hwp') {
-      setError(
-        '이 파일은 구형 HWP 포맷입니다. HWPX 파일만 지원합니다.\n\n한글 프로그램에서 "다른 이름으로 저장" → HWPX 형식으로 저장 후 다시 시도해주세요.',
-      );
+      setFileFormat('hwp');
+      setFile(f);
       return;
     }
 
     if (fileType === 'unknown') {
-      // Still allow if extension is .hwpx (some files may have different magic bytes within the ZIP)
       const ext = f.name.split('.').pop()?.toLowerCase();
-      if (ext !== 'hwpx') {
-        setError('지원하지 않는 파일 형식입니다. HWPX 파일을 업로드해주세요.');
+      if (ext !== 'hwpx' && ext !== 'hwp') {
+        setError('지원하지 않는 파일 형식입니다. HWP 또는 HWPX 파일을 업로드해주세요.');
         return;
+      }
+      if (ext === 'hwp') {
+        setFileFormat('hwp');
       }
     }
 
@@ -81,8 +86,53 @@ export default function HwpConverterPage() {
     if (f) handleFile(f);
   };
 
+  const convertLegacyHwp = async () => {
+    if (!file) return;
+    setConverting(true);
+    setProgress(10);
+    setError(null);
+    setTextResult(null);
+    setHtmlResult(null);
+
+    try {
+      setProgress(20);
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const hwpjs = await import(/* webpackIgnore: true */ '@ohah/hwpjs');
+      const { toHtml, toMarkdown } = hwpjs;
+      setProgress(40);
+
+      const arrayBuffer = await file.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      setProgress(60);
+
+      if (outputFormat === 'text') {
+        const result = toMarkdown(buffer);
+        const md = result.markdown;
+        if (!md.trim()) {
+          setError('문서에서 텍스트를 추출할 수 없습니다. 문서가 비어있거나 암호화되어 있을 수 있습니다.');
+          return;
+        }
+        setTextResult(md);
+      } else {
+        const html = toHtml(buffer);
+        setHtmlResult(html);
+      }
+      setProgress(100);
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : '알 수 없는 오류';
+      setError(`구형 HWP 변환 실패: ${msg}\n\n이 파일이 손상되었거나 암호화되어 있을 수 있습니다.`);
+    } finally {
+      setConverting(false);
+    }
+  };
+
   const convert = async () => {
     if (!file) return;
+
+    if (fileFormat === 'hwp') {
+      return convertLegacyHwp();
+    }
+
     setConverting(true);
     setProgress(0);
     setError(null);
@@ -219,7 +269,7 @@ export default function HwpConverterPage() {
             <div className="space-y-2">
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
                 <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">HWP 파일도 변환할 수 있나요?</summary>
-                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">현재는 HWPX 형식만 지원합니다. 구형 HWP 파일은 한글 프로그램에서 &quot;다른 이름으로 저장&quot; → HWPX 형식으로 저장한 후 변환해주세요.</p>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">HWP(구형)와 HWPX(신형) 파일 모두 지원합니다. 구형 HWP 파일도 바로 변환할 수 있습니다.</p>
               </details>
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
                 <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">HWPX와 HWP의 차이는 무엇인가요?</summary>
@@ -245,7 +295,7 @@ export default function HwpConverterPage() {
         <h2 className="text-xl font-bold mb-4 dark:text-white">HWPX 변환 가이드</h2>
         <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
           <div><h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">HWPX 파일이란?</h3><p>HWPX는 한글 2014 이후 지원하는 ZIP 기반 XML 문서 포맷입니다. 기존 HWP보다 호환성이 좋습니다.</p></div>
-          <div><h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">구형 HWP는 어떻게 하나요?</h3><p>한글 프로그램에서 &quot;다른 이름으로 저장&quot; → HWPX로 저장한 뒤 이 도구를 사용하세요.</p></div>
+          <div><h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">구형 HWP도 지원하나요?</h3><p>네, 구형 HWP(.hwp)와 신형 HWPX(.hwpx) 파일 모두 변환할 수 있습니다. 파일을 업로드하면 자동으로 형식을 감지합니다.</p></div>
           <div><h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">파일이 서버로 올라가나요?</h3><p>아닙니다. 모든 변환은 브라우저에서 이루어지며, 파일이 서버로 전송되지 않습니다.</p></div>
         </div>
       </div>
