@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Tool, TOOLS, getCategoryInfo } from '@/lib/tools';
+import { BLOG_POSTS } from '@/lib/blog-posts';
 import { ShareButtons } from '@/components/tools/ShareButtons';
 import { AdSlot } from '@/components/tools/AdSlot';
 
@@ -13,7 +14,14 @@ interface ToolLayoutProps {
 
 export function ToolLayout({ tool, children, guideContent, disclaimer, seoContent }: ToolLayoutProps) {
   const categoryInfo = getCategoryInfo(tool.category);
-  const relatedTools = TOOLS.filter(t => t.category === tool.category && t.id !== tool.id).slice(0, 3);
+  const relatedTools = TOOLS.filter(t => t.category === tool.category && t.id !== tool.id).slice(0, 4);
+  const relatedPosts = BLOG_POSTS.filter(p => p.toolLink === `/tools/${tool.id}`).slice(0, 3);
+  // Also include posts from same-category tools if not enough
+  const sameCategoryToolIds = TOOLS.filter(t => t.category === tool.category).map(t => t.id);
+  const extraPosts = relatedPosts.length < 3
+    ? BLOG_POSTS.filter(p => sameCategoryToolIds.some(id => p.toolLink === `/tools/${id}`) && !relatedPosts.includes(p)).slice(0, 3 - relatedPosts.length)
+    : [];
+  const allRelatedPosts = [...relatedPosts, ...extraPosts];
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-6">
@@ -74,7 +82,7 @@ export function ToolLayout({ tool, children, guideContent, disclaimer, seoConten
       {relatedTools.length > 0 && (
         <div className="mb-8">
           <h2 className="text-lg font-bold mb-4 dark:text-white">관련 도구</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
             {relatedTools.map(rt => (
               <Link
                 key={rt.id}
@@ -86,6 +94,29 @@ export function ToolLayout({ tool, children, guideContent, disclaimer, seoConten
                 <div>
                   <p className="font-medium text-sm dark:text-white">{rt.name}</p>
                   <p className="text-xs text-gray-400 line-clamp-1">{rt.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Related Blog Posts */}
+      {allRelatedPosts.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-lg font-bold mb-4 dark:text-white">관련 블로그 글</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {allRelatedPosts.map(post => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:shadow-md transition"
+              >
+                <p className="font-medium text-sm dark:text-white mb-1 line-clamp-2">{post.title}</p>
+                <p className="text-xs text-gray-400 line-clamp-2">{post.description}</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-[11px] text-gray-400">{post.readTime} 읽기</span>
+                  <span className="text-[11px] text-primary font-medium">{post.category}</span>
                 </div>
               </Link>
             ))}

@@ -1,9 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { TOOLS, searchTools, getToolsByCategory, type Category } from '@/lib/tools';
+import Link from 'next/link';
+import { TOOLS, searchTools, getToolsByCategory, getToolById, type Category } from '@/lib/tools';
 import { CategoryFilter } from '@/components/tools/CategoryFilter';
 import { ToolGrid } from '@/components/tools/ToolGrid';
+
+const POPULAR_TOOL_IDS = ['salary-calculator', 'bmi-calculator', 'name-compatibility', 'severance-calculator'];
 
 export default function HomePage() {
   const [category, setCategory] = useState<Category | 'all'>('all');
@@ -15,7 +18,7 @@ export default function HomePage() {
   return (
     <main>
       {/* Hero */}
-      <section className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-5 md:px-10 pt-12 pb-16 overflow-hidden">
+      <section className="relative min-h-[50vh] flex flex-col justify-center items-center text-center px-5 md:px-10 pt-12 pb-16 overflow-hidden">
         {/* Background glow */}
         <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-[radial-gradient(ellipse,_rgba(91,107,240,0.08)_0%,_rgba(232,244,253,0.12)_40%,_transparent_70%)] dark:bg-[radial-gradient(ellipse,_rgba(91,107,240,0.15)_0%,_rgba(91,107,240,0.05)_40%,_transparent_70%)] pointer-events-none" />
 
@@ -70,6 +73,29 @@ export default function HomePage() {
             <div className="font-[Outfit] text-3xl font-bold text-[#1A1A2E] dark:text-[#E8E8F0]">100%</div>
             <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 font-medium">브라우저 처리</div>
           </div>
+        </div>
+      </section>
+
+      {/* Popular Tools */}
+      <section className="max-w-[1100px] mx-auto px-5 md:px-10 pt-12 pb-4">
+        <h2 className="font-[Outfit] text-2xl font-bold tracking-tight text-[#1A1A2E] dark:text-[#E8E8F0] mb-2">인기 도구</h2>
+        <p className="text-[15px] text-gray-400 dark:text-gray-500 mb-6">가장 많이 사용하는 도구를 바로 시작하세요</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {POPULAR_TOOL_IDS.map(id => {
+            const t = getToolById(id);
+            if (!t) return null;
+            return (
+              <Link
+                key={t.id}
+                href={`/tools/${t.id}`}
+                className="group flex flex-col items-center gap-2 bg-white dark:bg-[#1A1B23] rounded-2xl p-5 border-[1.5px] border-[#E8EAF0] dark:border-[#2A2B35] hover:border-primary/25 dark:hover:border-primary/40 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(91,107,240,0.06)] transition-all duration-250 text-center"
+              >
+                <span className="text-3xl mb-1">{t.icon}</span>
+                <span className="font-bold text-sm text-[#1A1A2E] dark:text-[#E8E8F0]">{t.name}</span>
+                <span className="text-[12px] text-gray-400 dark:text-gray-500 line-clamp-2 leading-relaxed">{t.description}</span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 

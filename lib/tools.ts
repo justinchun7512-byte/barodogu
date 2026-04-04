@@ -188,16 +188,16 @@ export const TOOLS: Tool[] = [
   },
   {
     id: 'hwp-converter',
-    name: 'HWPX 변환기 (Beta)',
-    description: 'HWPX 파일을 텍스트, HTML, PDF로 변환합니다. 브라우저에서 처리되어 안전합니다.',
+    name: 'HWP/HWPX 변환기 (Beta)',
+    description: 'HWP, HWPX 파일을 텍스트, HTML, PDF로 변환합니다. HWPX 완벽 지원, 구형 HWP는 안내를 제공합니다. 브라우저에서 처리되어 안전합니다.',
     category: 'image',
     icon: '📃',
-    tags: ['HWPX', 'HWP', '한글 변환', '텍스트', 'HTML', 'PDF', 'OWPML'],
+    tags: ['HWPX', 'HWP', 'HWP 변환', '한글 변환', '한글 파일', '텍스트', 'HTML', 'PDF', 'OWPML', 'HWP to PDF'],
     isNew: true,
     seo: {
-      title: 'HWPX 변환기 - 텍스트/HTML/PDF 무료 변환',
-      description: 'HWPX 파일을 텍스트, HTML, PDF로 무료 변환하세요. 파일이 서버로 전송되지 않아 안전합니다.',
-      keywords: ['HWPX 변환', 'HWPX 텍스트 변환', 'HWPX HTML 변환', '한글 변환기', 'OWPML'],
+      title: 'HWP HWPX 변환기 - 한글 파일 텍스트/HTML/PDF 무료 변환',
+      description: 'HWP, HWPX 한글 파일을 텍스트, HTML, PDF로 무료 변환하세요. HWPX 완벽 지원, 구형 HWP 안내 제공. 서버 전송 없이 안전합니다.',
+      keywords: ['HWP 변환', 'HWPX 변환', 'HWP to PDF', 'HWP 텍스트 추출', '한글 파일 변환', 'HWPX 텍스트 변환', 'HWPX HTML 변환', '한글 변환기', 'HWP PDF 변환', 'OWPML'],
     },
   },
   // === 금융/생활 ===
