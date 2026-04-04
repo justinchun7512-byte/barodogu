@@ -99,7 +99,8 @@ export default function HwpConverterPage() {
 
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('format', outputFormat === 'text' ? 'text' : 'html');
+      const apiFormat = outputFormat === 'text' ? 'text' : 'html';
+      formData.append('format', apiFormat);
 
       const response = await fetch('/api/hwp-convert', {
         method: 'POST',
@@ -115,7 +116,7 @@ export default function HwpConverterPage() {
         return;
       }
 
-      if (data.format === 'text') {
+      if (apiFormat === 'text') {
         if (!data.result?.trim()) {
           setError('문서에서 텍스트를 추출할 수 없습니다. 문서가 비어있거나 암호화되어 있을 수 있습니다.');
           return;
@@ -123,6 +124,31 @@ export default function HwpConverterPage() {
         setTextResult(data.result);
       } else {
         setHtmlResult(data.result);
+        // PDF 선택 시 인쇄 다이얼로그 열기
+        if (outputFormat === 'pdf') {
+          setTimeout(() => {
+            const blob = new Blob([data.result], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const printFrame = document.createElement('iframe');
+            printFrame.style.position = 'fixed';
+            printFrame.style.left = '-9999px';
+            printFrame.style.width = '800px';
+            printFrame.style.height = '600px';
+            printFrame.src = url;
+            document.body.appendChild(printFrame);
+            printFrame.onload = () => {
+              try {
+                printFrame.contentWindow?.print();
+              } catch {
+                window.open(url, '_blank');
+              }
+              setTimeout(() => {
+                document.body.removeChild(printFrame);
+                URL.revokeObjectURL(url);
+              }, 1000);
+            };
+          }, 100);
+        }
       }
       setProgress(100);
     } catch (e: unknown) {
