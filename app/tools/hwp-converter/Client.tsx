@@ -95,27 +95,34 @@ export default function HwpConverterPage() {
     setHtmlResult(null);
 
     try {
-      setProgress(20);
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const hwpjs = await import(/* webpackIgnore: true */ '@ohah/hwpjs');
-      const { toHtml, toMarkdown } = hwpjs;
-      setProgress(40);
+      setProgress(30);
 
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      setProgress(60);
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('format', outputFormat === 'text' ? 'text' : 'html');
 
-      if (outputFormat === 'text') {
-        const result = toMarkdown(buffer);
-        const md = result.markdown;
-        if (!md.trim()) {
+      const response = await fetch('/api/hwp-convert', {
+        method: 'POST',
+        body: formData,
+      });
+
+      setProgress(80);
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'HWP 변환에 실패했습니다.');
+        return;
+      }
+
+      if (data.format === 'text') {
+        if (!data.result?.trim()) {
           setError('문서에서 텍스트를 추출할 수 없습니다. 문서가 비어있거나 암호화되어 있을 수 있습니다.');
           return;
         }
-        setTextResult(md);
+        setTextResult(data.result);
       } else {
-        const html = toHtml(buffer);
-        setHtmlResult(html);
+        setHtmlResult(data.result);
       }
       setProgress(100);
     } catch (e: unknown) {
