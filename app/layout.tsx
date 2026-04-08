@@ -85,7 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-[#FAFBFF] dark:bg-[#0F1117] text-[#1A1A2E] dark:text-[#E8E8F0] min-h-screen">
         <ThemeProvider>
           <Header />
-          <div className="pt-16">
+          <div className="pt-[72px]">
             {children}
           </div>
           <Footer />
