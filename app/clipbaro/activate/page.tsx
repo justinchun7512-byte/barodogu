@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 type Tier = 'basic' | 'starter' | 'pro';
 
@@ -21,10 +23,18 @@ const TIER_OPTIONS: { value: Tier; label: string; price: string; kmong: string }
   { value: 'pro', label: '프로', price: '20,000원', kmong: 'PREMIUM' },
 ];
 
-export default function ClipBaroActivatePage() {
+const VALID_TIERS: Tier[] = ['basic', 'starter', 'pro'];
+
+function ActivateForm() {
+  const searchParams = useSearchParams();
+  const tierParam = searchParams.get('tier') as Tier | null;
+  // URL에 tier가 있고 유효하면 잠금
+  const tierFromUrl = tierParam && VALID_TIERS.includes(tierParam) ? tierParam : null;
+  const tierLocked = !!tierFromUrl;
+
   const [orderNumber, setOrderNumber] = useState('');
   const [email, setEmail] = useState('');
-  const [tier, setTier] = useState<Tier>('basic');
+  const [tier, setTier] = useState<Tier>(tierFromUrl || 'basic');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<LicenseResult | null>(null);
   const [error, setError] = useState('');
@@ -145,42 +155,61 @@ export default function ClipBaroActivatePage() {
               {/* 구매 등급 */}
               <div>
                 <p className="text-sm font-semibold mb-2.5">
-                  구매 등급 <span className="text-red-500">*</span>
+                  구매 등급 {tierLocked && <span className="text-xs text-green-600 font-normal ml-2">자동 선택됨</span>}
                 </p>
-                <div className="grid grid-cols-3 gap-3">
-                  {TIER_OPTIONS.map((option) => (
-                    <label
-                      key={option.value}
-                      className={`relative cursor-pointer rounded-xl border-2 p-3.5 text-center transition-all ${
-                        tier === option.value
-                          ? 'border-primary bg-primary/5 dark:bg-primary/10'
-                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="tier"
-                        value={option.value}
-                        checked={tier === option.value}
-                        onChange={() => setTier(option.value)}
-                        className="sr-only"
-                      />
-                      <div
-                        className={`text-sm font-bold mb-0.5 ${
+                {tierLocked ? (
+                  /* URL에서 tier가 지정된 경우: 잠금 표시 */
+                  <div className="rounded-xl border-2 border-primary bg-primary/5 dark:bg-primary/10 p-4 text-center">
+                    <div className="text-sm font-bold text-primary mb-0.5">
+                      {TIER_OPTIONS.find(o => o.value === tier)?.label}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {TIER_OPTIONS.find(o => o.value === tier)?.kmong}
+                    </div>
+                    <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">
+                      {TIER_OPTIONS.find(o => o.value === tier)?.price}
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2">
+                      크몽 구매 패키지에 따라 자동 설정되었습니다
+                    </p>
+                  </div>
+                ) : (
+                  /* URL에 tier 없는 경우: 직접 선택 */
+                  <div className="grid grid-cols-3 gap-3">
+                    {TIER_OPTIONS.map((option) => (
+                      <label
+                        key={option.value}
+                        className={`relative cursor-pointer rounded-xl border-2 p-3.5 text-center transition-all ${
                           tier === option.value
-                            ? 'text-primary'
-                            : 'text-gray-800 dark:text-gray-200'
+                            ? 'border-primary bg-primary/5 dark:bg-primary/10'
+                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                         }`}
                       >
-                        {option.label}
-                      </div>
-                      <div className="text-xs text-gray-500">{option.kmong}</div>
-                      <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">
-                        {option.price}
-                      </div>
-                    </label>
-                  ))}
-                </div>
+                        <input
+                          type="radio"
+                          name="tier"
+                          value={option.value}
+                          checked={tier === option.value}
+                          onChange={() => setTier(option.value)}
+                          className="sr-only"
+                        />
+                        <div
+                          className={`text-sm font-bold mb-0.5 ${
+                            tier === option.value
+                              ? 'text-primary'
+                              : 'text-gray-800 dark:text-gray-200'
+                          }`}
+                        >
+                          {option.label}
+                        </div>
+                        <div className="text-xs text-gray-500">{option.kmong}</div>
+                        <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">
+                          {option.price}
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* 오류 메시지 */}
@@ -304,5 +333,13 @@ export default function ClipBaroActivatePage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ClipBaroActivatePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">로딩 중...</div>}>
+      <ActivateForm />
+    </Suspense>
   );
 }

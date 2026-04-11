@@ -38,7 +38,11 @@
 ▶ 라이선스 발급 방법 (1분이면 완료!)
 
 1. 아래 링크에 접속하세요:
-   👉 https://barodogu.com/clipbaro/activate
+   👉 (구매 패키지에 맞는 링크를 아래에서 선택하여 안내)
+   
+   STANDARD 구매: https://barodogu.com/clipbaro/activate?tier=basic
+   DELUXE 구매:   https://barodogu.com/clipbaro/activate?tier=starter
+   PREMIUM 구매:  https://barodogu.com/clipbaro/activate?tier=pro
 
 2. 크몽 주문번호와 이메일을 입력하세요
    (주문번호: 크몽 > 내 거래 > 주문 상세에서 확인)
