@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cleanAiText } from "@/lib/clean-ai-text";
+import { cleanAiText, cleanAiTextArray } from "@/lib/clean-ai-text";
 
 export const maxDuration = 30;
 
@@ -210,14 +210,29 @@ ${resumeText}
     }
 
     // 한자 제거 + 깨진 문법 복구
+    // 2026-04-14 버그 수정: summary는 객체(totalQuestions/focusCategories/resumeGaps)인데
+    // 기존엔 cleanAiText(parsed.summary)로 전달돼 TypeError로 500 에러 발생.
+    // 객체 내부 문자열 필드 개별 정리로 변경.
+    const cleanedSummary = parsed.summary
+      ? {
+          totalQuestions: parsed.summary.totalQuestions,
+          focusCategories: Array.isArray(parsed.summary.focusCategories)
+            ? cleanAiTextArray(parsed.summary.focusCategories)
+            : [],
+          resumeGaps: Array.isArray(parsed.summary.resumeGaps)
+            ? cleanAiTextArray(parsed.summary.resumeGaps)
+            : [],
+        }
+      : { totalQuestions: 0, focusCategories: [], resumeGaps: [] };
+
     const cleaned = {
       ...parsed,
-      summary: cleanAiText(parsed.summary),
+      summary: cleanedSummary,
       questions: parsed.questions.map((q: { question: string; intent: string; hint: string; frequency: string }) => ({
         ...q,
-        question: cleanAiText(q.question),
-        intent: cleanAiText(q.intent),
-        hint: cleanAiText(q.hint),
+        question: cleanAiText(q.question || ""),
+        intent: cleanAiText(q.intent || ""),
+        hint: cleanAiText(q.hint || ""),
       })),
     };
 
