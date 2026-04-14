@@ -16,16 +16,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(slug);
   if (!post) return {};
 
+  const url = `https://barodogu.com/blog/${post.slug}`;
+  const ogImage = `https://barodogu.com/api/og?title=${encodeURIComponent(post.title)}&desc=${encodeURIComponent(post.description.slice(0, 80))}`;
+
   return {
     title: `${post.title} - 바로도구`,
     description: post.description,
-    alternates: { canonical: `https://barodogu.com/blog/${post.slug}` },
+    alternates: { canonical: url },
     openGraph: {
       title: `${post.title} - 바로도구`,
       description: post.description,
-      url: `https://barodogu.com/blog/${post.slug}`,
+      url,
       type: 'article',
       publishedTime: post.date,
+      locale: 'ko_KR',
+      siteName: '바로도구',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${post.title} - 바로도구`,
+      description: post.description,
+      images: [ogImage],
     },
   };
 }
@@ -38,8 +50,42 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
+  const url = `https://barodogu.com/blog/${post.slug}`;
+  const ogImage = `https://barodogu.com/api/og?title=${encodeURIComponent(post.title)}&desc=${encodeURIComponent(post.description.slice(0, 80))}`;
+
+  // JSON-LD BlogPosting (네이버·구글 색인/리치스니펫)
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    headline: post.title,
+    description: post.description,
+    image: ogImage,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      '@type': 'Person',
+      name: 'justinchun',
+      url: 'https://barodogu.com/about',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: '바로도구',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://barodogu.com/icon.png',
+      },
+    },
+    articleSection: post.category,
+    inLanguage: 'ko-KR',
+  };
+
   return (
     <main className="max-w-3xl mx-auto px-4 pt-24 pb-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
         <Link href="/" className="hover:text-primary transition-colors">홈</Link>
