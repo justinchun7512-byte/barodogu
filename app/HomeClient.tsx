@@ -30,9 +30,9 @@ export default function HomePage() {
 
         {/* Title */}
         <h1 className="relative z-10 font-[Outfit] text-4xl md:text-6xl font-extrabold leading-tight tracking-tight text-[#1A1A2E] dark:text-[#E8E8F0] mb-5">
-          취업 준비,<br />
+          필요한 순간,<br />
           <span className="relative inline-block">
-            바로 시작하세요
+            바로 꺼내 쓰세요
             <span className="absolute bottom-1 left-[-4px] right-[-4px] h-4 bg-gradient-to-r from-primary/20 to-[#00BCD4]/30 dark:from-primary/30 dark:to-[#00BCD4]/40 rounded z-[-1]" />
           </span>
         </h1>
