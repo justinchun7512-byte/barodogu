@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
 
+import BetaSignupForm from './BetaSignupForm';
+
 export const metadata: Metadata = {
-  title: '클립바로 - AI 브랜드 영상 자동화 | 바로도구',
+  title: '클립바로 - AI 브랜드 영상 자동화 (베타 신청) | 바로도구',
   description:
-    'AI가 브랜드 영상을 자동으로 만들어드립니다. 카테고리 연출 시스템 + 17종 스타일로 고퀄리티 유튜브 쇼츠를 5분 만에. 29만원부터.',
-  keywords: ['AI 영상 자동화', '유튜브 쇼츠 제작', 'AI 영상 제작', '클립바로'],
+    'AI가 브랜드 영상을 자동으로 만들어드립니다. 카테고리 연출 시스템 + 17종 스타일로 고퀄리티 유튜브 쇼츠를 5분 만에. 베타 기간 무료 이용 가능.',
+  keywords: ['AI 영상 자동화', '유튜브 쇼츠 제작', 'AI 영상 제작', '클립바로', '베타'],
   openGraph: {
     title: '클립바로 - AI 브랜드 영상 자동화',
     description:
-      'AI가 브랜드 영상을 자동으로 만들어드립니다. 카테고리 연출 시스템 + 17종 스타일로 고퀄리티 유튜브 쇼츠를 5분 만에.',
+      '카테고리 연출 시스템 + 17종 스타일로 고퀄리티 유튜브 쇼츠를 5분 만에. 베타 기간 무료 이용 가능.',
     url: 'https://barodogu.com/clipbaro',
     type: 'website',
   },
@@ -53,47 +55,36 @@ const WORKFLOW_STEPS = [
   },
 ];
 
-const PRICING = [
+// 정식 출시 시 적용 예정 가격 (베타 기간은 무료)
+const PRICING_PREVIEW = [
+  {
+    name: 'STARTER',
+    price: '2,900',
+    tag: '입문',
+    features: ['월 10편 제작', 'Edge TTS', '기본 스타일 10종', '한글 자막'],
+  },
   {
     name: 'BASIC',
-    price: '290,000',
-    priceNum: 29,
+    price: '9,900',
+    tag: '개인 크리에이터',
     features: [
-      '프로그램 라이선스 (영구)',
-      '카테고리 8종 연출 시스템',
-      '스타일 10종',
-      '무료 TTS (Edge TTS)',
-      '한국어 자막 최적화',
+      '월 40편 제작',
+      '스타일 17종 전체',
       'Ken Burns 4패턴',
-      '기본 사용 가이드',
-      '이메일 지원',
+      '한글 자막',
     ],
-    notIncluded: [
-      '스타일 17종 (PRO 전용 7종)',
-      '캐릭터 프리셋 시스템',
-      '비용 추적 대시보드',
-      '1:1 세팅 지원',
-    ],
-    highlight: false,
+    highlight: true,
   },
   {
     name: 'PRO',
-    price: '590,000',
-    priceNum: 59,
+    price: '29,900',
+    tag: '브랜드 채널',
     features: [
-      '프로그램 라이선스 (영구)',
-      '카테고리 8종 연출 시스템',
-      '스타일 17종 (전체)',
-      '캐릭터 프리셋 시스템',
-      '무료 TTS + 고품질 TTS',
-      '한국어 자막 최적화',
-      'Ken Burns 4패턴',
-      '비용 추적 대시보드',
-      '상세 사용 가이드',
-      '1:1 세팅 지원 (화상/채팅)',
+      '월 150편 제작',
+      '캐릭터 프리셋',
+      '고품질 TTS',
+      '1:1 세팅 지원',
     ],
-    notIncluded: [],
-    highlight: true,
   },
 ];
 
@@ -119,14 +110,9 @@ const FEATURES = [
     icon: '🔊',
   },
   {
-    title: 'AI 3중 폴백',
-    desc: 'Gemini → Claude → OpenAI 순서로 장애 없는 안정적 운영',
-    icon: '🔄',
-  },
-  {
-    title: '비용 추적',
-    desc: '영상별 API 사용량과 비용을 실시간으로 확인',
-    icon: '📊',
+    title: 'AI 이미지 자동 생성',
+    desc: 'Gemini Imagen + DALL-E 다중 제공자로 장면별 이미지 자동 생성',
+    icon: '🤖',
   },
   {
     title: 'Ken Burns 효과',
@@ -138,36 +124,39 @@ const FEATURES = [
     desc: '한글 줄바꿈, 폰트, 위치까지 최적화된 자막 시스템',
     icon: '💬',
   },
+  {
+    title: '9:16 세로 영상',
+    desc: '유튜브 쇼츠, 인스타 릴스, 틱톡 모두 업로드 가능',
+    icon: '📱',
+  },
 ];
 
 const FAQS = [
   {
-    q: 'API 비용은 얼마인가요?',
-    a: '영상 1개당 약 300원 수준입니다. Google Gemini 무료 플랜으로 시작하면 대본 생성은 0원, 이미지 생성(Fal AI)과 고품질 TTS(ElevenLabs)만 소액 과금됩니다. 무료 TTS(Edge TTS)를 사용하면 더 저렴합니다.',
+    q: '베타 기간엔 어떻게 이용하나요?',
+    a: '베타 신청 후 발송된 초대 코드로 가입하시면 베타 기간 동안 무료로 이용 가능합니다. 초대 코드는 선착순 발송되며 발송 시기는 이메일로 안내드립니다.',
+  },
+  {
+    q: '정식 출시는 언제인가요?',
+    a: '2026년 6~7월 중 정식 출시 예정입니다. 베타 기간 이용자에게는 정식 출시 시 할인 혜택을 제공할 계획입니다.',
+  },
+  {
+    q: '설치가 필요한가요?',
+    a: '웹에서 바로 사용 가능합니다. 별도 프로그램 설치나 특별한 컴퓨터 사양이 필요하지 않습니다. 크롬·사파리 등 일반 브라우저에서 동작합니다.',
   },
   {
     q: '어떤 영상을 만들 수 있나요?',
     a: '유튜브 쇼츠, 인스타 릴스, 틱톡에 올릴 수 있는 세로형(9:16) 브랜드 영상을 만듭니다. 먹방, 뷰티, IT, 여행, 교육, 운동, 경제, 일상 8가지 카테고리를 지원합니다.',
   },
   {
-    q: '환불 가능한가요?',
-    a: '프로그램 특성상 라이선스 발급 후에는 환불이 어렵습니다. 구매 전 상세 설명과 샘플 영상을 반드시 확인해주세요.',
-  },
-  {
-    q: '컴퓨터 사양은 어느 정도 필요한가요?',
-    a: 'Windows/Mac 모두 지원합니다. 인터넷 연결이 가능한 일반 PC면 충분합니다. AI 처리는 모두 클라우드에서 이루어지므로 고사양이 필요하지 않습니다.',
-  },
-  {
-    q: 'BASIC과 PRO의 가장 큰 차이는 뭔가요?',
-    a: 'PRO는 스타일 17종 전체 + 캐릭터 프리셋 시스템 + 비용 추적 대시보드 + 1:1 세팅 지원이 포함됩니다. 브랜드 채널을 운영하신다면 PRO를 추천드립니다.',
-  },
-  {
     q: '하루에 몇 개까지 만들 수 있나요?',
-    a: '제한 없습니다. API 호출 한도 내에서 무제한 제작 가능합니다. Gemini 무료 플랜 기준 하루 약 50개 이상 제작 가능합니다.',
+    a: '베타 기간은 합리적 사용 범위 내에서 무제한입니다. 정식 출시 이후 요금제별 월 제작 한도(10~150편)가 적용됩니다.',
+  },
+  {
+    q: '환불 정책은 어떻게 되나요?',
+    a: '베타 기간은 무료이므로 환불 사항이 없습니다. 정식 출시 후에는 결제일 기준 7일 이내 미사용 시 전액 환불 가능합니다.',
   },
 ];
-
-const CONTACT_URL = 'https://barodogu.com/contact';
 
 export default function ClipBaroPage() {
   return (
@@ -175,8 +164,8 @@ export default function ClipBaroPage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 via-transparent to-transparent dark:from-primary/10">
         <div className="max-w-5xl mx-auto px-4 py-16 md:py-24 text-center">
-          <div className="inline-block px-4 py-1.5 mb-6 text-sm font-medium rounded-full bg-primary/10 text-primary dark:bg-primary/20">
-            바로도구 프리미엄
+          <div className="inline-block px-4 py-1.5 mb-6 text-sm font-medium rounded-full bg-secondary/20 text-secondary-dark dark:bg-secondary/30 dark:text-secondary">
+            &#127873; 베타 기간 무료 · 초대 코드 선착순
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             AI가 영상을
@@ -189,18 +178,18 @@ export default function ClipBaroPage() {
             고퀄리티 유튜브 쇼츠를 5분 만에 완성하세요.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-10">
-            <span>영상 1개 제작비 약 300원</span>
+            <span>웹에서 바로 사용</span>
             <span className="hidden sm:inline">|</span>
             <span>8종 카테고리 맞춤 연출</span>
             <span className="hidden sm:inline">|</span>
-            <span>서버비 0원 구조</span>
+            <span>한국어 자막 최적화</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="#pricing"
+              href="#beta"
               className="px-8 py-3.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-xl transition-colors text-lg"
             >
-              가격 확인하기
+              베타 신청하기
             </a>
             <a
               href="#workflow"
@@ -209,35 +198,6 @@ export default function ClipBaroPage() {
               어떻게 작동하나요?
             </a>
           </div>
-        </div>
-      </section>
-
-      {/* Competitor Price Comparison */}
-      <section className="max-w-5xl mx-auto px-4 py-12">
-        <div className="bg-secondary/5 dark:bg-secondary/10 border border-secondary/20 rounded-2xl p-6 md:p-8 text-center">
-          <p className="text-sm text-secondary-dark dark:text-secondary font-medium mb-2">
-            왜 클립바로인가요?
-          </p>
-          <div className="flex items-center justify-center gap-4 md:gap-8 flex-wrap">
-            <div>
-              <p className="text-gray-400 line-through text-xl md:text-2xl">
-                타사 190만원
-              </p>
-              <p className="text-xs text-gray-400">연간 구독형</p>
-            </div>
-            <span className="text-3xl text-primary font-bold">&rarr;</span>
-            <div>
-              <p className="text-primary text-2xl md:text-3xl font-bold">
-                29만원부터
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                영구 라이선스, 추가 비용 없음
-              </p>
-            </div>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
-            동일한 6단계 AI 워크플로우. 더 많은 카테고리. 더 낮은 가격.
-          </p>
         </div>
       </section>
 
@@ -296,16 +256,21 @@ export default function ClipBaroPage() {
         </div>
       </section>
 
-      {/* Pricing */}
+      {/* Pricing Preview */}
       <section id="pricing" className="max-w-5xl mx-auto px-4 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">가격</h2>
+          <div className="inline-block px-4 py-1.5 mb-4 text-sm font-medium rounded-full bg-secondary/20 text-secondary-dark dark:bg-secondary/30 dark:text-secondary">
+            &#127873; 베타 기간 무료
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            정식 출시 가격 (미리보기)
+          </h2>
           <p className="text-gray-500 dark:text-gray-400">
-            영구 라이선스. 월 구독료 없음. API 비용만 사용한 만큼.
+            베타 기간은 초대 코드로 무료 이용 · 정식 출시 시 아래 요금제 적용 예정
           </p>
         </div>
-        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          {PRICING.map((plan) => (
+        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          {PRICING_PREVIEW.map((plan) => (
             <div
               key={plan.name}
               className={`relative rounded-2xl p-6 md:p-8 border-2 ${
@@ -320,14 +285,16 @@ export default function ClipBaroPage() {
                 </div>
               )}
               <h3 className="text-xl font-bold mb-1">{plan.name}</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                {plan.tag}
+              </p>
               <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-4xl font-bold text-primary">
-                  {plan.priceNum}
+                <span className="text-3xl md:text-4xl font-bold text-primary">
+                  {plan.price}
                 </span>
-                <span className="text-lg text-gray-500">만원</span>
-                <span className="text-sm text-gray-400 ml-2">(VAT 별도)</span>
+                <span className="text-base text-gray-500">원/월</span>
               </div>
-              <ul className="space-y-2.5 mb-6">
+              <ul className="space-y-2.5 mb-2">
                 {plan.features.map((f) => (
                   <li
                     key={f}
@@ -337,33 +304,33 @@ export default function ClipBaroPage() {
                     <span>{f}</span>
                   </li>
                 ))}
-                {plan.notIncluded.map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-start gap-2 text-sm text-gray-400"
-                  >
-                    <span className="mt-0.5 shrink-0">&mdash;</span>
-                    <span>{f}</span>
-                  </li>
-                ))}
               </ul>
-              <a
-                href={CONTACT_URL}
-                className={`block text-center py-3 rounded-xl font-semibold transition-colors ${
-                  plan.highlight
-                    ? 'bg-primary hover:bg-primary-dark text-white'
-                    : 'border border-gray-300 dark:border-gray-600 hover:border-primary hover:text-primary'
-                }`}
-              >
-                지금 시작하기
-              </a>
             </div>
           ))}
         </div>
         <p className="text-center text-sm text-gray-400 mt-6">
-          * API 비용은 별도이며, 사용자 본인의 API 키를 사용합니다. 영상 1개당 약
-          300원 수준.
+          * 정식 출시 시점과 최종 가격은 변경될 수 있습니다. 베타 참가자에게는 할인
+          혜택 제공 예정.
         </p>
+      </section>
+
+      {/* Beta Signup */}
+      <section
+        id="beta"
+        className="max-w-5xl mx-auto px-4 py-16 bg-primary/5 dark:bg-primary/10 rounded-3xl mx-4 md:mx-auto"
+      >
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            베타 신청하기
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-2">
+            선착순으로 초대 코드를 발송해드립니다.
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            베타 기간 내내 무료 · 정식 출시 시 할인 혜택
+          </p>
+        </div>
+        <BetaSignupForm />
       </section>
 
       {/* FAQ */}
@@ -396,22 +363,19 @@ export default function ClipBaroPage() {
       {/* CTA */}
       <section className="max-w-5xl mx-auto px-4 py-16 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
-          AI 영상 자동화, 지금 시작하세요
+          AI 영상 자동화, 지금 먼저 경험하세요
         </h2>
         <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-xl mx-auto">
           매일 영상 편집에 시간을 쓰지 마세요.
           <br />
-          클립바로가 5분 만에 만들어드립니다.
+          베타 초대 코드로 먼저 써보실 수 있습니다.
         </p>
         <a
-          href={CONTACT_URL}
+          href="#beta"
           className="inline-block px-10 py-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-xl transition-colors text-lg"
         >
-          문의하기
+          베타 신청하기
         </a>
-        <p className="text-sm text-gray-400 mt-4">
-          카카오톡, 이메일, 크몽에서 상담 가능합니다
-        </p>
       </section>
     </main>
   );
