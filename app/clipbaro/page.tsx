@@ -61,14 +61,14 @@ const PRICING_PREVIEW = [
     name: 'STARTER',
     price: '2,900',
     tag: '입문',
-    features: ['월 10편 제작', 'Edge TTS', '기본 스타일 10종', '한글 자막'],
+    features: ['영상 10편 제공', 'Edge TTS', '기본 스타일 10종', '한글 자막'],
   },
   {
     name: 'BASIC',
     price: '9,900',
     tag: '개인 크리에이터',
     features: [
-      '월 40편 제작',
+      '영상 40편 제공',
       '스타일 17종 전체',
       'Ken Burns 4패턴',
       '한글 자막',
@@ -80,7 +80,7 @@ const PRICING_PREVIEW = [
     price: '29,900',
     tag: '브랜드 채널',
     features: [
-      '월 150편 제작',
+      '영상 150편 제공',
       '캐릭터 프리셋',
       '고품질 TTS',
       '1:1 세팅 지원',
@@ -150,11 +150,11 @@ const FAQS = [
   },
   {
     q: '하루에 몇 개까지 만들 수 있나요?',
-    a: '베타 기간은 합리적 사용 범위 내에서 무제한입니다. 정식 출시 이후 요금제별 월 제작 한도(10~150편)가 적용됩니다.',
+    a: '베타 기간은 합리적 사용 범위 내에서 무제한입니다. 정식 출시 이후 요금제별 제작 한도(10~150편)가 적용됩니다.',
   },
   {
     q: '환불 정책은 어떻게 되나요?',
-    a: '베타 기간은 무료이므로 환불 사항이 없습니다. 정식 출시 후에는 결제일 기준 7일 이내 미사용 시 전액 환불 가능합니다.',
+    a: '베타 기간은 무료이므로 환불 사항이 없습니다. 정식 출시 후에는 결제 방식에 따라 환불 정책이 안내되며, 기본적으로 구매 후 7일 이내 미사용 시 전액 환불을 원칙으로 합니다.',
   },
 ];
 
@@ -266,7 +266,7 @@ export default function ClipBaroPage() {
             정식 출시 가격 (미리보기)
           </h2>
           <p className="text-gray-500 dark:text-gray-400">
-            베타 기간은 초대 코드로 무료 이용 · 정식 출시 시 아래 요금제 적용 예정
+            베타 기간은 초대 코드로 무료 이용 · 정식 출시 시 아래 수준에서 요금 결정 예정
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -292,7 +292,7 @@ export default function ClipBaroPage() {
                 <span className="text-3xl md:text-4xl font-bold text-primary">
                   {plan.price}
                 </span>
-                <span className="text-base text-gray-500">원/월</span>
+                <span className="text-base text-gray-500">원~</span>
               </div>
               <ul className="space-y-2.5 mb-2">
                 {plan.features.map((f) => (
@@ -309,8 +309,8 @@ export default function ClipBaroPage() {
           ))}
         </div>
         <p className="text-center text-sm text-gray-400 mt-6">
-          * 정식 출시 시점과 최종 가격은 변경될 수 있습니다. 베타 참가자에게는 할인
-          혜택 제공 예정.
+          * 최종 가격·결제 방식(월 구독 / 일회성 구매 등)은 정식 출시 시점에 확정됩니다.
+          베타 참가자에게는 할인 혜택 제공 예정.
         </p>
       </section>
 
