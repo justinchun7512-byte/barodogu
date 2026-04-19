@@ -3,6 +3,7 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
+import { ScrollToTop } from '@/components/layout/ScrollToTop';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -90,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-[#FAFBFF] dark:bg-[#0F1117] text-[#1A1A2E] dark:text-[#E8E8F0] min-h-screen">
         <ThemeProvider>
+          <ScrollToTop />
           <Header />
           {children}
           <Footer />
