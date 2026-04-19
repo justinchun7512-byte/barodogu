@@ -1,8 +1,14 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   title: {
@@ -85,9 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-[#FAFBFF] dark:bg-[#0F1117] text-[#1A1A2E] dark:text-[#E8E8F0] min-h-screen">
         <ThemeProvider>
           <Header />
-          <div className="pt-[72px]">
-            {children}
-          </div>
+          {children}
           <Footer />
         </ThemeProvider>
       </body>
