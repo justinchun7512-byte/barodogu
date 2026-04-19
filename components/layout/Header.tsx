@@ -8,10 +8,7 @@ export function Header() {
   const [search, setSearch] = useState('');
 
   return (
-    <header
-      className="sticky top-0 z-50 backdrop-blur-xl bg-[#FAFBFF]/80 dark:bg-[#0F1117]/80 border-b border-[#E8EAF0] dark:border-[#2A2B35]"
-      style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
-    >
+    <header className="sticky top-0 z-50 bg-[#FAFBFF] dark:bg-[#0F1117] border-b border-[#E8EAF0] dark:border-[#2A2B35]">
       <div className="max-w-6xl mx-auto px-4 md:px-10 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-0">
           <span className="font-[Outfit] font-bold text-[22px] tracking-tight text-[#1A1A2E] dark:text-[#E8E8F0]">
