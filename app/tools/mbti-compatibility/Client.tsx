@@ -179,7 +179,80 @@ export default function MbtiCompatibilityPage() {
         <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
           <div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">MBTI 궁합이란?</h2>
-            <p>MBTI(Myers-Briggs Type Indicator)는 4가지 선호 지표(E/I, S/N, T/F, J/P)의 조합으로 16가지 성격 유형을 분류합니다. 궁합은 두 유형의 인지 기능 스택 상보성을 기반으로 분석합니다. 서로 다른 기능이 보완되는 조합일수록 더 높은 궁합을 보입니다.</p>
+            <p>MBTI(Myers-Briggs Type Indicator)는 4가지 선호 지표의 조합으로 16가지 성격 유형을 분류합니다. 두 사람의 MBTI 궁합은 인지 기능 스택의 상보성을 기준으로 분석하며, 서로 부족한 기능을 보완하는 조합일수록 더 높은 궁합 점수를 받습니다.</p>
+            <ul className="mt-3 space-y-1 text-xs text-gray-600 dark:text-gray-400">
+              <li><strong>E/I</strong> — 외향(Extraversion) / 내향(Introversion): 에너지 방향</li>
+              <li><strong>S/N</strong> — 감각(Sensing) / 직관(iNtuition): 정보 수집 방식</li>
+              <li><strong>T/F</strong> — 사고(Thinking) / 감정(Feeling): 판단 기준</li>
+              <li><strong>J/P</strong> — 판단(Judging) / 인식(Perceiving): 생활 양식</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">천생연분 Top 조합 (이상적 파트너)</h2>
+            <p className="mb-3">인지 기능이 완전히 상호 보완되는 조합으로, 서로 다른 강점이 시너지를 만듭니다.</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+              <div className="bg-pink-50 dark:bg-pink-900/20 rounded-lg p-2 text-center"><strong>INFJ ♥ ENTP</strong><br /><span className="text-gray-500">옹호자 × 변론가</span></div>
+              <div className="bg-pink-50 dark:bg-pink-900/20 rounded-lg p-2 text-center"><strong>INFJ ♥ ENFP</strong><br /><span className="text-gray-500">옹호자 × 활동가</span></div>
+              <div className="bg-pink-50 dark:bg-pink-900/20 rounded-lg p-2 text-center"><strong>INTJ ♥ ENTP</strong><br /><span className="text-gray-500">전략가 × 변론가</span></div>
+              <div className="bg-pink-50 dark:bg-pink-900/20 rounded-lg p-2 text-center"><strong>INTJ ♥ ENFP</strong><br /><span className="text-gray-500">전략가 × 활동가</span></div>
+              <div className="bg-pink-50 dark:bg-pink-900/20 rounded-lg p-2 text-center"><strong>INFP ♥ ENFJ</strong><br /><span className="text-gray-500">중재자 × 사회운동가</span></div>
+              <div className="bg-pink-50 dark:bg-pink-900/20 rounded-lg p-2 text-center"><strong>INFP ♥ ENTJ</strong><br /><span className="text-gray-500">중재자 × 통솔자</span></div>
+              <div className="bg-pink-50 dark:bg-pink-900/20 rounded-lg p-2 text-center"><strong>ISFJ ♥ ESFP</strong><br /><span className="text-gray-500">수호자 × 연예인</span></div>
+              <div className="bg-pink-50 dark:bg-pink-900/20 rounded-lg p-2 text-center"><strong>ISTJ ♥ ESTP</strong><br /><span className="text-gray-500">논리주의 × 사업가</span></div>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">MBTI 궁합 점수는 어떻게 계산되나요?</h2>
+            <p>이 테스트는 융의 인지 기능 이론에 기반한 기능적 스택 상보성 매트릭스를 사용합니다.</p>
+            <ul className="mt-2 space-y-1">
+              <li>💯 <strong>5단계 (90~100%)</strong>: 천생연분 — 인지 기능이 완벽히 보완</li>
+              <li>😊 <strong>4단계 (75~89%)</strong>: 좋은 궁합 — 주요 기능이 일치·보완</li>
+              <li>🙂 <strong>3단계 (60~74%)</strong>: 보통 궁합 — 노력하면 무난</li>
+              <li>😐 <strong>2단계 (45~59%)</strong>: 노력 필요 — 소통 방식 차이 큼</li>
+              <li>😥 <strong>1단계 (30~44%)</strong>: 도전적 — 서로 다른 언어를 쓰는 느낌</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
+            <div className="space-y-3">
+              <div>
+                <p className="font-medium text-gray-900 dark:text-white">Q. MBTI 궁합이 낮으면 연애를 못하나요?</p>
+                <p className="mt-1">A. 아닙니다. MBTI는 성격의 경향성일 뿐, 서로에 대한 이해와 노력이 가장 중요합니다. 궁합이 낮아도 서로를 존중하면 좋은 관계를 만들 수 있습니다.</p>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900 dark:text-white">Q. 같은 MBTI끼리는 궁합이 좋나요?</p>
+                <p className="mt-1">A. 동일 유형은 서로 잘 이해하지만 같은 약점을 공유합니다. 이 테스트에서는 "보통 궁합" 등급으로 분류합니다.</p>
+              </div>
+              <div>
+                <p className="font-medium text-gray-900 dark:text-white">Q. MBTI가 바뀔 수도 있나요?</p>
+                <p className="mt-1">A. 핵심 인지 기능 선호는 비교적 안정적이지만, 환경과 성장 단계에 따라 겉으로 드러나는 행동은 달라질 수 있습니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">함께 보면 좋은 궁합 도구</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <a href="/tools/name-compatibility" className="block bg-gray-50 dark:bg-gray-700 rounded-xl p-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                <p className="font-bold text-gray-900 dark:text-white">💕 이름 궁합 테스트</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">두 사람의 이름으로 즉석 궁합 점수 확인</p>
+              </a>
+              <a href="/tools/company-compatibility" className="block bg-gray-50 dark:bg-gray-700 rounded-xl p-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                <p className="font-bold text-gray-900 dark:text-white">🤝 회사 궁합 AI 분석</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">본인과 회사의 궁합을 AI로 분석</p>
+              </a>
+              <a href="/tools/daily-fortune" className="block bg-gray-50 dark:bg-gray-700 rounded-xl p-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                <p className="font-bold text-gray-900 dark:text-white">🔮 AI 오늘의 운세</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">생년월일로 오늘의 총운·재운·애정운 보기</p>
+              </a>
+              <a href="/tools/core-competency" className="block bg-gray-50 dark:bg-gray-700 rounded-xl p-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                <p className="font-bold text-gray-900 dark:text-white">⭐ 핵심역량 추출기</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">MBTI 유형별 강점을 이력서에 녹이는 방법</p>
+              </a>
+            </div>
           </div>
         </section>
       }

@@ -232,16 +232,16 @@ export const TOOLS: Tool[] = [
   },
   {
     id: 'tdee-calculator',
-    name: '칼로리/기초대사량 계산기',
-    description: '성별, 나이, 키, 몸무게, 활동량을 입력하면 기초대사량(BMR)과 하루 소비 칼로리(TDEE)를 계산합니다.',
+    name: 'TDEE 계산기',
+    description: '기초대사량(BMR)과 하루 총 소비 칼로리(TDEE)를 자동 계산합니다. 성별·나이·키·몸무게·활동량 입력만으로 다이어트 목표 칼로리 설정 완료.',
     category: 'health',
     icon: '🔥',
-    tags: ['칼로리', '기초대사량', 'TDEE', 'BMR', '다이어트', '체중관리'],
+    tags: ['TDEE', '기초대사량', 'BMR', '칼로리', '다이어트', '체중관리'],
     isNew: true,
     seo: {
-      title: '칼로리 기초대사량(TDEE) 계산기 - BMR 계산',
-      description: '기초대사량(BMR)과 하루 총 소비 칼로리(TDEE)를 계산하세요. 다이어트 목표 칼로리 설정에 필수.',
-      keywords: ['기초대사량 계산기', 'TDEE 계산기', '칼로리 계산', '다이어트 칼로리'],
+      title: 'TDEE 계산기 · 기초대사량 BMR 자동 계산',
+      description: 'TDEE(하루 소비 칼로리)와 BMR(기초대사량)을 1초 만에 계산. 다이어트 목표 칼로리 설정 필수 도구.',
+      keywords: ['TDEE 계산기', '기초대사량 계산기', 'BMR 계산기', '칼로리 계산', '다이어트 칼로리'],
     },
   },
   {
