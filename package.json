@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@ohah/hwpjs": "^0.1.0-rc.10",
+    "@supabase/ssr": "^0.10.2",
+    "@supabase/supabase-js": "^2.105.1",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "mammoth": "^1.12.0",
