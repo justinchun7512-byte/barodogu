@@ -216,6 +216,36 @@ export default function MbtiCompatibilityPage() {
           </div>
 
           <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">MBTI 16유형별 천생연분 베스트 파트너</h2>
+            <p className="mb-3">각 유형의 인지 기능 보완 관계가 가장 강한 조합입니다. INFP·ENFP·INTJ 등 유형별 궁합표.</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+              {MBTI_TYPES.map(t => {
+                const partners = MBTI_TYPES.filter(p => p !== t && getCompatScore(t, p) === 5);
+                return (
+                  <div key={t} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-2">
+                    <p className="font-bold text-gray-900 dark:text-white mb-1">{MBTI_LABELS[t].emoji} {t} 궁합</p>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      {partners.length > 0
+                        ? <>천생연분 → <strong>{partners.join(', ')}</strong></>
+                        : '특별 보완 조합 없음'}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">MBTI 연애·친구·직장 궁합은 어떻게 다른가요?</h2>
+            <ul className="space-y-2">
+              <li><strong>연애 궁합</strong>: 인지 기능 보완(서로 부족한 기능 채움) 비중이 높습니다. 천생연분 조합(예: INFJ-ENTP, INFP-ENFJ)이 가장 안정적입니다.</li>
+              <li><strong>친구 궁합</strong>: 공통 가치관(S/N, T/F 일치)이 더 중요합니다. 같은 유형이나 1글자만 다른 유형이 편합니다.</li>
+              <li><strong>직장 궁합</strong>: 의사결정 방식(T/F)과 생활 양식(J/P) 호환성이 핵심입니다. 정반대 J/P는 갈등이 잦지만 보완 시 생산성이 폭발합니다.</li>
+            </ul>
+            <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">※ 본 도구는 연애 궁합 기준 매트릭스를 사용합니다. 친구·직장 관점에서는 결과가 다를 수 있어요.</p>
+          </div>
+
+          <div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
             <div className="space-y-3">
               <div>

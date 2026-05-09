@@ -85,6 +85,65 @@ export default function BmiCalculatorPage() {
               <li>비만 3단계: 35 이상</li>
             </ul>
           </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">키별 BMI 정상 체중 표 (BMI 18.5~22.9 기준)</h2>
+            <p className="mb-3">정상 BMI 범위(18.5~22.9, 아시아-태평양 기준)에 해당하는 키별 표준 체중표입니다. 자신의 키에 해당하는 정상 체중 범위를 바로 확인하세요.</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs border border-gray-200 dark:border-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-700">
+                  <tr>
+                    <th className="px-2 py-2 text-left">키 (cm)</th>
+                    <th className="px-2 py-2 text-left">정상 체중 (kg)</th>
+                    <th className="px-2 py-2 text-left">표준 체중 (BMI 22)</th>
+                    <th className="px-2 py-2 text-left">과체중 시작</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[150, 155, 160, 165, 170, 175, 180, 185].map(cm => {
+                    const m = cm / 100;
+                    const min = (18.5 * m * m).toFixed(1);
+                    const max = (22.9 * m * m).toFixed(1);
+                    const std = (22 * m * m).toFixed(1);
+                    const over = (23 * m * m).toFixed(1);
+                    return (
+                      <tr key={cm} className="border-t border-gray-200 dark:border-gray-700">
+                        <td className="px-2 py-2 font-medium">{cm}</td>
+                        <td className="px-2 py-2">{min} ~ {max}</td>
+                        <td className="px-2 py-2 text-green-600 dark:text-green-400">{std}</td>
+                        <td className="px-2 py-2 text-yellow-600 dark:text-yellow-400">{over} 이상</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">※ 표준 체중(BMI 22)은 사망률·질환 위험이 가장 낮은 BMI 값입니다.</p>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">남자·여자 BMI 정상 범위 차이</h2>
+            <p>BMI 정상 범위(18.5~22.9)는 성별과 무관하게 동일한 기준을 적용합니다. 다만 동일 BMI라도 남자는 근육량이 많아 체지방률이 낮은 경향이 있고, 여자는 지방 비중이 높아 같은 BMI에서도 외형이 달라 보일 수 있어요.</p>
+            <ul className="list-disc pl-5 space-y-1 mt-2">
+              <li><strong>남자</strong> 정상 체지방률: 10~20%</li>
+              <li><strong>여자</strong> 정상 체지방률: 18~28%</li>
+              <li>BMI가 정상이어도 체지방률이 높으면 <strong>마른 비만(skinny fat)</strong>일 수 있어 허리둘레·체지방률 측정 병행이 필요합니다.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">연령대별 BMI 적정 범위</h2>
+            <p>나이가 들수록 근육량이 줄고 기초대사량이 떨어져 BMI 적정 범위가 약간 상향 조정됩니다. WHO 권장 연령대별 적정 BMI는 다음과 같습니다.</p>
+            <ul className="list-disc pl-5 space-y-1 mt-2">
+              <li>19~24세: 19~24</li>
+              <li>25~34세: 20~25</li>
+              <li>35~44세: 21~26</li>
+              <li>45~54세: 22~27</li>
+              <li>55~64세: 23~28</li>
+              <li>65세 이상: 24~29</li>
+            </ul>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">※ 본 계산기는 대한비만학회 표준 기준(18.5~22.9)을 사용합니다.</p>
+          </div>
+
           <details className="group">
             <summary className="cursor-pointer font-semibold text-gray-900 dark:text-white">자주 묻는 질문</summary>
             <div className="mt-3 space-y-3">
