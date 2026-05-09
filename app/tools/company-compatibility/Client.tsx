@@ -96,8 +96,29 @@ export default function CompanyCompatibilityPage() {
         <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
           <div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">나와 기업의 궁합이란?</h2>
-            <p>내 성향, 경력, 업무 스타일과 관심 있는 기업의 조직문화를 AI가 분석하여 궁합 점수를 알려드립니다. 취업이나 이직을 고민할 때 참고할 수 있는 재미있는 도구입니다. 조직문화 적합도, 성장 가능성, 업무 스타일 매칭을 종합적으로 분석합니다.</p>
+            <p>내 성향, 경력, 업무 스타일과 관심 있는 기업의 조직문화를 AI가 분석하여 궁합 점수를 알려드립니다. 취업이나 이직을 고민할 때 참고할 수 있는 도구입니다. 조직문화 적합도, 성장 가능성, 업무 스타일 매칭을 종합적으로 분석하지만 실제 기업 내부 문화와 다를 수 있으므로 최종 판단은 면접 경험, 채용공고, 현직자 정보와 함께 보세요.</p>
           </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">취업 준비에 활용하는 방법</h2>
+            <p>궁합 점수가 높게 나온 항목은 자기소개서와 면접의 지원 동기 소재로 활용할 수 있습니다. 예를 들어 자율성, 빠른 실행, 데이터 기반 의사결정이 강점으로 나왔다면 본인의 실제 경험 중 그 키워드와 맞는 사례를 골라 지원 동기에 연결하세요. 반대로 낮게 나온 항목은 면접에서 받을 수 있는 우려 질문으로 보고 미리 답변을 준비하면 좋습니다. 궁합 점수는 합격 여부를 예측하는 도구가 아니라, 본인의 지원 논리를 정리하는 보조 도구입니다.</p>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">이직 전에 확인할 체크포인트</h2>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>현재 회사에서 불만족한 지점이 새 회사에서도 반복될 가능성이 있는지 확인</li>
+              <li>연봉 인상보다 조직문화·업무 방식이 더 큰 스트레스 요인인지 점검</li>
+              <li>스타트업, 대기업, 외국계처럼 조직 규모별 차이를 결과 해석에 반영</li>
+              <li>궁합 결과를 현직자 인터뷰, 잡플래닛, 채용공고 문장과 교차 확인</li>
+            </ul>
+          </div>
+          <details className="group">
+            <summary className="cursor-pointer font-semibold text-gray-900 dark:text-white">자주 묻는 질문</summary>
+            <div className="mt-3 space-y-3">
+              <div><p className="font-medium">궁합이 낮으면 지원하지 않는 게 좋나요?</p><p>아닙니다. 낮은 항목은 준비해야 할 리스크로 보면 됩니다. 면접에서 적응 전략을 설명할 수 있으면 오히려 강점이 됩니다.</p></div>
+              <div><p className="font-medium">MBTI만으로 분석해도 충분한가요?</p><p>MBTI는 참고값입니다. 직무, 경력, 선호하는 협업 방식까지 입력할수록 더 실용적인 결과를 얻을 수 있습니다.</p></div>
+              <div><p className="font-medium">입력 정보가 저장되나요?</p><p>회원가입 없이 사용할 수 있으며, 입력값은 분석 요청에만 사용됩니다. 민감한 개인정보는 입력하지 않는 것을 권장합니다.</p></div>
+            </div>
+          </details>
         </section>
       }
     >

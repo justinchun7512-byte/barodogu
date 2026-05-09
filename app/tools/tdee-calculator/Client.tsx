@@ -87,6 +87,22 @@ export default function TdeeCalculatorPage() {
               <li>여성: (10 x 체중kg) + (6.25 x 키cm) - (5 x 나이) - 161</li>
             </ul>
           </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">활동량을 고르는 기준</h2>
+            <p>활동량은 운동 시간만이 아니라 직업, 출퇴근, 하루 걸음 수까지 합쳐 판단해야 합니다. 사무직이고 주 1~2회 가볍게 걷는 정도라면 비활동적 또는 가벼운 활동으로 시작하는 것이 안전합니다. 반대로 매장 근무, 현장직, 하루 1만 보 이상 이동이 잦은 직무라면 운동을 따로 하지 않아도 보통 활동에 가까울 수 있습니다. 처음에는 보수적으로 선택하고 2주 평균 체중 변화를 보며 조정하세요.</p>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">목표별 칼로리 설정</h2>
+            <p>체중 감량은 TDEE에서 300~500kcal를 뺀 값으로 시작하는 것을 권장합니다. 유지가 목표라면 TDEE 전후 100kcal 범위에서 식단을 맞추고, 근육 증가가 목표라면 TDEE보다 300~500kcal 높게 잡되 근력 운동과 단백질 섭취를 함께 관리해야 합니다. 계산 결과는 의학적 처방이 아니라 생활 관리 기준점이므로, 질환이나 특수한 식단 제한이 있다면 전문가 상담을 우선하세요.</p>
+          </div>
+          <details className="group">
+            <summary className="cursor-pointer font-semibold text-gray-900 dark:text-white">자주 묻는 질문</summary>
+            <div className="mt-3 space-y-3">
+              <div><p className="font-medium">계산 결과대로 먹었는데 체중이 안 변합니다.</p><p>2주 평균 체중을 기준으로 하루 섭취량을 100~200kcal씩 조정하세요. 활동량 입력이 실제보다 높았을 수 있습니다.</p></div>
+              <div><p className="font-medium">기초대사량보다 적게 먹어도 되나요?</p><p>단기간에는 가능하지만 지속성이 낮고 근손실 위험이 큽니다. 감량은 TDEE에서 적당히 줄이는 방식이 안전합니다.</p></div>
+              <div><p className="font-medium">운동하지 않는 날도 같은 칼로리를 먹나요?</p><p>초보자는 주간 평균으로 맞추는 편이 쉽습니다. 익숙해지면 운동일과 휴식일을 나누어 조정할 수 있습니다.</p></div>
+            </div>
+          </details>
         </section>
       }
     >

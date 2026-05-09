@@ -35,6 +35,12 @@ export default function ToolsPageClient() {
         <p>
           어떤 도구가 필요한지 모르겠다면 아래 카테고리 필터로 좁히거나 상단 검색창에 키워드를 입력해 보세요. 자주 쓰는 도구는 즐겨찾기에 추가하고, 결과 페이지의 URL을 그대로 공유하면 같은 입력값이 그대로 유지됩니다.
         </p>
+        <p>
+          처음 방문했다면 사용 목적에 따라 고르는 것이 가장 빠릅니다. 취업 준비 중이라면 글자수 세기 → 맞춤법 검사기 → AI 면접 질문 생성기 순서로 쓰고, 이직을 검토 중이라면 연봉 실수령액 계산기 → 퇴직금 계산기 → 실업급여 계산기 순서로 확인하세요. 건강 관리는 BMI 계산기로 현재 상태를 파악한 뒤 TDEE 계산기로 하루 섭취 목표를 잡는 흐름이 좋습니다. 파일 변환은 HWP/HWPX, PDF, 이미지, JSON처럼 업무 중 막히는 형식부터 선택하면 됩니다.
+        </p>
+        <p>
+          검색엔진에서 바로 들어온 사용자를 위해 각 도구 페이지에는 사용 가이드와 FAQ를 함께 정리했습니다. 계산 결과는 참고용이며, 세금·노무·건강처럼 중요한 판단은 공식 기관 또는 전문가 확인을 권장합니다. 바로도구는 사용자가 빠르게 첫 판단을 내릴 수 있도록 돕는 무료 실무 도구 모음입니다.
+        </p>
       </div>
 
       {/* Search */}
@@ -60,6 +66,29 @@ export default function ToolsPageClient() {
 
       {/* Tool Grid */}
       <ToolGrid tools={tools} />
+
+      {/* Recommended Flows */}
+      <section className="mt-16 max-w-4xl mx-auto px-2">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">목적별 추천 사용 순서</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-300">
+          <div className="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">취업 준비</h3>
+            <p>자기소개서 초안 작성 후 글자수 세기로 분량을 맞추고, 맞춤법 검사기로 제출 전 오류를 줄인 뒤, AI 면접 질문 생성기로 예상 질문을 뽑아 답변을 준비하세요.</p>
+          </div>
+          <div className="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">이직·퇴사 판단</h3>
+            <p>연봉 실수령액 계산기로 제안 연봉을 확인하고, 퇴직금 계산기와 실업급여 계산기로 퇴사 후 현금 흐름을 미리 점검하면 무리한 결정을 줄일 수 있습니다.</p>
+          </div>
+          <div className="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">건강·다이어트</h3>
+            <p>BMI 계산기로 현재 체중 상태를 확인한 뒤 TDEE 계산기로 감량·유지·증량 목표 칼로리를 잡으세요. 결과는 의학적 진단이 아닌 생활 관리 참고값입니다.</p>
+          </div>
+          <div className="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">문서·파일 처리</h3>
+            <p>HWP/HWPX 변환, PDF 이미지 변환, 이미지 포맷 변환, JSON 정리는 설치 프로그램 없이 브라우저에서 처리합니다. 민감한 문서는 서버 전송 여부를 꼭 확인하세요.</p>
+          </div>
+        </div>
+      </section>
 
       {/* Trust Banner */}
       <div className="mt-16 bg-primary/5 dark:bg-primary/10 rounded-xl p-6 text-center">

@@ -89,15 +89,23 @@ export default function AgeCalculatorPage() {
             <ul className="list-disc pl-5 space-y-1">
               <li>만 나이: 생일이 지나야 한 살 더 먹음 (국제 표준, 법적 기준)</li>
               <li>한국 나이(세는 나이): 태어나면 1살, 매년 1월 1일에 +1살</li>
+              <li>연나이: 현재 연도에서 출생 연도를 뺀 값. 병역·청소년보호 등 일부 제도에서 사용</li>
             </ul>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">어떤 상황에서 어떤 나이를 쓰나요?</h2>
+            <p>계약서, 은행 업무, 병원 진료, 행정 서류처럼 법적 효력이 있는 문서에서는 만 나이가 기준입니다. 병역 의무나 일부 청소년 관련 제도는 연나이를 쓰는 경우가 있어 생일과 무관하게 출생 연도 기준으로 판단합니다. 일상 대화에서는 한국 나이를 쓰는 사람이 여전히 많으므로, 공식 문서와 사적인 대화를 구분하는 것이 좋습니다. 해외에서는 대부분 만 나이만 사용하므로 영어로 나이를 말할 때는 반드시 만 나이를 기준으로 답하세요.</p>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">띠와 생일 정보 활용</h2>
+            <p>띠는 태어난 해를 12간지로 나눈 값입니다. 다만 전통 사주나 작명에서는 음력 설 기준으로 띠가 달라질 수 있어 1월과 2월 초 출생자는 주의가 필요합니다. 이 도구는 빠른 확인을 위해 양력 연도 기준 띠를 보여주며, 다음 생일까지 남은 일수와 살아온 일수도 함께 표시합니다. 생일 이벤트, 기념일, 보험나이 확인 전 빠른 참고용으로 활용하세요.</p>
           </div>
           <details className="group">
             <summary className="cursor-pointer font-semibold text-gray-900 dark:text-white">자주 묻는 질문</summary>
             <div className="mt-3 space-y-3">
-              <div>
-                <p className="font-medium">법적으로 만 나이만 쓰나요?</p>
-                <p>2023년부터 법적/행정적으로는 만 나이가 기준입니다. 다만 일상 대화에서는 여전히 한국 나이를 쓰는 경우가 많습니다.</p>
-              </div>
+              <div><p className="font-medium">법적으로 만 나이만 쓰나요?</p><p>2023년부터 법적·행정적으로는 만 나이가 기준입니다. 다만 병역, 청소년보호, 취학 기준처럼 연나이를 쓰는 예외가 있습니다.</p></div>
+              <div><p className="font-medium">보험나이는 만 나이와 다른가요?</p><p>보험사는 다음 생일까지 6개월 미만이면 한 살을 더하는 보험나이를 쓰는 경우가 있습니다. 보험 가입 전에는 보험사 기준을 다시 확인하세요.</p></div>
+              <div><p className="font-medium">2월 29일 출생자는 어떻게 계산하나요?</p><p>윤년이 아닌 해에는 제도나 서비스에 따라 2월 28일 또는 3월 1일을 기준으로 처리할 수 있습니다. 공식 문서는 해당 기관 기준을 따르세요.</p></div>
             </div>
           </details>
         </section>

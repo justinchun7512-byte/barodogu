@@ -1,53 +1,22 @@
-import { createHash } from 'crypto';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export const maxDuration = 10;
 
-// 티어 유효성 검사
-const VALID_TIERS = ['basic', 'starter', 'pro'] as const;
-type Tier = (typeof VALID_TIERS)[number];
+// 데스크톱 PyInstaller 버전이 2026-04-13 폐기되면서 라이선스 발급 시스템도 함께 중단됐다.
+// 클립바로는 현재 무료 베타로 운영 중이며, 정식 결제 시스템은 추후 별도 안내한다.
+// 외부에서 이 엔드포인트를 직접 호출하는 케이스(즐겨찾기·크몽 안내문 링크 등)에 대비해
+// 410 Gone으로 명시 응답한다.
 
-// 티어별 유효기간 (일)
-const TIER_DAYS: Record<Tier, number> = {
-  basic: 30,
-  starter: 30,
-  pro: 30,
-};
+const GONE_BODY = {
+  success: false,
+  error:
+    '라이선스 발급 시스템은 더 이상 제공되지 않습니다. 클립바로는 현재 무료 베타로 운영 중이며, 정식 결제는 추후 안내됩니다.',
+} as const;
 
-// 티어별 크몽 패키지 이름
-const TIER_LABEL: Record<Tier, string> = {
-  basic: '기본 (STANDARD)',
-  starter: '스타터 (DELUXE)',
-  pro: '프로 (PREMIUM)',
-};
-
-function generateKey(orderNumber: string, tier: string): string {
-  const salt =
-    process.env.CLIPBARO_LICENSE_SECRET || 'clipbaro-default-salt-2026';
-  const hash = createHash('sha256')
-    .update(`${orderNumber}:${tier}:${salt}`)
-    .digest('hex')
-    .substring(0, 8)
-    .toUpperCase();
-  return `CB-${tier.toUpperCase()}-${hash}`;
-}
-
-function getExpiresAt(tier: Tier): string {
-  const days = TIER_DAYS[tier];
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return date.toISOString().split('T')[0]; // YYYY-MM-DD
-}
-
-function isValidEmail(email: string): boolean {
-  return email.includes('@') && email.length >= 5;
-}
-
-// CORS 헤더
 function corsHeaders() {
   return {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   };
 }
@@ -56,63 +25,10 @@ export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: corsHeaders() });
 }
 
-export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { orderNumber, email, tier } = body as {
-      orderNumber?: string;
-      email?: string;
-      tier?: string;
-    };
+export async function GET() {
+  return NextResponse.json(GONE_BODY, { status: 410, headers: corsHeaders() });
+}
 
-    // 입력 검증
-    if (!orderNumber || typeof orderNumber !== 'string' || orderNumber.trim() === '') {
-      return NextResponse.json(
-        { success: false, error: '주문번호를 입력해주세요.' },
-        { status: 400, headers: corsHeaders() }
-      );
-    }
-
-    if (!email || !isValidEmail(email)) {
-      return NextResponse.json(
-        { success: false, error: '올바른 이메일 주소를 입력해주세요.' },
-        { status: 400, headers: corsHeaders() }
-      );
-    }
-
-    if (!tier || !VALID_TIERS.includes(tier as Tier)) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: '유효하지 않은 구매 등급입니다. basic, starter, pro 중 하나를 선택하세요.',
-        },
-        { status: 400, headers: corsHeaders() }
-      );
-    }
-
-    const validTier = tier as Tier;
-    const cleanOrderNumber = orderNumber.trim();
-
-    // 결정론적 키 생성 (같은 주문번호 + 티어 = 항상 같은 키)
-    const key = generateKey(cleanOrderNumber, validTier);
-    const expiresAt = getExpiresAt(validTier);
-
-    return NextResponse.json(
-      {
-        success: true,
-        key,
-        tier: validTier,
-        tierLabel: TIER_LABEL[validTier],
-        expiresAt,
-        issuedAt: new Date().toISOString(),
-        orderNumber: cleanOrderNumber,
-      },
-      { status: 200, headers: corsHeaders() }
-    );
-  } catch {
-    return NextResponse.json(
-      { success: false, error: '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.' },
-      { status: 500, headers: corsHeaders() }
-    );
-  }
+export async function POST() {
+  return NextResponse.json(GONE_BODY, { status: 410, headers: corsHeaders() });
 }
