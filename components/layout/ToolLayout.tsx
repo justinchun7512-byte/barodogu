@@ -37,7 +37,7 @@ export function ToolLayout({ tool, children, guideContent, disclaimer, seoConten
       {/* Title */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-2">
-          <h1 className="text-2xl md:text-3xl font-bold dark:text-white">{tool.name}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold dark:text-white">{tool.seo.h1 ?? tool.name}</h1>
           {tool.isNew && <span className="text-xs px-2 py-0.5 bg-secondary text-white rounded-full font-medium">NEW</span>}
           {tool.isHot && <span className="text-xs px-2 py-0.5 bg-red-500 text-white rounded-full font-medium">HOT</span>}
         </div>
