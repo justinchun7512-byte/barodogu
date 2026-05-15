@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -17,4 +18,29 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* 바로스킬 상세 페이지의 마크다운 표 가독성 강화 */
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+.prose th,
+.prose td {
+  border: 1px solid #e7e5e4;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.prose th {
+  background: #f5f5f4;
+  font-weight: 600;
+}
+.dark .prose th,
+.dark .prose td {
+  border-color: #44403c;
+}
+.dark .prose th {
+  background: #292524;
 }

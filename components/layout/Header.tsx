@@ -20,6 +20,9 @@ export function Header() {
           <Link href="/#tools" className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#1A1A2E] dark:hover:text-white transition-colors">
             도구
           </Link>
+          <Link href="/skills" className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#1A1A2E] dark:hover:text-white transition-colors">
+            스킬
+          </Link>
           <Link href="/blog" className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#1A1A2E] dark:hover:text-white transition-colors">
             블로그
           </Link>
