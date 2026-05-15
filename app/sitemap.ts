@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { TOOLS } from '@/lib/tools';
 import { getAllPosts } from '@/lib/blog-posts';
-import { createClient } from '@/lib/supabase/server';
+import { createAnonClient } from '@/lib/supabase/anon';
 
 const BASE_URL = 'https://barodogu.com';
 
@@ -49,7 +49,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let skillCategoryPages: MetadataRoute.Sitemap = [];
   let skillDetailPages: MetadataRoute.Sitemap = [];
   try {
-    const supabase = await createClient();
+    // 빌드 타임 prerender 대응: cookies 없는 anon 클라이언트 사용
+    const supabase = createAnonClient();
     const [{ data: categories }, { data: skills }] = await Promise.all([
       supabase.from('categories').select('slug'),
       supabase
