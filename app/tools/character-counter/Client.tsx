@@ -122,6 +122,17 @@ export default function CharacterCounterPage() {
           <div><span className="text-gray-500">영문</span><br /><span className="font-semibold dark:text-white">{result.english}</span></div>
         </div>
       </div>
+
+      {/* NEIS·정밀 카운트 (5/15 k-skill 흡수) */}
+      <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900 rounded-xl p-4 mt-3">
+        <h3 className="font-semibold text-sm mb-3 text-blue-700 dark:text-blue-300">학교·NEIS 호환 카운트 <span className="text-xs font-normal text-blue-500">(자기소개서 NEIS 폼 기준)</span></h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div><span className="text-gray-500">NEIS 바이트</span><br /><span className="font-semibold dark:text-white">{result.bytesNeis.toLocaleString()}</span><br /><span className="text-xs text-gray-400">한글 3B·ASCII 1B·줄바꿈 2B</span></div>
+          <div><span className="text-gray-500">코드 포인트</span><br /><span className="font-semibold dark:text-white">{result.codePoints.toLocaleString()}</span><br /><span className="text-xs text-gray-400">이모지·결합 한글 1자</span></div>
+          <div><span className="text-gray-500">UTF-16 단위</span><br /><span className="font-semibold dark:text-white">{result.utf16CodeUnits.toLocaleString()}</span><br /><span className="text-xs text-gray-400">JS 기본 length</span></div>
+          <div><span className="text-gray-500">UTF-8 바이트</span><br /><span className="font-semibold dark:text-white">{result.bytes.toLocaleString()}</span><br /><span className="text-xs text-gray-400">DB·웹 표준</span></div>
+        </div>
+      </div>
     </ToolLayout>
   );
 }

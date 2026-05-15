@@ -27,7 +27,11 @@ export default function SpellCheckerPage() {
       const data = await res.json();
 
       if (data.corrections && data.corrections.length > 0) {
-        setMessage(`${data.corrections.length}개의 교정 제안이 있습니다:\n\n${data.corrections.map((c: { original: string; corrected: string; reason?: string }) => `• "${c.original}" → "${c.corrected}"${c.reason ? `\n  └ ${c.reason}` : ''}`).join('\n\n')}`);
+        setMessage(`${data.corrections.length}개의 교정 제안이 있습니다:\n\n${data.corrections.map((c: { original: string; corrected: string; reason?: string; category?: string; count?: number }) => {
+          const cat = c.category ? `[${c.category}] ` : '';
+          const cnt = c.count && c.count > 1 ? ` (${c.count}회)` : '';
+          return `• ${cat}"${c.original}" → "${c.corrected}"${cnt}${c.reason ? `\n  └ ${c.reason}` : ''}`;
+        }).join('\n\n')}`);
       } else {
         setMessage('맞춤법 오류가 발견되지 않았습니다. 👍');
       }
