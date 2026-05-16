@@ -72,7 +72,7 @@ export function SubmitForm() {
       website_url: String(fd.get('website_url') ?? ''), // honeypot
     };
 
-    // 진단을 위해 fetch/json 단계별 분리. 실패 시 정확한 단계와 메시지를 화면에 노출.
+    // fetch / json / status 단계별 분리. 사용자에게는 친화 메시지, console 에 진단 로그.
     let res: Response;
     try {
       res = await fetch('/api/skills/submit', {
@@ -81,11 +81,9 @@ export function SubmitForm() {
         body: JSON.stringify(payload),
       });
     } catch (fetchErr) {
-      const name = fetchErr instanceof Error ? fetchErr.name : 'Error';
-      const msg = fetchErr instanceof Error ? fetchErr.message : '알 수 없음';
-      // 가장 흔한 원인: 광고/추적 차단기, 회사 프록시, 캐시된 SW. 직접 메시지로 노출.
+      console.error('[submit] fetch failed', fetchErr);
       setErrorMsg(
-        `네트워크 호출 자체가 실패했습니다 (${name}: ${msg}). 광고 차단기·VPN·확장 프로그램 끄고 다시 시도해주세요. (페이지 새로고침 ⌘⇧R 권장)`,
+        '연결이 끊겼습니다. 광고 차단기·VPN 사용 시 비활성화하시고, 페이지 새로고침 후 다시 시도해주세요.',
       );
       setStatus('error');
       return;
@@ -95,10 +93,10 @@ export function SubmitForm() {
     let data: ApiResponse | null = null;
     try {
       data = (await res.json()) as ApiResponse;
-    } catch {
-      const text = await res.text().catch(() => '');
+    } catch (parseErr) {
+      console.error('[submit] parse failed', { status: res.status, parseErr });
       setErrorMsg(
-        `응답 파싱 실패 (HTTP ${res.status}). 본문 앞부분: ${text.slice(0, 120) || '(빈 응답)'}`,
+        '서버 응답을 읽지 못했습니다. 잠시 후 다시 시도해주세요.',
       );
       setStatus('error');
       return;
@@ -106,8 +104,9 @@ export function SubmitForm() {
 
     if (!res.ok || !data?.ok) {
       const code = data?.error ?? 'unknown';
+      console.warn('[submit] api error', { status: res.status, code });
       setErrorMsg(
-        ERROR_MESSAGES[code] ?? `제출 실패 (HTTP ${res.status}, code=${code})`,
+        ERROR_MESSAGES[code] ?? '제출에 실패했습니다. 잠시 후 다시 시도해주세요.',
       );
       setStatus('error');
       return;
