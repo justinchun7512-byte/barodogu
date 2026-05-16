@@ -59,6 +59,26 @@ export async function getFeaturedSkills(limit = 8): Promise<Skill[]> {
   return (data as Skill[]) ?? [];
 }
 
+/**
+ * 최근 추가된 스킬 — status='curated' 만 (featured 는 추천 섹션에서 노출).
+ * 사용자 제출이나 신규 큐레이션이 발견되는 채널.
+ */
+export async function getRecentSkills(limit = 6): Promise<Skill[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('skills')
+    .select('*, category:categories(*)')
+    .eq('status', 'curated')
+    .order('published_at', { ascending: false, nullsFirst: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('[getRecentSkills]', error);
+    return [];
+  }
+  return (data as Skill[]) ?? [];
+}
+
 export async function getSkillsByCategory(
   categorySlug: string
 ): Promise<Skill[]> {

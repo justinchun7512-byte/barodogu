@@ -2,13 +2,18 @@
 // Hero, 카테고리 그리드, 추천 스킬
 
 import Link from 'next/link';
-import { getCategories, getFeaturedSkills } from '@/lib/skills/queries';
+import {
+  getCategories,
+  getFeaturedSkills,
+  getRecentSkills,
+} from '@/lib/skills/queries';
 import { SkillCard } from '@/components/skills/SkillCard';
 
 export default async function SkillsHomePage() {
-  const [categories, featured] = await Promise.all([
+  const [categories, featured, recent] = await Promise.all([
     getCategories(),
     getFeaturedSkills(9),
+    getRecentSkills(6),
   ]);
 
   return (
@@ -75,6 +80,27 @@ export default async function SkillsHomePage() {
           </div>
         )}
       </section>
+
+      {recent.length > 0 && (
+        <section>
+          <div className="flex items-baseline justify-between mb-4">
+            <h2 className="text-xs font-medium text-stone-500 uppercase tracking-wider">
+              최근 추가
+            </h2>
+            <Link
+              href="/skills/submit"
+              className="text-sm text-stone-500 hover:text-stone-900 dark:hover:text-stone-100"
+            >
+              + 스킬 제출
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {recent.map((skill) => (
+              <SkillCard key={skill.id} skill={skill} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
