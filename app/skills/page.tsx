@@ -12,7 +12,7 @@ import { SkillCard } from '@/components/skills/SkillCard';
 export default async function SkillsHomePage() {
   const [categories, featured, recent] = await Promise.all([
     getCategories(),
-    getFeaturedSkills(9),
+    getFeaturedSkills(12),
     getRecentSkills(6),
   ]);
 
