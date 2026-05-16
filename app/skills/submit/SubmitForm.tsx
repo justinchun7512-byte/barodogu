@@ -72,27 +72,50 @@ export function SubmitForm() {
       website_url: String(fd.get('website_url') ?? ''), // honeypot
     };
 
+    // 진단을 위해 fetch/json 단계별 분리. 실패 시 정확한 단계와 메시지를 화면에 노출.
+    let res: Response;
     try {
-      const res = await fetch('/api/skills/submit', {
+      res = await fetch('/api/skills/submit', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      const data = (await res.json()) as { ok: boolean; error?: string; spam?: boolean };
-
-      if (!res.ok || !data.ok) {
-        const code = data.error ?? 'unknown';
-        setErrorMsg(ERROR_MESSAGES[code] ?? `제출 실패: ${code}`);
-        setStatus('error');
-        return;
-      }
-      setStatus('success');
-      e.currentTarget.reset();
-      setCompatible([]);
-    } catch {
-      setErrorMsg('네트워크 오류로 제출에 실패했습니다.');
+    } catch (fetchErr) {
+      const name = fetchErr instanceof Error ? fetchErr.name : 'Error';
+      const msg = fetchErr instanceof Error ? fetchErr.message : '알 수 없음';
+      // 가장 흔한 원인: 광고/추적 차단기, 회사 프록시, 캐시된 SW. 직접 메시지로 노출.
+      setErrorMsg(
+        `네트워크 호출 자체가 실패했습니다 (${name}: ${msg}). 광고 차단기·VPN·확장 프로그램 끄고 다시 시도해주세요. (페이지 새로고침 ⌘⇧R 권장)`,
+      );
       setStatus('error');
+      return;
     }
+
+    type ApiResponse = { ok?: boolean; error?: string; spam?: boolean };
+    let data: ApiResponse | null = null;
+    try {
+      data = (await res.json()) as ApiResponse;
+    } catch {
+      const text = await res.text().catch(() => '');
+      setErrorMsg(
+        `응답 파싱 실패 (HTTP ${res.status}). 본문 앞부분: ${text.slice(0, 120) || '(빈 응답)'}`,
+      );
+      setStatus('error');
+      return;
+    }
+
+    if (!res.ok || !data?.ok) {
+      const code = data?.error ?? 'unknown';
+      setErrorMsg(
+        ERROR_MESSAGES[code] ?? `제출 실패 (HTTP ${res.status}, code=${code})`,
+      );
+      setStatus('error');
+      return;
+    }
+
+    setStatus('success');
+    e.currentTarget.reset();
+    setCompatible([]);
   }
 
   if (status === 'success') {
