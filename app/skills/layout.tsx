@@ -5,9 +5,14 @@ import Link from 'next/link';
 import { getCategories } from '@/lib/skills/queries';
 
 export const metadata = {
-  title: '바로스킬 — 일에 바로 쓰는 AI 스킬 모음 | 바로도구',
+  title: {
+    absolute: '바로스킬 — 일에 바로 쓰는 AI 스킬 모음 | 바로도구',
+  },
   description:
     '영업·마케팅·콘텐츠·기획 직무에서 바로 쓸 수 있는 한국어 AI 스킬을 큐레이션합니다. Claude·Codex·Cursor 어디서든 1-클릭으로 추가하세요.',
+  alternates: {
+    canonical: 'https://barodogu.com/skills',
+  },
 };
 
 export default async function SkillsLayout({
