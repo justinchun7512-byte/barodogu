@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: '바로스킬 설치 가이드 — Claude · Codex · Cursor',
   description:
     '바로스킬에 등록된 AI 스킬을 Claude.ai, Claude Code, Codex CLI, Cursor에서 1-클릭으로 추가하는 방법을 안내합니다.',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: { index: false, follow: false },
+  },
 };
 
 export default function SkillGuidePage() {

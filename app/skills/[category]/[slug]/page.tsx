@@ -77,9 +77,9 @@ export async function generateMetadata({
       description,
     },
     robots: {
-      index: true,
-      follow: true,
-      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+      index: false,
+      follow: false,
+      googleBot: { index: false, follow: false },
     },
   };
 }

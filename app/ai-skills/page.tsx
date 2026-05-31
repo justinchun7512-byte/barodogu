@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   title: 'AI Skills 라이브러리 - 직장인용 무료 ChatGPT 프롬프트 모음 | 바로도구',
   description: '회의록·이메일·보고서·자소서 등 직장인이 매일 쓰는 ChatGPT 프롬프트를 무료로 정리. 복사해서 바로 사용 가능. 회원가입 없이 즉시 활용.',
   alternates: { canonical: 'https://barodogu.com/ai-skills' },
+  // 2026-05-31: AdSense 재신청 전 색인 정상화. /skills와 함께 ai-skills도 noindex.
+  // 사이트 주제를 "무료 도구 + 가이드"로 좁힘.
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: { index: false, follow: false },
+  },
   openGraph: {
     title: 'AI Skills 라이브러리 - 직장인용 무료 ChatGPT 프롬프트',
     description: '회의록·이메일·보고서·자소서 등 직장인이 매일 쓰는 ChatGPT 프롬프트를 무료로 정리.',

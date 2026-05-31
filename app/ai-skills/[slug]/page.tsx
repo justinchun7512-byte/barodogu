@@ -24,6 +24,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: skill.description,
     keywords: skill.tags,
     alternates: { canonical: url },
+    // 2026-05-31: AdSense 재신청 전 색인 정상화. /ai-skills/* noindex.
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: { index: false, follow: false },
+    },
     openGraph: {
       title: skill.title,
       description: skill.description,

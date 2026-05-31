@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   title: '스킬 제출하기 — 바로스킬',
   description:
     '직접 만든 AI 스킬을 바로스킬에 등록하세요. 카테고리·설명·호환 도구만 입력하면 운영자가 검토 후 게시합니다.',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: { index: false, follow: false },
+  },
 };
 
 export default function SkillSubmitPage() {

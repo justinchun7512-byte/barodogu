@@ -99,54 +99,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 바로스킬 — 직무별 AI 스킬 큐레이션 */}
-      <section className="max-w-[1100px] mx-auto px-5 md:px-10 pt-16 pb-4">
-        <div className="bg-gradient-to-br from-primary/5 to-[#00BCD4]/5 dark:from-primary/10 dark:to-[#00BCD4]/10 border border-primary/15 dark:border-primary/25 rounded-3xl p-7 md:p-10">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-primary/15 text-primary">NEW</span>
-            <span className="text-[12px] text-gray-500 dark:text-gray-400">2026.05 신규</span>
-          </div>
-          <h2 className="font-[Outfit] text-2xl md:text-3xl font-bold tracking-tight text-[#1A1A2E] dark:text-[#E8E8F0] mb-2">
-            바로스킬 <span className="text-gray-400 dark:text-gray-500 text-lg md:text-xl font-medium">— 일에 바로 쓰는 AI 스킬 모음</span>
-          </h2>
-          <p className="text-[15px] text-gray-600 dark:text-gray-400 mb-6 max-w-2xl leading-relaxed">
-            영업·마케팅·콘텐츠·기획 직무에서 바로 쓸 수 있는 한국어 AI 스킬을 큐레이션합니다.
-            Claude·Codex·Cursor 어디서든 1-클릭으로 추가하세요.
-          </p>
-          <div className="flex flex-wrap gap-2 mb-6">
-            {[
-              { slug: 'sales', label: '영업/세일즈' },
-              { slug: 'marketing', label: '마케팅' },
-              { slug: 'content', label: '콘텐츠/크리에이터' },
-              { slug: 'planning', label: '기획/분석' },
-              { slug: 'korean', label: '한국형 유틸리티' },
-            ].map((c) => (
-              <Link
-                key={c.slug}
-                href={`/skills/${c.slug}`}
-                className="px-3 py-1.5 rounded-full text-[13px] font-medium bg-white dark:bg-[#1A1B23] border border-[#E8EAF0] dark:border-[#2A2B35] text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors"
-              >
-                {c.label}
-              </Link>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/skills"
-              className="inline-flex items-center bg-[#1A1A2E] dark:bg-white text-white dark:text-[#1A1A2E] px-6 py-3 rounded-xl text-[14px] font-semibold hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(26,26,46,0.18)] transition-all"
-            >
-              바로스킬 둘러보기 →
-            </Link>
-            <Link
-              href="/skills/guide"
-              className="inline-flex items-center text-[14px] font-medium text-gray-600 dark:text-gray-400 hover:text-primary px-3 py-3 transition-colors"
-            >
-              설치 가이드
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Tools Section */}
       <section className="max-w-[1100px] mx-auto px-5 md:px-10 py-20" id="tools">
         <div className="flex justify-between items-center mb-9">

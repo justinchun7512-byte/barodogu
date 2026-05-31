@@ -18,10 +18,15 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { category: slug } = await params;
   const category = await getCategoryBySlug(slug);
-  if (!category) return {};
+  if (!category) return { robots: { index: false, follow: false } };
   return {
     title: `${category.name_ko} 스킬 — 바로스킬`,
     description: category.description_ko ?? undefined,
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: { index: false, follow: false },
+    },
   };
 }
 
