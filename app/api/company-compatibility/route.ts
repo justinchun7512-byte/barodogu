@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cleanAiText, cleanAiTextArray } from "@/lib/clean-ai-text";
+import { generateGuardedKorean } from "@/lib/groq-korean";
 
 export const maxDuration = 30;
 
@@ -23,6 +23,7 @@ const SYSTEM_PROMPT = `당신은 15년 경력의 HR 컨설턴트이자 조직문
 ## 언어 규칙 (최우선)
 - 모든 응답은 반드시 한국어(한글)로만 작성합니다.
 - 한자, 영어 혼용 금지. 고유명사(회사명, 기술명)만 예외.
+- 러시아어/키릴문자, 베트남어, 일본어, 중국어 등 한국어·영어 고유명사가 아닌 모든 외국 문자 절대 금지. 외국어 개념은 한국어로 번역해 쓴다.
 - 전문적이면서도 친근한 어조로 작성합니다.
 
 ## 분석 원칙
@@ -81,65 +82,40 @@ ${workStyle ? `선호 업무 스타일: ${workStyle}` : ''}
       return NextResponse.json({ error: "AI 서비스가 설정되지 않았습니다." }, { status: 503 });
     }
 
-    const models = ["llama-3.3-70b-versatile", "llama-3.1-70b-versatile"];
-    let res: Response | null = null;
+    // 기업명·기술명 영어 고유명사 허용(allowLatin) — 러시아어·베트남어·CJK 등만 차단.
+    type Compat = {
+      score: number;
+      analysis: { culture?: string; growth?: string; workStyle?: string };
+      summary?: string;
+      strengths?: string[];
+      cautions?: string[];
+      advice?: string;
+    };
+    const result = await generateGuardedKorean<Compat>({
+      system: SYSTEM_PROMPT,
+      user: userMessage,
+      isValid: (o) => {
+        const p = o as { score?: unknown; analysis?: unknown };
+        return !!p.score && !!p.analysis && typeof p.analysis === "object";
+      },
+      guardTexts: (o) => {
+        const t: string[] = [o.summary ?? "", o.advice ?? "", o.analysis?.culture ?? "", o.analysis?.growth ?? "", o.analysis?.workStyle ?? ""];
+        for (const s of o.strengths ?? []) t.push(s);
+        for (const c of o.cautions ?? []) t.push(c);
+        return t.filter((s) => typeof s === "string" && s.length > 0);
+      },
+      allowLatin: true,
+    });
 
-    for (const model of models) {
-      res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: userMessage },
-          ],
-          temperature: 0.8,
-          response_format: { type: "json_object" },
-        }),
-      });
-
-      if (res.ok) break;
-      console.error(`Groq API error (${model}):`, res.status);
-    }
-
-    if (!res || !res.ok) {
+    if (!result.ok) {
+      const status = result.reason === "api" ? 502 : 500;
       return NextResponse.json(
-        { error: "AI 서비스에 일시적인 문제가 발생했습니다." },
-        { status: 502 }
+        { error: "AI 분석에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요." },
+        { status }
       );
     }
 
-    const data = await res.json();
-    const content = data.choices?.[0]?.message?.content;
-
-    if (!content) {
-      return NextResponse.json({ error: "AI 응답이 비어있습니다." }, { status: 500 });
-    }
-
-    const parsed = JSON.parse(content);
-
-    if (!parsed.score || !parsed.analysis) {
-      return NextResponse.json({ error: "AI 응답 형식이 올바르지 않습니다." }, { status: 500 });
-    }
-
-    const cleaned = {
-      ...parsed,
-      summary: cleanAiText(parsed.summary || ''),
-      analysis: {
-        culture: cleanAiText(parsed.analysis.culture || ''),
-        growth: cleanAiText(parsed.analysis.growth || ''),
-        workStyle: cleanAiText(parsed.analysis.workStyle || ''),
-      },
-      strengths: cleanAiTextArray(parsed.strengths || []),
-      cautions: cleanAiTextArray(parsed.cautions || []),
-      advice: cleanAiText(parsed.advice || ''),
-    };
-
-    return NextResponse.json(cleaned);
+    return NextResponse.json(result.data);
   } catch (error: unknown) {
     console.error("Company Compatibility API error:", error);
     return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });

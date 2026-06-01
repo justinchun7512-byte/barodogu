@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateGuardedKorean } from '@/lib/groq-korean';
 
 export const maxDuration = 30;
 
@@ -23,6 +24,7 @@ const SYSTEM_PROMPT = `당신은 국립국어원 한글 맞춤법·표준어 규
 - 영어 혼용 금지: process(X) → 프로세스(O), communication(X) → 커뮤니케이션(O)
 - 고유명사(회사명, 기술명 등)만 영어 허용: React, Excel, SQL 등
 - 일본어, 중국어 문자 사용 금지
+- 러시아어/키릴문자, 베트남어 등 한국어·영어 고유명사가 아닌 모든 외국 문자 절대 금지. (교정문·이유 설명에 외국어 단어를 섞지 마라)
 
 ## 검수 기준 룰 표 (국립국어원 기반)
 
@@ -99,37 +101,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '텍스트는 2,000자 이내로 입력해주세요.' }, { status: 400 });
     }
 
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+    // corrected(교정문)·reason(이유)만 한국어 순도 검사. original은 사용자 원문이라 제외.
+    // allowLatin:true (교정문에 영어 고유명사·외래어 가능). 실패 시 룰 기반 폴백(clean).
+    type Corr = { original?: string; corrected?: string; reason?: string; category?: string; count?: number };
+    const result = await generateGuardedKorean<{ corrections?: Corr[] }>({
+      system: SYSTEM_PROMPT,
+      user: `다음 텍스트의 맞춤법과 문법을 검사해주세요. JSON으로만 응답:\n\n${text}`,
+      temps: [0.1, 0.1, 0.1],
+      isValid: (o) =>
+        !!o && typeof o === 'object' && Array.isArray((o as { corrections?: unknown }).corrections),
+      guardTexts: (o) => {
+        const t: string[] = [];
+        for (const c of o.corrections ?? []) t.push(c.corrected ?? '', c.reason ?? '');
+        return t.filter((s) => typeof s === 'string' && s.length > 0);
       },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: `다음 텍스트의 맞춤법과 문법을 검사해주세요. JSON으로만 응답:\n\n${text}` },
-        ],
-        temperature: 0.1,
-        response_format: { type: 'json_object' },
-      }),
+      allowLatin: true,
     });
 
-    if (!res.ok) {
-      // AI 실패 시 기본 룰 기반 폴백
+    if (!result.ok) {
+      // AI 실패/오염 시 룰 기반 폴백 (전부 순수 한국어)
       return NextResponse.json({ corrections: fallbackCheck(text) });
     }
 
-    const data = await res.json();
-    const content = data.choices?.[0]?.message?.content || '';
-
-    try {
-      const parsed = JSON.parse(content);
-      return NextResponse.json({ corrections: parsed.corrections || [] });
-    } catch {
-      return NextResponse.json({ corrections: fallbackCheck(text) });
-    }
+    return NextResponse.json({ corrections: result.data.corrections || [] });
   } catch {
     return NextResponse.json({ corrections: [] }, { status: 500 });
   }
