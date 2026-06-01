@@ -1,42 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
 
 const tool = getToolById('json-formatter')!;
 
+type IndentMode = '2' | '4' | 'tab';
+
 export default function JsonFormatterPage() {
   const [input, setInput] = useState('');
-  const [indent, setIndent] = useState(2);
-  const [error, setError] = useState('');
+  const [indentMode, setIndentMode] = useState<IndentMode>('2');
+  const [copied, setCopied] = useState(false);
 
-  let formatted = '';
-  let isValid = false;
+  const indentArg: string | number = indentMode === 'tab' ? '\t' : parseInt(indentMode, 10);
 
-  if (input.trim()) {
+  // 입력·들여쓰기에 따라 실시간으로 파생 (render 중 setState 금지 — 안티패턴 제거)
+  const { formatted, isValid, errorMsg } = useMemo(() => {
+    if (!input.trim()) return { formatted: '', isValid: false, errorMsg: '' };
     try {
       const parsed = JSON.parse(input);
-      formatted = JSON.stringify(parsed, null, indent);
-      isValid = true;
-      if (error) setError('');
+      return { formatted: JSON.stringify(parsed, null, indentArg), isValid: true, errorMsg: '' };
     } catch (e) {
-      formatted = input;
-      if (e instanceof Error) {
-        setError(e.message);
-      }
+      return { formatted: '', isValid: false, errorMsg: e instanceof Error ? e.message : String(e) };
     }
-  }
+  }, [input, indentArg]);
 
+  // "정렬": 정렬된 결과를 입력란에 그대로 적용 (선택)
   const handleFormat = () => {
-    if (!input.trim()) return;
-    try {
-      const parsed = JSON.parse(input);
-      setInput(JSON.stringify(parsed, null, indent));
-      setError('');
-    } catch (e) {
-      if (e instanceof Error) setError(e.message);
-    }
+    if (isValid && formatted) setInput(formatted);
   };
 
   const handleMinify = () => {
@@ -44,14 +36,18 @@ export default function JsonFormatterPage() {
     try {
       const parsed = JSON.parse(input);
       setInput(JSON.stringify(parsed));
-      setError('');
-    } catch (e) {
-      if (e instanceof Error) setError(e.message);
+    } catch {
+      /* 유효하지 않으면 배지가 이미 알려줌 */
     }
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(input);
+    const text = formatted || input;
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
   };
 
   const handleSample = () => {
@@ -64,7 +60,6 @@ export default function JsonFormatterPage() {
       ],
       config: { darkMode: true, language: "ko" }
     }, null, 2));
-    setError('');
   };
 
   return (
@@ -77,11 +72,11 @@ export default function JsonFormatterPage() {
           <div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">사용 방법</h2>
             <ol className="list-decimal pl-5 space-y-1.5">
-              <li>텍스트 입력란에 JSON 데이터를 입력하거나 붙여넣기 합니다.</li>
-              <li>&quot;정렬&quot; 버튼을 클릭하면 선택한 들여쓰기 기준으로 보기 좋게 포맷팅됩니다.</li>
+              <li>왼쪽(또는 위쪽) 입력란에 JSON 데이터를 입력하거나 붙여넣기 합니다.</li>
+              <li>들여쓰기(2칸·4칸·탭)를 선택하면 오른쪽(또는 아래쪽) 결과가 실시간으로 정렬됩니다.</li>
               <li>&quot;압축&quot; 버튼을 클릭하면 공백과 줄바꿈을 제거한 최소 크기의 JSON으로 변환됩니다.</li>
               <li>상단의 Valid/Invalid 배지로 JSON 문법의 유효성을 실시간 확인할 수 있습니다.</li>
-              <li>&quot;샘플&quot; 버튼으로 예시 JSON을 불러와 테스트할 수 있습니다.</li>
+              <li>&quot;복사&quot; 버튼으로 정렬된 결과를 클립보드에 복사하거나, &quot;샘플&quot; 버튼으로 예시 JSON을 불러올 수 있습니다.</li>
             </ol>
           </div>
           <div>
@@ -113,18 +108,18 @@ export default function JsonFormatterPage() {
       }>
       {/* Toolbar */}
       <div className="flex flex-wrap gap-2 mb-4">
-        <button onClick={handleFormat} className="px-4 py-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium rounded-lg transition">정렬</button>
-        <button onClick={handleMinify} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm rounded-lg transition dark:text-gray-300">압축 (Minify)</button>
-        <button onClick={handleCopy} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm rounded-lg transition dark:text-gray-300">복사</button>
-        <button onClick={() => { setInput(''); setError(''); }} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm rounded-lg transition dark:text-gray-300">초기화</button>
+        <button onClick={handleFormat} className="px-4 py-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium rounded-lg transition disabled:opacity-40" disabled={!isValid}>정렬 적용</button>
+        <button onClick={handleMinify} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm rounded-lg transition dark:text-gray-300 disabled:opacity-40" disabled={!isValid}>압축 (Minify)</button>
+        <button onClick={handleCopy} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm rounded-lg transition dark:text-gray-300 disabled:opacity-40" disabled={!input.trim()}>{copied ? '복사됨!' : '결과 복사'}</button>
+        <button onClick={() => setInput('')} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm rounded-lg transition dark:text-gray-300">초기화</button>
         <button onClick={handleSample} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm rounded-lg transition dark:text-gray-300">샘플</button>
 
         <div className="flex items-center gap-2 ml-auto">
           <label className="text-xs text-gray-500">들여쓰기:</label>
-          <select value={indent} onChange={e => setIndent(parseInt(e.target.value))} className="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg">
-            <option value={2}>2칸</option>
-            <option value={4}>4칸</option>
-            <option value={8}>Tab</option>
+          <select value={indentMode} onChange={e => setIndentMode(e.target.value as IndentMode)} className="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg">
+            <option value="2">2칸</option>
+            <option value="4">4칸</option>
+            <option value="tab">탭</option>
           </select>
         </div>
       </div>
@@ -132,19 +127,35 @@ export default function JsonFormatterPage() {
       {/* Validation Badge */}
       {input.trim() && (
         <div className={`mb-3 px-3 py-1.5 rounded-lg text-xs font-medium inline-block ${isValid ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400'}`}>
-          {isValid ? 'Valid JSON' : `Invalid: ${error}`}
+          {isValid ? 'Valid JSON' : `Invalid: ${errorMsg}`}
         </div>
       )}
 
-      {/* Editor */}
-      <textarea
-        value={input}
-        onChange={e => { setInput(e.target.value); setError(''); }}
-        rows={18}
-        placeholder='{"name": "바로도구", "version": "1.0"}'
-        className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-900 dark:text-green-400 resize-y focus:outline-none focus:ring-2 focus:ring-primary text-sm leading-relaxed font-mono"
-        spellCheck={false}
-      />
+      {/* Input / Output 2-pane (라이브 정렬) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-1">입력</label>
+          <textarea
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            rows={18}
+            placeholder='{"name": "바로도구", "version": "1.0"}'
+            className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-900 dark:text-green-400 resize-y focus:outline-none focus:ring-2 focus:ring-primary text-sm leading-relaxed font-mono"
+            spellCheck={false}
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-1">결과 (실시간 정렬)</label>
+          <textarea
+            value={isValid ? formatted : (input.trim() ? '' : '')}
+            readOnly
+            rows={18}
+            placeholder="입력한 JSON이 여기에 실시간으로 정렬됩니다."
+            className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 dark:text-green-400 resize-y focus:outline-none text-sm leading-relaxed font-mono"
+            spellCheck={false}
+          />
+        </div>
+      </div>
 
       {/* Stats */}
       {input.trim() && (
