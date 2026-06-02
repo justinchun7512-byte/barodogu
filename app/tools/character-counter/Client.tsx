@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { getToolById } from '@/lib/tools';
 import { countCharacters } from '@/lib/calculators/character-counter';
 import { ToolLayout } from '@/components/layout/ToolLayout';
+import { CoupangWidget } from '@/components/CoupangWidget';
 
 const tool = getToolById('character-counter')!;
 
@@ -133,6 +134,7 @@ export default function CharacterCounterPage() {
           <div><span className="text-gray-500">UTF-8 바이트</span><br /><span className="font-semibold dark:text-white">{result.bytes.toLocaleString()}</span><br /><span className="text-xs text-gray-400">DB·웹 표준</span></div>
         </div>
       </div>
+      <CoupangWidget tool="character-counter" />
     </ToolLayout>
   );
 }

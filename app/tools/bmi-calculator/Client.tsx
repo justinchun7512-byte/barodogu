@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getToolById } from '@/lib/tools';
 import { ToolLayout } from '@/components/layout/ToolLayout';
+import { CoupangWidget } from '@/components/CoupangWidget';
 
 const tool = getToolById('bmi-calculator')!;
 
@@ -224,6 +225,7 @@ export default function BmiCalculatorPage() {
           </div>
         )}
       </div>
+      <CoupangWidget tool="bmi-calculator" />
     </ToolLayout>
   );
 }
