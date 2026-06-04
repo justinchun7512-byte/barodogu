@@ -59,13 +59,26 @@ export default function PrivacyPage() {
           <ul className="list-disc pl-6 mt-2 space-y-1">
             <li>다크 모드 등 사용자 설정 저장 (localStorage)</li>
             <li>Google Analytics 방문 통계 (익명)</li>
-            <li>Google AdSense 광고 서비스 (향후 적용 시)</li>
+            <li>Google AdSense 맞춤형 광고 서비스</li>
+            <li>쿠팡 파트너스 제휴 마케팅 (구매 추적 쿠키)</li>
           </ul>
           <p className="mt-2">사용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있으며, 이 경우 일부 기능 이용이 제한될 수 있습니다.</p>
         </section>
 
         <section>
-          <h2 className="text-lg font-bold mb-3 dark:text-white">6. 데이터 처리 방식</h2>
+          <h2 className="text-lg font-bold mb-3 dark:text-white">6. 제휴 마케팅(Affiliate) 고지</h2>
+          <p>
+            바로도구 일부 페이지에는 <strong>쿠팡 파트너스</strong> 제휴 링크 및 위젯이 포함되어 있습니다.
+            해당 링크를 통해 상품을 구매하시면 회사가 일정 수수료를 받을 수 있으며,
+            이는 구매자에게 추가 비용을 발생시키지 않습니다.
+          </p>
+          <p className="mt-2 text-gray-500 dark:text-gray-400">
+            ※ 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-bold mb-3 dark:text-white">7. 데이터 처리 방식</h2>
           <p>
             바로도구에서 제공하는 계산기, 변환기 등의 도구는 <strong>모든 데이터 처리가 사용자의 브라우저(클라이언트)에서 이루어집니다.</strong>
             입력하신 연봉, 날짜, 텍스트 등의 정보는 서버로 전송되지 않으며, 어디에도 저장되지 않습니다.
@@ -76,7 +89,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-bold mb-3 dark:text-white">7. 개인정보 보호책임자</h2>
+          <h2 className="text-lg font-bold mb-3 dark:text-white">8. 개인정보 보호책임자</h2>
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
             <p>성명: 내일모코퍼레이션 대표</p>
             <p>이메일: justinchun7512@gmail.com</p>
@@ -84,9 +97,9 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-bold mb-3 dark:text-white">8. 개인정보처리방침 변경</h2>
+          <h2 className="text-lg font-bold mb-3 dark:text-white">9. 개인정보처리방침 변경</h2>
           <p>이 개인정보처리방침은 법령, 정책 또는 서비스 변경에 따라 수정될 수 있으며, 변경 시 사이트를 통해 공지합니다.</p>
-          <p className="mt-3 text-gray-400">시행일자: 2026년 3월 19일</p>
+          <p className="mt-3 text-gray-400">시행일자: 2026년 6월 4일 (최초 시행: 2026년 3월 19일)</p>
         </section>
       </div>
     </main>
