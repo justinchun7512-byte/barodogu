@@ -20,11 +20,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogImage = `https://barodogu.com/api/og?title=${encodeURIComponent(post.title)}&desc=${encodeURIComponent(post.description.slice(0, 80))}`;
 
   return {
-    title: `${post.title} - 바로도구`,
+    title: post.title,
     description: post.description,
     alternates: { canonical: url },
     openGraph: {
-      title: `${post.title} - 바로도구`,
+      title: post.title,
       description: post.description,
       url,
       type: 'article',
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${post.title} - 바로도구`,
+      title: post.title,
       description: post.description,
       images: [ogImage],
     },

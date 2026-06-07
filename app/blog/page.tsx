@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getAllPosts } from '@/lib/blog-posts';
 
 export const metadata: Metadata = {
-  title: '블로그 - 바로도구',
+  title: '블로그',
   description: '취업, 금융, 개발 등 실용적인 도구 활용 가이드와 팁을 제공합니다.',
   alternates: { canonical: 'https://barodogu.com/blog' },
   openGraph: {
