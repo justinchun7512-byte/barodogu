@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Script from 'next/script';
 
 interface Props {
@@ -16,6 +16,19 @@ export function ShareButtons({ title }: Props) {
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  useEffect(() => {
+    // SPA 네비게이션 시 스크립트가 이미 로드된 상태면 수동으로 재초기화
+    if (typeof window !== 'undefined' && (window as unknown as { a2a?: { init_all: () => void } }).a2a) {
+      (window as unknown as { a2a: { init_all: () => void } }).a2a.init_all();
+    }
+  }, []);
+
+  const handleScriptLoad = () => {
+    if (typeof window !== 'undefined' && (window as unknown as { a2a?: { init_all: () => void } }).a2a) {
+      (window as unknown as { a2a: { init_all: () => void } }).a2a.init_all();
+    }
   };
 
   return (
@@ -37,7 +50,11 @@ export function ShareButtons({ title }: Props) {
         <a className="a2a_button_x" />
         <a className="a2a_button_linkedin" />
       </div>
-      <Script src="https://static.addtoany.com/menu/page.js" strategy="lazyOnload" />
+      <Script
+        src="https://static.addtoany.com/menu/page.js"
+        strategy="lazyOnload"
+        onLoad={handleScriptLoad}
+      />
     </div>
   );
 }
