@@ -31,7 +31,6 @@ export function ShareButtons({ title }: Props) {
         data-a2a-title={`${title} - 바로도구`}
       >
         <a className="a2a_dd" href="https://www.addtoany.com/share" />
-        <a className="a2a_button_kakao" />
         <a className="a2a_button_line" />
         <a className="a2a_button_facebook" />
         <a className="a2a_button_telegram" />
