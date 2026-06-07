@@ -126,16 +126,62 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Content */}
       <article className="space-y-8 text-gray-700 dark:text-gray-300 leading-relaxed">
-        {post.content.map((section, index) => (
-          <section key={index}>
-            {section.heading && (
-              <h2 className="text-xl font-bold mb-3 dark:text-white">
-                {section.heading}
-              </h2>
-            )}
-            <p className="text-base leading-7">{section.body}</p>
-          </section>
-        ))}
+        {post.content.map((section, index) => {
+          const isFaq =
+            section.heading?.includes('FAQ') ||
+            section.heading?.includes('자주 묻는');
+
+          if (isFaq) {
+            // Q로 시작하는 항목으로 분리 (Q1. Q2. 등)
+            const pairs = section.body.split(/(?=Q\d+\.)/).filter(s => s.trim());
+            return (
+              <section key={index}>
+                {section.heading && (
+                  <h2 className="text-xl font-bold mb-4 dark:text-white">
+                    {section.heading}
+                  </h2>
+                )}
+                <dl className="space-y-5">
+                  {pairs.map((pair, i) => {
+                    // A. 구분자 방식: "Q1. 질문? A. 답변"
+                    const aIdx = pair.search(/ A\. /);
+                    // → 구분자 방식: "Q1. 질문? → 답변"
+                    const arrowIdx = pair.search(/ → /);
+
+                    let q = pair.trim();
+                    let a = '';
+
+                    if (aIdx !== -1) {
+                      q = pair.slice(0, aIdx).trim();
+                      a = pair.slice(aIdx + 4).trim();
+                    } else if (arrowIdx !== -1) {
+                      q = pair.slice(0, arrowIdx).trim();
+                      a = pair.slice(arrowIdx + 3).trim();
+                    }
+
+                    return (
+                      <div key={i} className="rounded-lg bg-gray-50 dark:bg-gray-800/50 p-4">
+                        <dt className="font-semibold text-gray-900 dark:text-white mb-2">{q}</dt>
+                        {a && <dd className="text-gray-600 dark:text-gray-400 leading-7">A. {a}</dd>}
+                      </div>
+                    );
+                  })}
+                </dl>
+              </section>
+            );
+          }
+
+          return (
+            <section key={index}>
+              {section.heading && (
+                <h2 className="text-xl font-bold mb-3 dark:text-white">
+                  {section.heading}
+                </h2>
+              )}
+              <p className="text-base leading-7">{section.body}</p>
+            </section>
+          );
+        })}
       </article>
 
       <hr className="border-gray-200 dark:border-gray-800 my-8" />
