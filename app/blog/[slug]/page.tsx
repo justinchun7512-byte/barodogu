@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPostBySlug, getAllSlugs } from '@/lib/blog-posts';
+import { ShareButtons } from '@/components/tools/ShareButtons';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -138,6 +139,12 @@ export default async function BlogPostPage({ params }: Props) {
       </article>
 
       <hr className="border-gray-200 dark:border-gray-800 my-8" />
+
+      {/* Share Buttons */}
+      <div className="mb-8">
+        <p className="text-sm text-center text-gray-400 mb-3">이 글이 도움됐다면 공유해 주세요</p>
+        <ShareButtons title={post.title} text={post.description} />
+      </div>
 
       {/* Tool CTA */}
       <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-6 text-center">
