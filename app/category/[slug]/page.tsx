@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cat = CATEGORIES.find(c => c.id === slug);
   if (!cat) return {};
   return {
-    title: `${cat.name} 도구 모음 - 바로도구`,
+    title: `${cat.name} 도구 모음`,
     description: `${cat.name} 관련 무료 온라인 도구를 바로 사용하세요. 회원가입 없이 브라우저에서 바로 실행.`,
   };
 }

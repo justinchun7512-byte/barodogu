@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: '문의하기 - 바로도구',
+  title: '문의하기',
   description: '바로도구에 대한 문의사항을 보내주세요.',
   alternates: { canonical: 'https://barodogu.com/contact' },
 };

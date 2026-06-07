@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import BetaSignupForm from './BetaSignupForm';
 
 export const metadata: Metadata = {
-  title: '클립바로 - AI 브랜드 영상 자동화 (베타 신청) | 바로도구',
+  title: '클립바로 - AI 브랜드 영상 자동화 (베타 신청)',
   description:
     'AI가 브랜드 영상을 자동으로 만들어드립니다. 카테고리 연출 시스템 + 17종 스타일로 고퀄리티 유튜브 쇼츠를 5분 만에. 베타 기간 무료 이용 가능.',
   keywords: ['AI 영상 자동화', '유튜브 쇼츠 제작', 'AI 영상 제작', '클립바로', '베타'],
