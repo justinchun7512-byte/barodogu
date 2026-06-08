@@ -36,20 +36,24 @@ export default function SeveranceCalculatorPage() {
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
             <div className="space-y-2">
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
-                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">퇴직금은 언제부터 받을 수 있나요?</summary>
-                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">근로기준법 제34조에 따라 1년 이상 계속 근로한 근로자가 퇴직할 때 퇴직금을 받을 수 있습니다. 1년 미만 근무 시에는 퇴직금 지급 의무가 없습니다.</p>
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">1년 근무 후 퇴직하면 퇴직금이 얼마나 나오나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">근로기준법상 퇴직금은 &quot;1일 평균임금 × 30일 × (재직일수 ÷ 365)&quot;로 계산합니다. 월급 300만원으로 정확히 1년(365일) 근무했다면 1일 평균임금이 약 10만원이므로, 퇴직금은 약 300만원(세전)이 됩니다. 1년 미만 근무 시에는 퇴직금 지급 의무가 없습니다(근로기준법 제34조). 위 계산기에 입사일·퇴사일·월급을 입력하면 예상 퇴직금을 바로 확인할 수 있습니다.</p>
               </details>
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
-                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">퇴직금 계산에 상여금도 포함되나요?</summary>
-                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">네, 정기적으로 지급되는 상여금은 퇴직금 산정 시 평균임금에 포함됩니다. 다만 경영 성과에 따른 일시적 성과급은 포함되지 않을 수 있으므로, 정확한 포함 여부는 고용노동부에 확인하세요.</p>
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">퇴직금 평균임금 계산 시 상여금은 어떻게 포함하나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">평균임금은 퇴직일 직전 3개월간 지급된 총 임금을 해당 기간 총 일수로 나눈 금액입니다. 매달 정기적으로 지급된 상여금은 평균임금에 포함됩니다. 1년에 한 번 지급되는 연간 상여금은 3개월 기준 금액(연간 상여금 ÷ 12 × 3)으로 산입합니다. 불규칙 성과급·경영 인센티브는 포함 여부가 회사 규정과 판례에 따라 달라지므로 정확한 확인은 고용노동부(☎ 1350)에 문의하세요.</p>
               </details>
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
-                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">퇴직금에 세금이 붙나요?</summary>
-                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">퇴직금에는 퇴직소득세가 부과됩니다. 퇴직소득세는 근속연수와 퇴직금 규모에 따라 달라지며, 일반적으로 근속연수가 길수록 세율이 낮아집니다. 퇴직소득세는 본 계산기에 포함되지 않습니다.</p>
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">퇴직금에 붙는 세금(퇴직소득세)은 얼마나 되나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">퇴직금에는 일반 소득세가 아닌 퇴직소득세가 별도로 부과됩니다. 퇴직소득세는 근속연수가 길수록 세금이 줄어드는 구조로, 5년 근무 후 퇴직금 1,500만원이라면 퇴직소득세가 수십만원 수준에 그칩니다. 정확한 퇴직소득세 계산은 국세청 홈택스의 퇴직소득 세액 계산기를 이용하거나 회사 인사팀에 문의하세요. 본 계산기는 퇴직소득세 전(前) 예상 금액을 보여줍니다.</p>
               </details>
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
-                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">퇴직금은 언제까지 지급해야 하나요?</summary>
-                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">근로기준법에 따라 퇴직일로부터 14일 이내에 퇴직금을 지급해야 합니다. 특별한 사정이 있으면 당사자 간 합의로 연장할 수 있습니다.</p>
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">퇴직금을 회사가 14일 안에 안 줘도 되나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">근로기준법 제36조에 따라 퇴직금은 퇴직일로부터 14일 이내에 지급해야 합니다. 14일을 초과하면 연 20%의 지연이자가 붙습니다. 합의(서면)가 있을 경우에만 지급 기일을 연장할 수 있습니다. 14일이 지났음에도 퇴직금이 지급되지 않으면 관할 노동청 또는 고용노동부 민원 신청(☎ 1350)을 통해 진정할 수 있습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">퇴직연금(IRP)과 일반 퇴직금의 차이는?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">일반 퇴직금은 회사가 내부에 적립 후 퇴직 시 일시금으로 지급합니다. 반면 퇴직연금은 DB(확정급여형)·DC(확정기여형)·IRP(개인형퇴직연금) 세 가지로 나뉘며, 외부 금융기관에 적립됩니다. DB형은 최종 평균임금 기준으로 수령액이 확정되고, DC형은 회사가 매년 부담금을 납입해 근로자가 직접 운용합니다. IRP는 퇴직금을 55세까지 유지하면 세제 혜택(퇴직소득세 30~40% 절감)이 있어 장기적으로 유리합니다.</p>
               </details>
             </div>
           </div>

@@ -100,14 +100,31 @@ export default function AgeCalculatorPage() {
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">띠와 생일 정보 활용</h2>
             <p>띠는 태어난 해를 12간지로 나눈 값입니다. 다만 전통 사주나 작명에서는 음력 설 기준으로 띠가 달라질 수 있어 1월과 2월 초 출생자는 주의가 필요합니다. 이 도구는 빠른 확인을 위해 양력 연도 기준 띠를 보여주며, 다음 생일까지 남은 일수와 살아온 일수도 함께 표시합니다. 생일 이벤트, 기념일, 보험나이 확인 전 빠른 참고용으로 활용하세요.</p>
           </div>
-          <details className="group">
-            <summary className="cursor-pointer font-semibold text-gray-900 dark:text-white">자주 묻는 질문</summary>
-            <div className="mt-3 space-y-3">
-              <div><p className="font-medium">법적으로 만 나이만 쓰나요?</p><p>2023년부터 법적·행정적으로는 만 나이가 기준입니다. 다만 병역, 청소년보호, 취학 기준처럼 연나이를 쓰는 예외가 있습니다.</p></div>
-              <div><p className="font-medium">보험나이는 만 나이와 다른가요?</p><p>보험사는 다음 생일까지 6개월 미만이면 한 살을 더하는 보험나이를 쓰는 경우가 있습니다. 보험 가입 전에는 보험사 기준을 다시 확인하세요.</p></div>
-              <div><p className="font-medium">2월 29일 출생자는 어떻게 계산하나요?</p><p>윤년이 아닌 해에는 제도나 서비스에 따라 2월 28일 또는 3월 1일을 기준으로 처리할 수 있습니다. 공식 문서는 해당 기관 기준을 따르세요.</p></div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
+            <div className="space-y-2">
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">2026년 기준 내 만 나이를 빠르게 계산하는 방법은?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">만 나이는 생일이 지났으면 올해 연도 - 출생 연도, 생일이 아직 안 지났으면 올해 연도 - 출생 연도 - 1로 계산합니다. 예를 들어 1995년 8월생이라면 2026년 6월 현재 생일 전이므로 만 나이는 30세입니다. 생년월일을 위 도구에 입력하면 만 나이와 한국 나이를 동시에 자동으로 계산해줍니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">2026년 한국 나이와 만 나이는 얼마나 차이 나나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">2026년 기준으로 한국 나이(세는 나이)는 만 나이보다 1~2살 많습니다. 생일이 지난 사람은 만 나이 + 1살, 생일이 아직 안 지난 사람은 만 나이 + 2살이 한국 나이입니다. 예: 1990년 3월생은 2026년 6월 현재 만 36세, 한국 나이 37세입니다. 2023년 법 개정 이후 병원·은행·공공기관 서류에서는 만 나이를 기준으로 사용합니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">만 나이 통일법 이후 달라진 점은 무엇인가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">2023년 6월 28일부터 시행된 만나이 통일법에 따라, 법령·계약서·행정 서류에서는 만 나이가 공식 기준입니다. 이제는 명시적 예외(병역법·청소년보호법 등 연나이 사용 조항)가 없으면 모두 만 나이로 해석합니다. 금융 상품 가입 연령·보험 나이 기준도 만 나이로 통일되어 있으므로, 가입 전 정확한 만 나이를 확인하는 것이 중요합니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">연나이와 만 나이는 어떻게 다르고, 어디에 쓰나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">연나이는 올해 연도 - 출생 연도로 계산하며, 생일에 상관없이 1월 1일에 모든 사람이 동시에 한 살 더 먹는 방식입니다. 현재 병역법(징병검사 대상 연도 기준), 청소년보호법(주류·담배 판매 기준), 일부 학교 취학 기준에 연나이가 적용됩니다. 예: 2007년생은 2026년 연나이 19세, 만 나이는 생일 전이라면 18세입니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">보험나이는 만 나이와 다른가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">네, 보험나이는 만 나이와 다릅니다. 보험사에서는 생일 6개월 전후를 기준으로 반올림하는 방식을 쓰는 경우가 있습니다. 예를 들어 만 30세 6개월이 지났다면 보험나이는 31세로 적용될 수 있습니다. 보험나이가 높을수록 보험료가 올라가므로, 생일이 6개월 이내로 다가왔다면 그 전에 가입하는 것이 유리할 수 있습니다. 위 도구로 만 나이를 정확히 확인한 뒤 보험사 기준을 별도로 확인하세요.</p>
+              </details>
             </div>
-          </details>
+          </div>
         </section>
       }
     >

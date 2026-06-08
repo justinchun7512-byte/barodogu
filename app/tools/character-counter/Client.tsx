@@ -34,20 +34,24 @@ export default function CharacterCounterPage() {
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
             <div className="space-y-2">
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
-                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">자기소개서 글자수는 공백 포함인가요?</summary>
-                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">대부분의 기업 채용 사이트에서는 &quot;공백 포함&quot; 기준으로 글자수를 계산합니다. 다만, 일부 기업은 공백 제외 기준을 사용하므로 채용공고를 반드시 확인하세요. 일반적으로 500자, 800자, 1000자 제한이 많습니다.</p>
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">자기소개서 1,000자는 공백 포함인가요, 제외인가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">대부분의 대기업·공기업 채용 사이트(사람인·잡코리아·공공기관 채용시스템)는 공백 포함 기준으로 글자수를 제한합니다. 다만 일부 기업은 공백 제외 기준을 쓰므로 반드시 채용공고의 안내 문구를 확인하세요. 본 도구는 공백 포함·공백 제외 글자수를 동시에 실시간으로 표시하므로, 어떤 기준이든 바로 확인할 수 있습니다.</p>
               </details>
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
-                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">바이트 수는 왜 다른가요?</summary>
-                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">한글은 UTF-8 기준으로 한 글자당 3바이트를 차지하고, 영문이나 숫자는 1바이트입니다. 일부 시스템(SMS, 데이터베이스 등)은 바이트 기준으로 제한하므로, 한글이 포함된 텍스트는 글자수보다 바이트 수가 훨씬 클 수 있습니다.</p>
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">3분 발표 PPT 원고는 글자수를 얼마나 써야 하나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">일반적으로 발표 속도는 1분에 300~350자(공백 포함 기준) 수준입니다. 3분 발표라면 약 900~1,050자가 기준입니다. 다만 PPT 전환 시간·청중 반응 시간을 고려하면 실제 읽을 텍스트는 800자 내외로 줄이는 편이 여유롭습니다. 원고를 이 도구에 붙여넣기 하면 즉시 글자수를 확인할 수 있습니다.</p>
               </details>
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
-                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">트위터(X) 글자수 제한은 몇 자인가요?</summary>
-                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">트위터(X)의 기본 글자수 제한은 280자(한글 기준 약 140자)입니다. 한글은 2자로 카운트되는 특수한 계산 방식을 사용합니다. 정확한 확인은 본 도구의 글자수 세기 기능을 활용하세요.</p>
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">1,500자 공백 포함이면 A4 기준 몇 줄인가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">A4 용지에 기본 줄 간격(1.5), 폰트 크기 10~11pt 기준으로 한 줄에 약 35~40자가 들어갑니다. 1,500자라면 약 37~43줄, A4 약 1페이지 분량입니다. 단, 줄 간격·폰트·여백 설정에 따라 달라지므로, 본 도구의 &quot;줄 수&quot; 항목을 확인하면 실제 줄 수를 바로 알 수 있습니다.</p>
               </details>
               <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
-                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">줄바꿈도 글자수에 포함되나요?</summary>
-                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">네, 줄바꿈(엔터)도 일반적으로 1자로 카운트됩니다. 공백 포함 글자수에는 줄바꿈이 포함되며, 공백 제외 글자수에서는 제외됩니다.</p>
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">인스타그램 캡션 글자수 제한은 얼마인가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">인스타그램 캡션은 최대 2,200자까지 작성 가능합니다. 단 피드 미리보기에서는 첫 125자 이후 &quot;더 보기&quot;로 접히므로, 핵심 내용은 첫 125자 안에 넣는 것이 좋습니다. 해시태그는 캡션 글자수에 포함되며, 최대 30개까지 사용할 수 있습니다. 본 도구에 캡션 텍스트를 붙여넣기 하면 글자수를 즉시 확인할 수 있습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">NEIS 자기소개서 바이트 수는 어떻게 계산하나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">NEIS(교육정보시스템)는 UTF-8이 아닌 NEIS 고유 바이트 기준(한글 3바이트, ASCII 1바이트, 줄바꿈 2바이트)으로 글자수를 제한합니다. 예를 들어 한글 1,000자로 이루어진 텍스트는 NEIS 바이트로 약 3,000바이트가 됩니다. 본 도구는 일반 글자수 외에 바이트 수를 별도 항목으로 표시하므로, 입사 지원 전 미리 확인해 초과 여부를 점검하세요.</p>
               </details>
             </div>
           </div>

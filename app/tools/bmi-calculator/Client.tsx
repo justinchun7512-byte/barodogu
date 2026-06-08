@@ -145,19 +145,31 @@ export default function BmiCalculatorPage() {
             <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">※ 본 계산기는 대한비만학회 표준 기준(18.5~22.9)을 사용합니다.</p>
           </div>
 
-          <details className="group">
-            <summary className="cursor-pointer font-semibold text-gray-900 dark:text-white">자주 묻는 질문</summary>
-            <div className="mt-3 space-y-3">
-              <div>
-                <p className="font-medium">BMI가 정상인데 배가 나왔어요. 괜찮은 건가요?</p>
-                <p>BMI는 전체 체중 기준이므로 내장지방이 많은 마른 비만은 감지하지 못합니다. 허리둘레 측정을 병행하세요.</p>
-              </div>
-              <div>
-                <p className="font-medium">근육량이 많으면 BMI가 높게 나오나요?</p>
-                <p>네, BMI는 근육과 지방을 구분하지 못합니다. 운동을 많이 하는 분은 체지방률 측정을 권장합니다.</p>
-              </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
+            <div className="space-y-2">
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">여자 BMI 정상 범위는 남자와 다른가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">BMI 판정 기준(저체중 18.5 미만·정상 18.5~22.9·과체중 23~24.9·비만 25 이상)은 대한비만학회 아시아-태평양 기준으로 성별 무관하게 동일합니다. 다만 같은 BMI라도 여자는 남자보다 체지방률이 10%p 정도 높은 경향이 있습니다(여성 정상 체지방률 18~28%, 남성 10~20%). 즉, 여자가 BMI 22라면 체지방률 24~27%가 일반적이고, 남자가 BMI 22라면 체지방률 14~18%가 일반적입니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">키 170cm, 몸무게 65kg이면 BMI는 얼마이고 정상인가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">키 170cm, 몸무게 65kg이면 BMI = 65 ÷ (1.70 × 1.70) = 22.5입니다. 대한비만학회 아시아-태평양 기준 정상 범위(18.5~22.9)에 해당합니다. 키 170cm의 정상 체중 범위는 약 53.5~66.4kg이므로, 65kg은 정상 상한에 가까운 수준입니다. 위 도구에 직접 입력하면 계산 결과와 함께 BMI 게이지 바에서 현재 위치를 시각으로 확인할 수 있습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">BMI가 정상인데 배가 나왔습니다. 왜 그럴까요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">BMI는 키와 체중만으로 계산하므로 체지방 분포를 반영하지 못합니다. 복부에 내장지방이 집중된 &quot;마른 비만(skinny fat)&quot; 체형은 BMI가 정상이어도 대사증후군 위험이 높을 수 있습니다. 일반적으로 남성 허리둘레 90cm 이상, 여성 85cm 이상이면 복부 비만으로 판정합니다. BMI와 허리둘레를 함께 확인하는 것이 정확한 건강 상태 파악에 도움이 됩니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">근육이 많으면 BMI가 높게 나오나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">맞습니다. BMI는 근육과 지방을 구분하지 않아 근육량이 많은 사람은 과체중·비만으로 잘못 분류될 수 있습니다. 예를 들어 키 175cm, 체중 80kg의 운동선수는 BMI 26.1(과체중)이 나오지만 체지방률이 12%라면 실제로는 매우 건강한 상태입니다. 이런 경우에는 체성분 분석기(인바디 등)를 통해 체지방률과 근육량을 직접 측정하는 것이 정확합니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">연령별 적정 BMI가 다른가요? 나이 들면 BMI 기준이 올라가나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">네, 나이가 들수록 근육량이 줄고 기초대사량이 감소해 체지방이 쌓이기 쉬워집니다. WHO 권장 기준에 따르면 25~34세는 BMI 20~25, 45~54세는 BMI 22~27, 65세 이상은 BMI 24~29가 적정 범위입니다. 단, 본 도구는 대한비만학회 표준(18.5~22.9)을 기준으로 계산합니다. 40대 이상이라면 BMI 수치보다 허리둘레와 체지방률 측정을 병행하는 것을 권장합니다.</p>
+              </details>
             </div>
-          </details>
+          </div>
         </section>
       }
     >
