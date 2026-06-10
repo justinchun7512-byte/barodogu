@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: '이용약관',
   description: '바로도구 서비스 이용약관입니다.',
   alternates: { canonical: 'https://barodogu.com/terms' },
+  robots: { index: false, follow: false },
 };
 
 export default function TermsPage() {
