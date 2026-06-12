@@ -7,7 +7,10 @@ export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const token_hash = searchParams.get('token_hash');
   const type = searchParams.get('type') as EmailOtpType | null;
-  const next = searchParams.get('next') ?? '/clipbaro';
+  const rawNext = searchParams.get('next') ?? '/clipbaro';
+  const next = rawNext.startsWith('/') && !rawNext.startsWith('//') && !rawNext.startsWith('/\\')
+    ? rawNext
+    : '/clipbaro';
 
   if (!token_hash || !type) {
     return NextResponse.redirect(`${origin}/clipbaro/login?error=missing_token`);

@@ -1,4 +1,4 @@
-import { createHmac } from 'crypto';
+import { createHmac, timingSafeEqual } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createServiceClient } from '@/lib/supabase/service';
@@ -39,7 +39,10 @@ function verifySignature(rawBody: string, signatureHeader: string, secret: strin
 
     const payload = `${ts}:${rawBody}`;
     const expected = createHmac('sha256', secret).update(payload).digest('hex');
-    return expected === h1;
+    const expectedBuf = Buffer.from(expected);
+    const h1Buf = Buffer.from(h1);
+    if (expectedBuf.length !== h1Buf.length) return false;
+    return timingSafeEqual(expectedBuf, h1Buf);
   } catch {
     return false;
   }
