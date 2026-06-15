@@ -60,7 +60,6 @@ export function generateJsonLd(tool: Tool) {
 }
 
 export function generateBreadcrumbJsonLd(tool: Tool) {
-  const categoryInfo = getCategoryInfo(tool.category);
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -74,12 +73,6 @@ export function generateBreadcrumbJsonLd(tool: Tool) {
       {
         '@type': 'ListItem',
         position: 2,
-        name: categoryInfo?.name || tool.category,
-        item: `${BASE_URL}/#tools`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
         name: tool.name,
         item: `${BASE_URL}/tools/${tool.id}`,
       },
