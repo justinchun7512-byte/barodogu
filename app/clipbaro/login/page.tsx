@@ -200,12 +200,9 @@ function LoginForm() {
       </div>
 
       <p className="mt-6 text-center text-sm text-slate-600">
-        아직 계정이 없으신가요?{' '}
-        <Link
-          href={`/clipbaro/signup${next ? `?next=${encodeURIComponent(next)}` : ''}`}
-          className="font-medium text-blue-600 hover:text-blue-700"
-        >
-          회원가입
+        계정이 없으신가요?{' '}
+        <Link href="/clipbaro/signup" className="font-medium text-blue-600 hover:text-blue-700">
+          베타 신청
         </Link>
       </p>
     </div>
