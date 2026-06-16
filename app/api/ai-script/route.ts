@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateGuardedKorean } from "@/lib/groq-korean";
+import { createClient } from "@/lib/supabase/server";
 
 export const maxDuration = 30;
 
@@ -78,7 +79,7 @@ function isValidScript(obj: unknown): obj is { script: AiScript } {
   if (!obj || typeof obj !== "object") return false;
   const o = obj as Record<string, unknown>;
   if (!o.title || typeof o.title !== "string") return false;
-  if (!Array.isArray(o.script) || o.script.length < 4) return false;
+  if (!Array.isArray(o.script) || o.script.length !== 6) return false;
   return o.script.every((s: unknown) => {
     if (!s || typeof s !== "object") return false;
     const sc = s as Record<string, unknown>;
@@ -93,6 +94,13 @@ function isValidScript(obj: unknown): obj is { script: AiScript } {
 }
 
 export async function POST(req: NextRequest) {
+  // 인증 확인 — 미인증 시 Groq API 비용 노출 차단
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: "로그인이 필요합니다." }, { status: 401 });
+  }
+
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
   if (isRateLimited(ip)) {
     return NextResponse.json({ error: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요." }, { status: 429 });

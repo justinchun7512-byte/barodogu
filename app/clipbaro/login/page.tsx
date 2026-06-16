@@ -11,7 +11,11 @@ type Mode = 'password' | 'magic';
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams?.get('next') ?? '/clipbaro';
+  const rawNext = searchParams?.get('next') ?? '/clipbaro';
+  const next =
+    rawNext.startsWith('/') && !rawNext.startsWith('//') && !rawNext.startsWith('/\\')
+      ? rawNext
+      : '/clipbaro';
 
   const [mode, setMode] = useState<Mode>('password');
   const [email, setEmail] = useState('');
@@ -49,6 +53,7 @@ function LoginForm() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
+          shouldCreateUser: false,
           emailRedirectTo: `${window.location.origin}/clipbaro/auth/callback?next=${encodeURIComponent(
             next,
           )}`,
