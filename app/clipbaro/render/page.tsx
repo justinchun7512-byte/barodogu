@@ -292,7 +292,7 @@ export default function RenderPage() {
             </div>
           </div>
           <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 px-4 py-3 text-xs text-amber-700 dark:text-amber-300">
-            렌더 워커(Fly.io) 연동 준비 중입니다. 현재는 대기열에 등록만 되며 실제 영상 생성은 워커 배포 후 자동 처리됩니다.
+            렌더 요청이 접수되면 약 2~5분 내 자동 생성됩니다. 대시보드에서 진행 상태를 확인하고 완료 시 다운로드하세요.
           </div>
           <div className="flex gap-3">
             <button onClick={() => setStep(3)} className="flex-1 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-sm font-medium">이전</button>
