@@ -115,6 +115,31 @@ export default function NameCompatibilityPage() {
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">이름 궁합 테스트란?</h2>
             <p>두 사람의 이름을 한글 자모로 분해하여 획수를 기반으로 궁합 점수를 계산합니다. 초성, 중성, 종성의 획수를 번갈아 배치한 뒤, 인접한 수를 더하는 과정을 반복하여 최종 점수를 구합니다. 전통적인 이름 궁합 놀이를 디지털로 구현한 것으로, 재미를 위한 도구입니다.</p>
           </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">자주 묻는 질문</h2>
+            <div className="space-y-2">
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">이름 궁합 점수 100점이 나오면 정말 잘 어울리는 건가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">이름 궁합 점수는 획수 계산 기반의 재미 지표로, 실제 두 사람의 성격이나 관계를 과학적으로 측정하는 것이 아닙니다. 100점이 나왔다고 반드시 잘 맞는 커플이 되는 건 아니며, 낮은 점수가 나왔다고 실제 궁합이 나쁜 것도 아닙니다. 재미로 즐기는 도구로 활용하시길 권장합니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">이름이 한 글자인 경우에도 궁합 계산이 되나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">네, 한 글자 이름도 계산됩니다. 이름 1에 한 글자, 이름 2에 두 글자를 입력하면 두 이름의 획수를 번갈아 배치하여 계산합니다. 다만 글자 수가 다를 경우 짧은 이름은 배치 시 순서상 일부 반복되지 않아 점수 분포가 일반적인 두 글자 이름과 다소 다를 수 있습니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">이름 궁합과 MBTI 궁합, 어떤 게 더 정확한가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">두 가지 모두 과학적 근거가 있는 측정 방법은 아닙니다. 이름 궁합은 전통적인 획수 놀이를 디지털로 구현한 것이고, MBTI 궁합은 성격 유형을 기반으로 한 재미 지표입니다. 실제 관계의 궁합은 공통 관심사, 가치관, 소통 방식 등 훨씬 복잡한 요소에 의해 결정됩니다. 두 도구 모두 가볍게 즐기는 용도로 활용하시는 것을 권장합니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">외국인 이름(영문)도 궁합 계산이 가능한가요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">현재 이 도구는 한글 이름만 지원합니다. 한글 자모의 획수를 기반으로 계산하기 때문에 영문이나 한자 이름을 입력하면 0점이 산출됩니다. 외국인 파트너의 경우 한국어 이름이 있다면 그 이름으로 입력하시거나, MBTI 궁합 계산기를 활용해보시기 바랍니다.</p>
+              </details>
+              <details className="group border border-gray-200 dark:border-gray-600 rounded-lg">
+                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-800 dark:text-gray-200 select-none">이름 궁합 점수가 매번 다르게 나오는 경우가 있나요?</summary>
+                <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">동일한 이름을 입력하면 항상 같은 점수가 나옵니다. 계산 과정이 한글 자모 획수를 기반으로 한 고정된 알고리즘이기 때문입니다. 점수가 다르게 나왔다면 이름 입력 시 띄어쓰기가 포함됐거나, 성과 이름을 다르게 입력했을 가능성이 큽니다. 성을 포함한 이름(예: 홍길동)과 이름만(예: 길동)은 서로 다른 점수가 나옵니다.</p>
+              </details>
+            </div>
+          </div>
         </section>
       }
     >
