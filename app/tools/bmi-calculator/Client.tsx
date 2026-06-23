@@ -71,6 +71,13 @@ export default function BmiCalculatorPage() {
       disclaimer="이 도구는 의학적 진단을 대체하지 않습니다. 정확한 건강 상태 확인은 전문의와 상담하세요."
       seoContent={
         <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border-l-4 border-blue-400">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">솔직히 처음엔 BMI를 별로 신뢰하지 않았습니다</h2>
+            <p>직장생활 하면서 운동이 뜸해지던 시기, 문득 체중계 숫자가 신경 쓰이기 시작했어요. 그런데 막상 BMI를 계산해보니 숫자 자체보다 &apos;내 키에서 이 몸무게가 어디쯤인지&apos;를 한눈에 파악할 수 있다는 게 생각보다 유용했습니다.</p>
+            <p className="mt-2">제 경우엔 키 163cm에 체중 61kg이라 BMI가 23 정도였는데, 수치만 보면 정상 범위였거든요. 근데 허리 둘레가 늘고 있었고 — 이게 바로 BMI의 한계점이더라고요. BMI는 근육과 지방을 구분 못합니다.</p>
+            <p className="mt-2">그래서 저는 이 계산기를 지금도 한 달에 한 번 정도 확인용으로 씁니다. 정확한 진단 도구가 아니라 &apos;내가 지금 어디쯤 있는지&apos; 방향을 잡는 용도로요. 숫자가 올라가고 있으면 뭔가 생활 패턴이 바뀐 신호이고, 그게 다이어트나 운동을 다시 시작하는 계기가 됩니다.</p>
+            <p className="mt-2">아시아 기준 정상 BMI는 18.5~22.9인데, 서구 기준(25 이하)과 다릅니다. 우리나라 기준이 더 엄격하거든요. 이 계산기는 아시아-태평양 기준을 적용했습니다.</p>
+          </div>
           <div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">BMI 계산기란?</h2>
             <p>BMI(Body Mass Index, 체질량지수)는 키와 몸무게로 비만도를 측정하는 국제 표준 지표입니다. 체중(kg)을 키(m)의 제곱으로 나누어 계산합니다. 이 계산기는 대한비만학회의 아시아-태평양 기준을 적용하여 한국인에게 적합한 판정을 제공합니다.</p>

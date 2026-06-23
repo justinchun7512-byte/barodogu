@@ -19,6 +19,13 @@ export default function SeveranceCalculatorPage() {
   return (
     <ToolLayout tool={tool} seoContent={
         <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border-l-4 border-blue-400">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">퇴직할 때 퇴직금이 얼마인지 모르고 나온 게 부끄러웠습니다</h2>
+            <p>이직을 결정하고 나서야 &quot;아, 퇴직금이 얼마지?&quot;를 처음 계산해봤어요. 재직 기간이 4년이고 마지막 3개월 평균 급여가 666만원이었는데, 막상 받고 보니 예상보다 적었더라고요.</p>
+            <p className="mt-2">퇴직금 계산이 생각보다 복잡한 이유가, 단순히 월급 × 근속연수가 아니거든요. 마지막 3개월 평균 급여를 기준으로 1년 치를 계산하는 구조라, 퇴직 직전에 급여 변동(성과급, 인센티브 포함 여부)이 있으면 금액이 꽤 달라집니다.</p>
+            <p className="mt-2">한 가지 놓치기 쉬운 것: 1년 미만 근무자는 퇴직금이 없지만, 1년이 딱 넘으면 발생합니다. 계약직이나 단기 프리랜서도 4대보험 가입 + 1년 이상이면 퇴직금 청구 가능하고요.</p>
+            <p className="mt-2">퇴직 전에 꼭 한 번 계산해보시길 추천드려요. 예상 퇴직금을 미리 알아야 이직 타이밍이나 협상 레버리지로도 쓸 수 있습니다.</p>
+          </div>
           <div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">퇴직금 계산기란?</h2>
             <p>퇴직금 계산기는 근로기준법에 따라 입사일, 퇴사일, 평균 월급을 기반으로 예상 퇴직금을 자동 계산해주는 도구입니다. 퇴직금은 계속근로기간 1년에 대해 30일분 이상의 평균임금을 지급하는 것으로, 1년 이상 근무한 근로자에게 법적으로 보장됩니다. 퇴직을 준비하는 직장인, 이직을 고려하는 분, 인사 담당자 등이 퇴직금 규모를 미리 파악하는 데 유용합니다.</p>

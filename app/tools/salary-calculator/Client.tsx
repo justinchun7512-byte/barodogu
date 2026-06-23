@@ -22,6 +22,13 @@ export default function SalaryCalculatorPage() {
       tool={tool}
       seoContent={
         <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border-l-4 border-blue-400">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">이직할 때마다 가장 먼저 켜는 도구가 생겼습니다</h2>
+            <p>직장인 20년 넘게 다니면서 이직을 몇 번 해봤는데, 연봉 협상할 때마다 항상 헷갈리는 게 있었어요. 회사에서 &quot;연봉 8,000만원&quot;이라고 하는데, 막상 통장에 들어오는 돈이 생각보다 적다는 거죠.</p>
+            <p className="mt-2">처음 이직할 때 연봉이 전 직장보다 1,000만원 오른다고 들어서 기뻤는데, 실수령으로 계산해보니 월에 고작 55만원 차이였거든요. 4대보험이랑 세금 빼고 나면 그렇게 되더라고요.</p>
+            <p className="mt-2">그 이후부턴 오퍼를 받을 때마다 연봉 숫자보다 월 실수령을 먼저 계산해봅니다. 식비·교통비·복지포인트 별도 여부도 따지면 연봉 숫자만 보고 판단하면 안 되거든요. 특히 스타트업은 포괄임금제 여부도 체크해야 해요.</p>
+            <p className="mt-2">이 계산기는 2026년 최신 4대보험 요율을 반영해서 만들었습니다. 국민연금 4.5%, 건강보험 3.545%, 고용보험 0.9% — 연봉 협상 전에 한 번 돌려보시면 기대치 조정이 됩니다.</p>
+          </div>
           <div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">연봉 실수령액 계산기란?</h2>
             <p>연봉 실수령액 계산기는 세전 연봉에서 국민연금, 건강보험, 장기요양보험, 고용보험 등 4대보험료와 소득세, 지방소득세를 자동으로 공제하여 실제로 매월 통장에 입금되는 금액을 계산해주는 도구입니다. 취업 준비생, 이직을 고려하는 직장인, 연봉 협상을 앞둔 분들에게 유용합니다. 2026년 최신 세율과 4대보험 요율을 반영하여 정확한 실수령액을 확인할 수 있습니다. 연봉 3000만원부터 1억원 이상까지 다양한 구간의 실수령액을 빠르게 비교해보세요.</p>

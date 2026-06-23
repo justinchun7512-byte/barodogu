@@ -111,6 +111,13 @@ export default function NameCompatibilityPage() {
       disclaimer="이 도구는 재미로만 봐주세요. 실제 궁합이나 관계와는 무관합니다."
       seoContent={
         <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border-l-4 border-blue-400">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">재미로 해봤다가 생각보다 진지하게 보게 됩니다</h2>
+            <p>이름궁합이 과학적으로 의미 있다고 생각하진 않아요. 근데 신기하게도 한번 해보고 나면 자꾸 다른 이름을 넣어보게 되더라고요.</p>
+            <p className="mt-2">연인 이름, 썸 상대 이름, 직장 동료 이름을 몰래 넣어보는 사람 저만은 아닐 거예요. 결과보다는 &quot;이 사람이랑 잘 맞으면 좋겠다&quot;는 바람을 담는 느낌이랄까요.</p>
+            <p className="mt-2">이름궁합은 성명학 기반으로 이름 획수 조합을 보는 방식과, 초성/음절 조합 방식이 있는데 이 도구는 전통 성명학 획수 기반입니다. 100점 만점에 몇 점이 나왔는지보다, &quot;어떤 부분에서 잘 맞는다&quot;는 설명이 생각보다 재미있어요.</p>
+            <p className="mt-2">연인, 친구, 비즈니스 파트너 — 어떤 관계든 이름을 넣으면 궁합 점수와 함께 해설이 나옵니다. 진지하게 보시지 말고 가볍게 즐겨보세요.</p>
+          </div>
           <div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">이름 궁합 테스트란?</h2>
             <p>두 사람의 이름을 한글 자모로 분해하여 획수를 기반으로 궁합 점수를 계산합니다. 초성, 중성, 종성의 획수를 번갈아 배치한 뒤, 인접한 수를 더하는 과정을 반복하여 최종 점수를 구합니다. 전통적인 이름 궁합 놀이를 디지털로 구현한 것으로, 재미를 위한 도구입니다.</p>

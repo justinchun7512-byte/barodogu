@@ -76,6 +76,13 @@ export default function TdeeCalculatorPage() {
       disclaimer="이 도구는 의학적 진단을 대체하지 않습니다. 정확한 영양 상담은 전문가와 상담하세요."
       seoContent={
         <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border-l-4 border-blue-400">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">다이어트 실패를 반복하다가 깨달은 것</h2>
+            <p>체중 관리를 몇 번 시도해봤는데 매번 작심삼일로 끝나다가, 어느 순간 &quot;내가 하루에 실제로 얼마나 먹어야 하는지&quot;를 제대로 모르고 있었다는 걸 알게 됐습니다.</p>
+            <p className="mt-2">헬스 유튜브 보면서 1,800kcal 먹으면 된다는 말을 듣고 따라 해봤는데, 제 키 163cm, 체중 61kg, 나이 50세, 사무직 기준으로 TDEE를 계산해보니 유지 열량이 1,661kcal였어요. 1,800kcal는 유지 열량보다 많이 먹고 있던 거더라고요. 살이 빠지기는커녕 현상 유지도 안 되던 이유가 있었습니다.</p>
+            <p className="mt-2">TDEE는 기초대사량(BMR)에 활동 계수를 곱해서 나옵니다. 사무직으로 하루 종일 앉아 있으면 활동 계수 1.2가 적용되는데, 운동을 전혀 안 하는 날 기준으로 TDEE를 계산해두고 거기서 300~500kcal 빼는 걸 목표로 잡으면 굶지 않고 감량할 수 있습니다.</p>
+            <p className="mt-2">지금은 다이어트 시작 전에 이 계산기로 유지 열량부터 확인하는 걸 첫 단계로 삼고 있어요.</p>
+          </div>
           <div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">기초대사량(BMR)과 TDEE란?</h2>
             <p>기초대사량(BMR)은 아무것도 하지 않아도 생명 유지에 필요한 최소 칼로리입니다. TDEE(Total Daily Energy Expenditure)는 BMR에 일상 활동량을 곱한 하루 총 소비 칼로리입니다. 체중 감량을 원하면 TDEE보다 300~500kcal 적게, 체중 증가를 원하면 300~500kcal 많이 섭취하세요.</p>
