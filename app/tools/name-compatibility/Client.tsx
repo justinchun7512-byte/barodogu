@@ -111,6 +111,10 @@ export default function NameCompatibilityPage() {
       disclaimer="이 도구는 재미로만 봐주세요. 실제 궁합이나 관계와는 무관합니다."
       seoContent={
         <section className="space-y-6 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div className="bg-pink-50 dark:bg-pink-900/20 rounded-lg p-3 border border-pink-200 dark:border-pink-800 flex items-center gap-2">
+            <span className="text-lg">📺</span>
+            <p className="text-sm text-pink-700 dark:text-pink-300 font-medium">최근 예능에서도 화제가 된 이름궁합! 내 이름으로 직접 계산해보세요</p>
+          </div>
           <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border-l-4 border-blue-400">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">재미로 해봤다가 생각보다 진지하게 보게 됩니다</h2>
             <p>이름궁합이 과학적으로 의미 있다고 생각하진 않아요. 근데 신기하게도 한번 해보고 나면 자꾸 다른 이름을 넣어보게 되더라고요.</p>
