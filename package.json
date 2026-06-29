@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@ohah/hwpjs": "^0.1.0-rc.10",
+    "@polar-sh/sdk": "^0.48.1",
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.105.1",
     "file-saver": "^2.0.5",

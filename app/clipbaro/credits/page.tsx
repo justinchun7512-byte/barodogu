@@ -2,68 +2,41 @@
 
 import { useEffect, useState } from 'react';
 
-// ── 크레딧 팩 정의 (A안 USD 가격, Paddle Price ID는 env로 주입)
 const PACKS = [
   {
     id: 'pack_10',
     credits: 10,
-    usd: 3.99,
-    krw: 5900,
-    priceEnv: 'NEXT_PUBLIC_PADDLE_PRICE_PACK10',
+    usd: 1.99,
+    krw: 2900,
     badge: '',
     desc: '가볍게 시작',
   },
   {
     id: 'pack_30',
     credits: 30,
-    usd: 8.99,
-    krw: 13200,
-    priceEnv: 'NEXT_PUBLIC_PADDLE_PRICE_PACK30',
+    usd: 3.99,
+    krw: 5900,
     badge: '인기',
-    desc: '크레딧당 ₩440 — 가장 합리적',
+    desc: '크레딧당 ₩197 — 가장 합리적',
   },
   {
     id: 'pack_100',
     credits: 100,
-    usd: 19.99,
-    krw: 29400,
-    priceEnv: 'NEXT_PUBLIC_PADDLE_PRICE_PACK100',
+    usd: 8.99,
+    krw: 13200,
     badge: '최고 혜택',
-    desc: '크레딧당 ₩294 — 파워 유저용',
+    desc: '크레딧당 ₩132 — 파워 유저용',
   },
 ];
 
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Paddle: any;
-  }
-}
+const paymentEnabled = process.env.NEXT_PUBLIC_PAYMENT_ENABLED === 'true';
 
 export default function CreditsPage() {
   const [balance, setBalance] = useState<number | null>(null);
-  const [paddleReady, setPaddleReady] = useState(false);
   const [purchasing, setPurchasing] = useState('');
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  const clientToken = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
-  const isSandbox = process.env.NEXT_PUBLIC_PADDLE_ENV !== 'production';
-
-  // Paddle.js 로드
-  useEffect(() => {
-    if (!clientToken) return;
-    const script = document.createElement('script');
-    script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
-    script.onload = () => {
-      window.Paddle.Environment.set(isSandbox ? 'sandbox' : 'production');
-      window.Paddle.Initialize({ token: clientToken });
-      setPaddleReady(true);
-    };
-    document.head.appendChild(script);
-    return () => { document.head.removeChild(script); };
-  }, [clientToken, isSandbox]);
-
-  // 크레딧 잔액 조회
   useEffect(() => {
     async function loadBalance() {
       const { createClient } = await import('@/lib/supabase/client');
@@ -74,26 +47,33 @@ export default function CreditsPage() {
     loadBalance();
   }, [success]);
 
-  function handleBuy(pack: typeof PACKS[0]) {
-    const priceId = (process.env as Record<string, string | undefined>)[pack.priceEnv];
-    if (!paddleReady || !priceId) {
-      alert('결제 시스템 준비 중입니다. 잠시 후 다시 시도해주세요.');
-      return;
-    }
-    setPurchasing(pack.id);
-    window.Paddle.Checkout.open({
-      items: [{ priceId, quantity: 1 }],
-      settings: { displayMode: 'overlay', locale: 'ko', theme: 'light' },
-      successUrl: `${window.location.origin}/clipbaro/credits?success=1`,
-      closeCallback: () => setPurchasing(''),
-    });
-  }
-
-  // 성공 파라미터 감지
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') === '1') setSuccess(true);
   }, []);
+
+  async function handleBuy(packId: string) {
+    if (!paymentEnabled) return;
+    setPurchasing(packId);
+    setError('');
+    try {
+      const res = await fetch('/api/clipbaro/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ packId }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? '결제 준비 중 오류가 발생했습니다.');
+        return;
+      }
+      window.location.href = data.checkoutUrl;
+    } catch {
+      setError('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setPurchasing('');
+    }
+  }
 
   return (
     <main className="max-w-3xl mx-auto px-4 pt-24 pb-16 space-y-10">
@@ -115,9 +95,19 @@ export default function CreditsPage() {
         </div>
       )}
 
-      {!clientToken && (
-        <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 px-4 py-3 text-xs text-amber-700 dark:text-amber-300">
-          Paddle 계정 승인 후 NEXT_PUBLIC_PADDLE_CLIENT_TOKEN을 .env.local에 추가하면 결제가 활성화됩니다.
+      {error && (
+        <div className="rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+          {error}
+        </div>
+      )}
+
+      {/* 베타 무료 배너 */}
+      {!paymentEnabled && (
+        <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 px-5 py-4">
+          <p className="font-semibold text-amber-700 dark:text-amber-400">🎁 베타 기간 무료 이용 중</p>
+          <p className="mt-1 text-sm text-amber-600 dark:text-amber-500">
+            베타 기간 동안 모든 기능을 무료로 사용할 수 있습니다. 정식 출시 후 크레딧 결제가 활성화됩니다.
+          </p>
         </div>
       )}
 
@@ -146,21 +136,28 @@ export default function CreditsPage() {
                 <span className="text-base font-normal text-slate-500 ml-1">크레딧</span>
               </p>
               <p className="mt-1 text-xl font-semibold dark:text-white">
-                ₩{pack.krw.toLocaleString()}
-                <span className="text-xs text-slate-400 font-normal ml-1">(${pack.usd})</span>
+                {paymentEnabled ? (
+                  <>₩{pack.krw.toLocaleString()}<span className="text-xs text-slate-400 font-normal ml-1">(${pack.usd})</span></>
+                ) : (
+                  <span className="text-slate-400 text-base font-normal">베타 무료</span>
+                )}
               </p>
               <p className="mt-1 text-xs text-slate-500">{pack.desc}</p>
             </div>
             <button
-              onClick={() => handleBuy(pack)}
-              disabled={!!purchasing || !clientToken}
-              className={`w-full py-2.5 rounded-xl text-sm font-semibold transition disabled:opacity-50 ${
+              onClick={() => handleBuy(pack.id)}
+              disabled={!paymentEnabled || !!purchasing}
+              className={`w-full py-2.5 rounded-xl text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed ${
                 pack.badge === '인기'
                   ? 'bg-blue-600 hover:bg-blue-700 text-white'
                   : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90'
               }`}
             >
-              {purchasing === pack.id ? '결제 중...' : '구매하기'}
+              {purchasing === pack.id
+                ? '처리 중...'
+                : paymentEnabled
+                  ? '구매하기'
+                  : '베타 무료 사용 중'}
             </button>
           </div>
         ))}
