@@ -124,6 +124,21 @@ export default async function BlogPostPage({ params }: Props) {
 
       <hr className="border-gray-200 dark:border-gray-800 mb-8" />
 
+      {/* TLDR Box (GEO) */}
+      {post.tldr && post.tldr.length > 0 && (
+        <div className="mb-8 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-5 py-4">
+          <p className="text-sm font-semibold text-amber-700 dark:text-amber-400 mb-2">이 글의 핵심 요약</p>
+          <ul className="space-y-1">
+            {post.tldr.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                <span className="text-amber-500 mt-0.5 shrink-0">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* Content */}
       <article className="space-y-8 text-gray-700 dark:text-gray-300 leading-relaxed">
         {post.content.map((section, index) => {

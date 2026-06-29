@@ -3,6 +3,7 @@ import { Tool, TOOLS, getCategoryInfo } from '@/lib/tools';
 import { BLOG_POSTS } from '@/lib/blog-posts';
 import { ShareButtons } from '@/components/tools/ShareButtons';
 import { AdSlot } from '@/components/tools/AdSlot';
+import { generateHowToJsonLd } from '@/lib/seo';
 
 interface ToolLayoutProps {
   tool: Tool;
@@ -23,8 +24,18 @@ export function ToolLayout({ tool, children, guideContent, disclaimer, seoConten
     : [];
   const allRelatedPosts = [...relatedPosts, ...extraPosts];
 
+  const howToJsonLd = generateHowToJsonLd(tool);
+
   return (
     <main className="max-w-4xl mx-auto px-4 py-6">
+      {/* HowTo JSON-LD */}
+      {howToJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+        />
+      )}
+
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-gray-500 mb-4">
         <Link href="/" className="hover:text-primary">홈</Link>
@@ -35,7 +46,7 @@ export function ToolLayout({ tool, children, guideContent, disclaimer, seoConten
       </nav>
 
       {/* Title */}
-      <div className="mb-6">
+      <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
           <h1 className="text-2xl md:text-3xl font-bold dark:text-white">{tool.seo.h1 ?? tool.name}</h1>
           {tool.isNew && <span className="text-xs px-2 py-0.5 bg-secondary text-white rounded-full font-medium">NEW</span>}
@@ -43,6 +54,19 @@ export function ToolLayout({ tool, children, guideContent, disclaimer, seoConten
         </div>
         <p className="text-gray-500 dark:text-gray-400">{tool.description}</p>
       </div>
+
+      {/* Definition Box (GEO) */}
+      {tool.geo?.definition && (
+        <div className="mb-6 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl px-5 py-4">
+          <p className="text-sm font-semibold text-blue-700 dark:text-blue-400 mb-1">{tool.name}이란?</p>
+          <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{tool.geo.definition}</p>
+          {tool.geo.formula && (
+            <p className="mt-2 text-xs font-mono text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-gray-900/40 rounded px-3 py-2">
+              {tool.geo.formula}
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Tool Body */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 md:p-8 mb-6">

@@ -13,7 +13,9 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: 'Googlebot', allow: '/' },         // 구글 검색 + AI Overviews
       { userAgent: 'bingbot', allow: '/' },           // 빙 + Copilot
       { userAgent: 'Claude-SearchBot', allow: '/' },  // Anthropic Claude 검색 인용
+      { userAgent: 'Claude-User', allow: '/' },       // Anthropic Claude 사용자 직접 조회
       { userAgent: 'OAI-SearchBot', allow: '/' },     // OpenAI ChatGPT 검색 인용
+      { userAgent: 'ChatGPT-User', allow: '/' },      // OpenAI ChatGPT 사용자 직접 조회
       { userAgent: 'PerplexityBot', allow: '/' },     // Perplexity AI 검색 인용
       { userAgent: '*', allow: '/' },
     ],

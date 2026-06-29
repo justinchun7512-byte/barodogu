@@ -8,6 +8,7 @@ export interface BlogPost {
   toolLink: string;
   toolName: string;
   content: BlogSection[];
+  tldr?: string[];
 }
 
 export interface BlogSection {
@@ -25,6 +26,11 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '8분',
     toolLink: '/tools/spell-checker',
     toolName: '한국어 맞춤법 검사기',
+    tldr: [
+      'AI는 질문이 구체적일수록 답변이 좋아진다 — 프롬프트 템플릿화가 핵심',
+      '회의록·영문 이메일·보고서 요약·자소서 첨삭 등 반복 업무 10개 템플릿 수록',
+      '복사해서 대괄호 안 내용만 교체하면 즉시 사용 가능',
+    ],
     content: [
       {
         heading: '왜 직장인에게 프롬프트 정리가 필요한가?',
@@ -89,6 +95,11 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '5분',
     toolLink: '/tools/character-counter',
     toolName: '글자수 세기',
+    tldr: [
+      '기업 자소서 항목은 500·800·1000자 등 글자수 제한이 있으며 초과 시 제출 불가',
+      '공백 포함·미포함 기준이 기업마다 다르므로 반드시 공고 확인 필요',
+      '제한의 80% 이상 채우는 것이 성의를 보여주는 기준 — 글자수 세기 도구로 실시간 확인 가능',
+    ],
     content: [
       {
         heading: '왜 글자수가 중요한가?',
@@ -133,6 +144,11 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '6분',
     toolLink: '/tools/salary-calculator',
     toolName: '연봉 실수령액 계산기',
+    tldr: [
+      '2026년 공제율: 국민연금 4.5% + 건강보험 3.545% + 장기요양보험(건보료×12.95%) + 고용보험 0.9%',
+      '연봉 3,600만원 기준 월 실수령액 약 260만원 (소득세·지방소득세 포함 공제 후)',
+      '부양가족 수에 따라 소득세가 달라지므로 정확한 계산은 계산기 사용 권장',
+    ],
     content: [
       {
         heading: '연봉과 실수령액의 차이',

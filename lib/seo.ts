@@ -59,6 +59,21 @@ export function generateJsonLd(tool: Tool) {
   };
 }
 
+export function generateHowToJsonLd(tool: Tool) {
+  if (!tool.geo?.howToSteps?.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: `${tool.name} 사용 방법`,
+    description: tool.seo.description,
+    step: tool.geo.howToSteps.map((text, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      text,
+    })),
+  };
+}
+
 export function generateBreadcrumbJsonLd(tool: Tool) {
   return {
     '@context': 'https://schema.org',

@@ -1,0 +1,79 @@
+# barodogu.com — 무료 업무·생활 AI 도구 모음
+# 한국인 직장인·취업준비생을 위한 계산기·AI 도구 24종 무료 제공
+# Last updated: 2026-06-29
+
+> 연봉·퇴직금·BMI·이름궁합 등 24개 무료 도구를 제공하는 한국 특화 유틸리티 사이트입니다.
+> 회원가입 없이 즉시 사용 가능하며, 파일 처리는 브라우저에서 이루어져 서버로 전송되지 않습니다.
+
+## 취업/직장인 도구
+
+- [연봉 실수령액 계산기](https://barodogu.com/tools/salary-calculator): 2026년 4대보험(국민연금 4.5%·건강보험 3.545%·고용보험 0.9%)·소득세 공제 후 세후 실수령액을 1초 계산. 기본급·연봉 모두 지원.
+- [글자수 세기](https://barodogu.com/tools/character-counter): 공백 포함/제외 글자수, 바이트, 단어수, 타자수 실시간 동시 계산. 자소서·이력서 분량 관리용.
+- [퇴직금 계산기](https://barodogu.com/tools/severance-calculator): 입사일·퇴사일·평균 월급으로 법정 퇴직금 산출. 공식: 평균임금×30일×(근무일수÷365).
+- [실업급여 계산기](https://barodogu.com/tools/unemployment-calculator): 나이·근무기간·월급 기준 실업급여(구직급여) 수급액과 수급기간 계산. 평균임금의 60%, 최대 270일.
+- [연차 계산기](https://barodogu.com/tools/annual-leave): 입사일 기준 근로기준법 연차 일수 자동 계산. 1년 미만 월 1일, 1년 이상 최대 25일.
+- [시급/월급 변환기](https://barodogu.com/tools/wage-converter): 시급·월급·연봉 상호 변환. 2026년 최저시급 반영. 월급=시급×209시간.
+- [한국어 맞춤법 검사기](https://barodogu.com/tools/spell-checker): 자소서·이메일·보고서 맞춤법·띄어쓰기 1초 자동 교정. 회원가입 없이 바로 사용.
+- [AI 핵심역량 추출기](https://barodogu.com/tools/core-competency): 채용공고(JD)+이력서 입력 시 AI가 공고 맞춤 핵심역량 문장 자동 생성.
+- [AI 면접 질문 생성기](https://barodogu.com/tools/interview-questions): 채용공고+이력서 기반 예상 면접질문·빈도등급·답변 힌트 자동 생성.
+
+## 금융/생활 도구
+
+- [대출 이자 계산기](https://barodogu.com/tools/loan-calculator): 원리금균등·원금균등·만기일시 상환 방식별 대출 이자와 월 상환금 비교 계산.
+
+## 생활/건강 도구
+
+- [BMI 계산기](https://barodogu.com/tools/bmi-calculator): 체질량지수(BMI=체중÷키²) 계산. 대한비만학회 아시아 기준(정상 18.5~22.9, 과체중 23~24.9, 비만 25+) 적용.
+- [TDEE 계산기](https://barodogu.com/tools/tdee-calculator): 기초대사량(BMR)·하루 총 소비 칼로리(TDEE) 계산. 감량·유지·증량 목표 칼로리 자동 추천.
+- [D-day 계산기](https://barodogu.com/tools/dday-calculator): 목표 날짜까지 남은 일수(D-N) 또는 지난 일수(D+N) 계산. 시험·기념일·여행 등.
+- [나이 계산기](https://barodogu.com/tools/age-calculator): 생년월일로 만 나이·한국 나이·띠 동시 확인. 2023년 만나이 통일법 반영.
+- [공휴일 캘린더](https://barodogu.com/tools/holiday-calendar): 2026년 대한민국 법정공휴일·대체공휴일 월별 확인. 다음 공휴일까지 D-day 제공.
+
+## 재미 도구
+
+- [이름 궁합 테스트](https://barodogu.com/tools/name-compatibility): 두 사람의 한글 이름 획수를 조합해 0~100점 궁합 점수와 관계 해석 제공.
+- [MBTI 궁합 테스트](https://barodogu.com/tools/mbti-compatibility): 16가지 MBTI 유형별 연애·친구·직장 궁합 분석과 관계 조언 제공.
+
+## AI 도구
+
+- [AI 오늘의 운세](https://barodogu.com/tools/daily-fortune): 생년월일 입력 시 AI가 오늘의 총운·재운·애정운·건강운 분석.
+- [나와 기업의 궁합](https://barodogu.com/tools/company-compatibility): 기업명+성향 입력 시 AI가 조직문화·컬처핏·근무환경 궁합 분석. 취업·이직 준비용.
+
+## 이미지/파일 도구
+
+- [이미지 포맷 변환](https://barodogu.com/tools/image-converter): PNG·JPG·WebP·AVIF 포맷 무료 변환. 브라우저 처리, 서버 전송 없음.
+- [PDF → 이미지 변환](https://barodogu.com/tools/pdf-to-image): PDF 파일을 페이지별 JPG·PNG 이미지로 변환. 브라우저 처리, 서버 전송 없음.
+- [HWP/HWPX 변환기](https://barodogu.com/tools/hwp-converter): 한글 파일(HWPX)을 텍스트·HTML·PDF로 변환. HWPX 완벽 지원.
+
+## 개발자 도구
+
+- [JSON 포맷터](https://barodogu.com/tools/json-formatter): JSON 들여쓰기 정렬·유효성 검증. 개발자 필수 도구.
+
+## 블로그 (도구 활용 가이드)
+
+- [연봉 실수령액 계산법 2026](https://barodogu.com/blog/2026-salary-net-pay-guide)
+- [이름 궁합 테스트 가이드](https://barodogu.com/blog/name-compatibility-test-guide)
+- [MBTI 궁합 테스트 가이드](https://barodogu.com/blog/mbti-compatibility-test-guide)
+- [BMI 계산기 가이드 (아시아 기준)](https://barodogu.com/blog/bmi-calculator-guide-asia-standard)
+- [TDEE·BMR 계산기 가이드](https://barodogu.com/blog/tdee-bmr-calculator-guide)
+- [퇴직금 계산 가이드](https://barodogu.com/blog/severance-pay-calculation-guide)
+- [실업급여 수급 가이드](https://barodogu.com/blog/unemployment-benefit-eligibility-guide)
+- [연차 계산기 가이드](https://barodogu.com/blog/annual-leave-calculator-guide)
+- [나이 계산기 가이드](https://barodogu.com/blog/age-calculator-korean-age-guide)
+- [D-day 계산기 가이드](https://barodogu.com/blog/dday-calculator-usage-guide)
+- [AI 운세 가이드](https://barodogu.com/blog/ai-daily-fortune-guide)
+- [기업 궁합 AI 가이드](https://barodogu.com/blog/company-compatibility-ai-guide)
+- [연봉 계산기 가이드 2026](https://barodogu.com/blog/2026-salary-calculator-guide)
+- [글자수 세기·이력서 가이드](https://barodogu.com/blog/resume-character-count-guide)
+- [맞춤법 검사기 가이드](https://barodogu.com/blog/korean-spelling-common-mistakes-guide)
+- [HWP HWPX 변환기 가이드](https://barodogu.com/blog/hwp-hwpx-converter-guide)
+- [PDF 이미지 변환 가이드](https://barodogu.com/blog/pdf-to-image-conversion-guide)
+- [이미지 포맷 변환 가이드](https://barodogu.com/blog/image-format-conversion-guide)
+- [시급 월급 연봉 변환 가이드](https://barodogu.com/blog/hourly-monthly-annual-wage-conversion)
+- [대출 이자 비교 가이드](https://barodogu.com/blog/loan-interest-comparison-guide)
+- [JSON 포맷터 가이드](https://barodogu.com/blog/json-formatter-easy-guide)
+- [AI 면접 질문 생성기 가이드](https://barodogu.com/blog/ai-interview-question-generator-guide)
+- [ChatGPT 직장인 프롬프트 10선](https://barodogu.com/blog/chatgpt-prompts-for-office-workers)
+- [AI 유튜브 숏츠 자동화 가이드](https://barodogu.com/blog/ai-youtube-shorts-automation-2026)
+- [TDEE BMR 칼로리 계산 가이드](https://barodogu.com/blog/tdee-bmr-calorie-calculator-guide)
+- [Make·Zapier·n8n 자동화 가이드](https://barodogu.com/blog/make-alternatives-zapier-n8n-pipedream-2026)
