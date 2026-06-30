@@ -53,7 +53,7 @@ export default function BetaSignupForm() {
           <strong>{email}</strong>
         </p>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          베타 초대 코드가 준비되면 이 이메일로 발송해드립니다.
+          베타 오픈 시 순서대로 초대드리겠습니다.
         </p>
       </div>
     );
@@ -86,7 +86,7 @@ export default function BetaSignupForm() {
         <p className="text-sm text-red-500 mt-2 text-center">{error}</p>
       )}
       <p className="text-xs text-gray-400 mt-3 text-center">
-        스팸 없이 베타 초대 코드만 1회 발송됩니다.
+        베타 오픈 시 신청 순서대로 초대드립니다.
       </p>
     </form>
   );
