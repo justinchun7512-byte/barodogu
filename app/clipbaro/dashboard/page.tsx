@@ -59,12 +59,20 @@ export default async function DashboardPage() {
           <h1 className="mt-1 text-2xl font-bold dark:text-white">대시보드</h1>
           <p className="mt-1 text-sm text-slate-500">{user.email}</p>
         </div>
-        <Link
-          href="/clipbaro/render"
-          className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition"
-        >
-          + 새 영상 만들기
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/clipbaro/settings"
+            className="px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 transition"
+          >
+            계정 설정
+          </Link>
+          <Link
+            href="/clipbaro/render"
+            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition"
+          >
+            + 새 영상 만들기
+          </Link>
+        </div>
       </header>
 
       {/* 크레딧 카드 */}
