@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const PROTECTED = ['/clipbaro/dashboard', '/clipbaro/render', '/clipbaro/credits'];
+const PROTECTED = ['/clipbaro/dashboard', '/clipbaro/render', '/clipbaro/credits', '/clipbaro/settings'];
 
 export async function middleware(request: NextRequest) {
   const { pathname, host } = new URL(request.url);
